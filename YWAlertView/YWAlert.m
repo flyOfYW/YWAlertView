@@ -127,7 +127,7 @@ static const float titleHeight = 40;
 
     return self;
 }
-
+//MARK:-- 显示
 - (void)show{
     UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
     [keyWindows addSubview:self];
@@ -290,6 +290,9 @@ static const float titleHeight = 40;
         case YWAlertPublicFootStyleVertical:
             [self getVerticalFootView:otherButtonTitles cancelButtonTitle:cancelButtonTitle];
             break;
+        case YWAlertPublicFootStyleSegmentation:
+            [self getSegmentationFootView:otherButtonTitles cancelButtonTitle:cancelButtonTitle];
+            break;
         default:
             break;
     }
@@ -323,6 +326,46 @@ static const float titleHeight = 40;
     [self.messageLabel layoutIfNeeded];
 }
 
+
+- (void)getSegmentationFootView:(NSArray <NSString *>*)otherButtonTitles
+          cancelButtonTitle:(NSString *)cancelButtonTitle{
+    
+    int count = (int)otherButtonTitles.count;
+    
+    if ((cancelButtonTitle && cancelButtonTitle.length > 0) || otherButtonTitles.count > 0) {
+        
+        [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:btnHeight + 10];
+        [_btnContainerView layoutIfNeeded];
+        CGFloat startValue = 30;
+        CGFloat middleValue = 20;
+        if (cancelButtonTitle && cancelButtonTitle.length > 0) {
+            UIButton *cancelBtn = self.cancelBtn;
+            [cancelBtn setTitle:cancelButtonTitle forState:UIControlStateNormal];
+            [_btnContainerView addSubview:cancelBtn];
+            [self.buttionList addObject:cancelBtn];
+            cancelBtn.backgroundColor = [UIColor redColor];
+            [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cancelBtn.clipsToBounds = YES;
+            cancelBtn.layer.cornerRadius = 8;
+
+            if (otherButtonTitles.count > 0) {
+                CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  count * middleValue - startValue * 2)/(count+1);
+                cancelBtn.frame = CGRectMake(startValue, 5, w, btnHeight);
+                [self createSpectOtherBtn:otherButtonTitles originX:CGRectGetMaxX(cancelBtn.frame) + middleValue width:w height:btnHeight value:middleValue];
+            }else{
+                cancelBtn.frame = CGRectMake(startValue, 5, CGRectGetWidth(_btnContainerView.frame), btnHeight);
+            }
+        }else{
+            CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  (count - 1) * middleValue - startValue * 2)/count;
+            [self createSpectOtherBtn:otherButtonTitles originX:startValue width:w height:btnHeight  value:middleValue];
+        }
+        
+    }else{
+        [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+        [_btnContainerView layoutIfNeeded];
+    }
+    
+}
 /**
  YWAlertPublicStyleVertical的footView
 
@@ -430,7 +473,7 @@ static const float titleHeight = 40;
             
         }else{
             CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  (count - 1))/count;
-            [self createDefalutOtherBtn:otherButtonTitles originX:0 width:w height:btnHeight ];
+            [self createDefalutOtherBtn:otherButtonTitles originX:0 width:w height:btnHeight];
         }
         
     }else{
@@ -439,10 +482,11 @@ static const float titleHeight = 40;
     }
     
 }
+//MARK: --- 创建一排的按钮
 - (void)createDefalutOtherBtn:(NSArray <NSString *>*)otherButtonTitles
                originX:(CGFloat)x
                  width:(CGFloat)width
-                height:(CGFloat)height{
+                       height:(CGFloat)height{
     int i = 0;
     for (NSString *btnTitle in otherButtonTitles) {
         UIButton *otherBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -458,13 +502,34 @@ static const float titleHeight = 40;
 
         if (i < otherButtonTitles.count - 1) {
             UIView *lineView = [UIView new];
-            
             lineView.frame = CGRectMake(CGRectGetMaxX(otherBtn.frame), 0, 1, height);
             lineView.backgroundColor = DefaultLineTranslucenceColor;
             [_btnContainerView addSubview:lineView];
             [_lineList addObject:lineView];
 
         }
+        i ++;
+    }
+}
+- (void)createSpectOtherBtn:(NSArray <NSString *>*)otherButtonTitles
+                    originX:(CGFloat)x
+                    width:(CGFloat)width
+                     height:(CGFloat)height
+                      value:(CGFloat)value{
+    int i = 0;
+    for (NSString *btnTitle in otherButtonTitles) {
+        UIButton *otherBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        otherBtn.tag = 101 + i;
+        otherBtn.frame = CGRectMake(x + (i*(width+value)), 5, width, height);
+        otherBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [otherBtn setTitle:btnTitle forState:UIControlStateNormal];
+        otherBtn.backgroundColor = [UIColor blueColor];
+        otherBtn.clipsToBounds = YES;
+        otherBtn.layer.cornerRadius = 8;
+        [otherBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [otherBtn addTarget:self action:@selector(buttionClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_btnContainerView addSubview:otherBtn];
+        [self.buttionList addObject:otherBtn];
         i ++;
     }
 }
@@ -510,6 +575,19 @@ static const float titleHeight = 40;
         [btn setTitleColor:color forState:UIControlStateNormal];
     }
 }
+- (void)setButtionTitleFont:(CGFloat)font index:(NSInteger)index{
+    UIButton *btn = [self.btnContainerView viewWithTag:100+index];
+    if (btn) {
+        btn.titleLabel.font = [UIFont systemFontOfSize:font];
+    }
+}
+- (void)setButtionTitleFontWithName:(NSString *)name size:(CGFloat)size index:(NSInteger)index{
+    UIButton *btn = [self.btnContainerView viewWithTag:100+index];
+    if (btn) {
+        btn.titleLabel.font = [UIFont fontWithName:name size:size];
+    }
+}
+
 - (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
     
     [self.messageContainerView addSubview:bodyView];
@@ -682,5 +760,22 @@ static const float titleHeight = 40;
 }
 - (void)dealloc{
     NSLog(@"%s",__func__);
+    _lineList = nil;
+    _bodyLineList = nil;
+    _maskView = nil;
+    _alertView = nil;
+    _gaussianBlurOnMaskView = nil;
+    _titleView = nil;
+    _titleLabel = nil;
+    _messageContainerView = nil;
+    _messageLabel = nil;
+    _btnContainerView = nil;
+    _closeBtn = nil;
+    _cancelBtn = nil;
+    _buttionList = nil;
+    _lineBoad = nil;
+    _lay = nil;
+    _backgroundAlterView = nil;
+    _backgroundColor = nil;
 }
 @end

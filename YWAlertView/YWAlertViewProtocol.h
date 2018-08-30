@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 
 typedef enum : NSUInteger {
-    YWAlertPublicFootStyleDefalut,
-    YWAlertPublicFootStyleVertical,
+    YWAlertPublicFootStyleDefalut,//横排
+    YWAlertPublicFootStyleVertical,//竖排
+    YWAlertPublicFootStyleSegmentation,//横排，按钮之间有间隔10
 } YWAlertPublicFootStyle;
 
 typedef enum : NSUInteger {
@@ -133,6 +134,21 @@ typedef enum : NSUInteger {
  @param index 下标
  */
 - (void)setButtionTitleColor:(UIColor *)color index:(NSInteger)index;
+/**
+ 设置单个按钮的字体大小
+
+ @param font 字体大小
+ @param index 下标
+ */
+- (void)setButtionTitleFont:(CGFloat)font index:(NSInteger)index;
+/**
+ 设置单个按钮的字体以及其大小
+
+ @param name 什么字体
+ @param size 大小
+ @param index 小标
+ */
+- (void)setButtionTitleFontWithName:(NSString *)name size:(CGFloat)size index:(NSInteger)index;
 /**
  自定义bodyview
 

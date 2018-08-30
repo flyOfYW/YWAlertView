@@ -82,6 +82,12 @@
             case 5:
                 [self alert_defalut_body_VC];
                 break;
+            case 6:
+                [self alert_Segmentation_fontName];
+                break;
+            case 7:
+//                [self alert_Segmentation_fontName];
+                break;
             default:
                 break;
         }
@@ -101,7 +107,7 @@
 }
 - (void)alert_defalut_close{
 
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib" preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"ok"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib" preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:nil otherButtonTitles:nil handler:^(NSInteger buttonIndex, id  _Nullable value) {
         NSLog(@"block=当前点击--%zi",buttonIndex);
     }];
     
@@ -111,8 +117,8 @@
 - (void)alert_defalut_body_custom{
     
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:nil delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleCustom cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok",@"other"]];
-    UIView *view = [UIView new];
-    view.backgroundColor = [UIColor redColor];
+    UIImageView *view = [UIImageView new];
+    view.image = [UIImage imageNamed:@"105459445"];
     [alert setCustomBodyView:view height:80];
     [alert show];
 }
@@ -131,6 +137,14 @@
     [alert showOnViewController];
 }
 
+- (void)alert_Segmentation_fontName{
+    
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleSegmentation bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert setButtionTitleFontWithName:@"AmericanTypewriter" size:16 index:1];
+    [alert setButtionTitleFontWithName:@"AmericanTypewriter-Bold" size:16 index:0];
+
+    [alert show];
+}
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -168,7 +182,7 @@
 }
 - (void)initData{
     self.list = @[].mutableCopy;
-    [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上"]}];
+    [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上",@"YWAlertViewStyleAlert的YWAlertPublicFootStyleSegmentation字号及其大小"]}];
 }
 
 - (void)didClickAlertView:(NSInteger)buttonIndex value:(id)value{
