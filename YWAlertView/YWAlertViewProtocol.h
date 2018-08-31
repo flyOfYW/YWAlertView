@@ -74,13 +74,15 @@ typedef enum : NSUInteger {
  */
 - (void)show;
 /**
- 显示在viewController上
- */
-- (void)showOnViewController;
-/**
  隐藏弹框
  */
 - (void)hiddenAlertView;
+//config配置信息
+@optional
+/**
+ 显示在viewController上
+ */
+- (void)showOnViewController;
 /**
  隐藏bodyview上下的两个分隔线
  */
@@ -90,8 +92,6 @@ typedef enum : NSUInteger {
  */
 - (void)hiddenAllLineView;
 
-//config配置信息
-@optional
 /**
  是否显示关闭的按妞
  */
@@ -135,13 +135,6 @@ typedef enum : NSUInteger {
  */
 - (void)setButtionTitleColor:(UIColor *)color index:(NSInteger)index;
 /**
- 设置单个按钮的字体大小
-
- @param font 字体大小
- @param index 下标
- */
-- (void)setButtionTitleFont:(CGFloat)font index:(NSInteger)index;
-/**
  设置单个按钮的字体以及其大小
 
  @param name 什么字体
@@ -149,6 +142,20 @@ typedef enum : NSUInteger {
  @param index 小标
  */
 - (void)setButtionTitleFontWithName:(NSString *)name size:(CGFloat)size index:(NSInteger)index;
+/**
+ 设置title的字体以及其大小
+
+ @param name 什么字体(为nil时,即是系统字体)
+ @param size 大小
+ */
+- (void)setTitleFontWithName:(NSString *)name size:(CGFloat)size;
+/**
+ 设置message的字体以及其大小
+ 
+ @param name 什么字体(为nil时,即是系统字体)
+ @param size 大小
+ */
+- (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size;
 /**
  自定义bodyview
 

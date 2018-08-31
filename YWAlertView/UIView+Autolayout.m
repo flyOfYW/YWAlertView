@@ -15,12 +15,6 @@
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:to attribute:attribute multiplier:1.0 constant:offset]];
 }
 
--(NSLayoutConstraint *)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to offset:(CGFloat)offset identifier:(NSString *)identifier{
-    [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSLayoutConstraint *lay = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:to attribute:attribute multiplier:1.0 constant:offset];
-    [self.superview addConstraint:lay];
-    return lay;
-}
 -(void)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to toAttribute:(NSLayoutAttribute)toAttribute offset:(CGFloat)offset{
     [self setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:to attribute:toAttribute multiplier:1.0 constant:offset]];

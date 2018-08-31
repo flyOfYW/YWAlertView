@@ -23,6 +23,7 @@
     [self initData];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tableView.dataSource = self;
     tableView.delegate = self;
     [self.view addSubview:tableView];
@@ -91,6 +92,29 @@
             default:
                 break;
         }
+    }else if (indexPath.section == 1){
+        switch (indexPath.row) {
+            case 0:
+                [self sheet_defalut];
+                break;
+            case 1:
+                [self sheet_no_title];
+                break;
+            case 2:
+                [self sheet_no_msg];
+                break;
+            case 3:
+                [self sheet_no_other];
+                break;
+            case 4:
+                [self sheet_no_canlcel];
+                break;
+                
+                
+                
+            default:
+                break;
+        }
     }
 }
 
@@ -102,6 +126,7 @@
 - (void)alert_vertical{
     
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib.Do any additional setup after loading the view," delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok",@"other"]];
+//    [alert setMessageFontWithName:nil size:30];
     [alert show];
     
 }
@@ -145,6 +170,29 @@
 
     [alert show];
 }
+- (void)sheet_defalut{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert setMessageFontWithName:nil size:18];
+    [alert show];
+}
+- (void)sheet_no_title{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:nil message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert show];
+}
+
+- (void)sheet_no_msg{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:nil delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert setMessageTitleColor:[UIColor redColor]];
+    [alert show];
+}
+- (void)sheet_no_other{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"没有其他按钮" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+    [alert show];
+}
+- (void)sheet_no_canlcel{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"没有取消按钮" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:nil otherButtonTitles:@[@"other 1",@"other 2"]];
+    [alert show];
+}
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -183,6 +231,10 @@
 - (void)initData{
     self.list = @[].mutableCopy;
     [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上",@"YWAlertViewStyleAlert的YWAlertPublicFootStyleSegmentation字号及其大小"]}];
+    
+    [self.list addObject:@{@"section":@"  sheet模式",@"msg":@[@"YWAlertViewStyleActionSheet模式下",@"YWAlertViewStyleActionSheet模式下没有头部情况下",@"YWAlertViewStyleActionSheet模式下没有message情况下",@"YWAlertViewStyleActionSheet模式下没有other情况下",@"YWAlertViewStyleActionSheet模式下没有cancel情况下"]}];
+
+    
 }
 
 - (void)didClickAlertView:(NSInteger)buttonIndex value:(id)value{

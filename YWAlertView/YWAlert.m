@@ -6,27 +6,6 @@
 //  Copyright © 2018年 yaowei. All rights reserved.
 //
 
-#define YWAlertScreenW [UIScreen mainScreen].bounds.size.width
-#define YWAlertScreenH [UIScreen mainScreen].bounds.size.height
-
-#define kDevice_Is_iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
-
-
-#define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
-
-#define kDevice_Is_iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
-
-
-// 判断是否是iPhone X
-#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-
-//#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-
-#define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
-
-#define DefaultTranslucenceColor [UIColor colorWithRed:255 / 255.0f green:255 / 255.0 blue:255 / 255.0 alpha:0.98]
-#define DefaultLineTranslucenceColor [UIColor colorWithRed:219 / 255.0f green:219 / 255.0 blue:219 / 255.0 alpha:0.7]
-
 
 static const float btnHeight = 40;
 static const float titleHeight = 40;
@@ -36,6 +15,7 @@ static const float titleHeight = 40;
 #import "UIView+Autolayout.h"
 #import "YWContainerViewController.h"
 #import "UIColor+YW.h"
+#import "YWAlertViewHelper.h"
 
 @interface YWAlert ()
 {
@@ -44,8 +24,6 @@ static const float titleHeight = 40;
     NSMutableArray *_lineList;
     //装body上下的两个lineView;
     NSMutableArray *_bodyLineList;
-    UIView *_lineBoad;
-    NSLayoutConstraint *_lay;
 //    alertView的背景view
     UIImageView *_backgroundAlterView;
     BOOL _isModal;
@@ -92,7 +70,7 @@ static const float titleHeight = 40;
                       handler:(nullable void(^)(NSInteger buttonIndex,
                                                  id value))handler{
     
-    UIView *currentView = [YWAlert currentViewController].view;
+    UIView *currentView = [YWAlertViewHelper currentViewController].view;
     self = [super initWithFrame:currentView.frame];
     
     if (!self) {
@@ -129,17 +107,22 @@ static const float titleHeight = 40;
 }
 //MARK:-- 显示
 - (void)show{
+    
     UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
     [keyWindows addSubview:self];
     [self addConstraint:NSLayoutAttributeLeft equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
+    
+    [self layoutIfNeeded];
+    
     __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.25 animations:^{
         weakSelf.maskView.backgroundColor = [UIColor colorWithRed:10 / 255.0 green:10 / 255.0 blue:10 / 255.0 alpha:0.4];
         weakSelf.maskView.alpha = 1;
     }];
+    
 }
 - (void)showOnViewController{
     _isModal = YES;
@@ -147,7 +130,7 @@ static const float titleHeight = 40;
     conVC.alertView = self;
     conVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     conVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [[YWAlert currentViewController] presentViewController:conVC animated:YES completion:nil];
+    [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:YES completion:nil];
     
 }
 
@@ -155,7 +138,7 @@ static const float titleHeight = 40;
 - (void)buttionClick:(UIButton *)btn{
     [self hiddenAlertView];
     if (_isModal) {
-        [[YWAlert currentViewController] dismissViewControllerAnimated:YES completion:nil];
+        [[YWAlertViewHelper currentViewController] dismissViewControllerAnimated:YES completion:nil];
     }
     if (_handler) {
         _handler(btn.tag - 100,btn.titleLabel.text);
@@ -203,40 +186,41 @@ static const float titleHeight = 40;
     [titleView addConstraint:NSLayoutAttributeLeft equalTo:alert offset:0];
     [titleView addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
     [titleView addConstraint:NSLayoutAttributeTop equalTo:alert offset:0];
+
     if (title && title.length > 0) {
+        
+        [titleView addSubview:self.titleLabel];
+        self.titleLabel.text = title;
+        
+        UILabel *titleLabel = self.titleLabel;
+        [titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:0];
+        [titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
+        [titleLabel addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
+        
+        [titleView addSubview:self.closeBtn];
+        [self.closeBtn addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
+        [self.closeBtn addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
+        [self.closeBtn addConstraint:NSLayoutAttributeHeight equalTo:nil offset:20];
+        [self.closeBtn addConstraint:NSLayoutAttributeWidth equalTo:nil offset:20];
+        
+        UIView *lineTitle = ({
+            lineTitle = [UIView new];
+            lineTitle.backgroundColor = DefaultLineTranslucenceColor;
+            [titleView addSubview:lineTitle];
+            lineTitle;
+        });
+        [_bodyLineList addObject:lineTitle];
+        
+        [lineTitle addConstraint:NSLayoutAttributeLeft equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeRight equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeBottom equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
+        
+        
         [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:titleHeight];
     }else{
         [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
-    [titleView layoutIfNeeded];
-
-    [titleView addSubview:self.titleLabel];
-    self.titleLabel.text = title;
-    UILabel *titleLabel = self.titleLabel;
-    [titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:0];
-    [titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
-    [titleLabel addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
-    [titleLabel layoutIfNeeded];
-    
-    [titleView addSubview:self.closeBtn];
-    [self.closeBtn addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
-    [self.closeBtn addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
-    [self.closeBtn addConstraint:NSLayoutAttributeHeight equalTo:nil offset:20];
-    [self.closeBtn addConstraint:NSLayoutAttributeWidth equalTo:nil offset:20];
-
-    
-    UIView *lineTitle = ({
-        lineTitle = [UIView new];
-        lineTitle.backgroundColor = DefaultLineTranslucenceColor;
-        [alert addSubview:lineTitle];
-        lineTitle;
-    });
-    [_bodyLineList addObject:lineTitle];
-    
-    [lineTitle addConstraint:NSLayoutAttributeLeft equalTo:titleView offset:0];
-    [lineTitle addConstraint:NSLayoutAttributeRight equalTo:titleView offset:0];
-    [lineTitle addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeBottom offset:0];
-    [lineTitle addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
     
 
     // BodyView
@@ -247,31 +231,44 @@ static const float titleHeight = 40;
     
     [bodyView addConstraint:NSLayoutAttributeLeft equalTo:alert offset:0];
     [bodyView addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
-    [bodyView addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeBottom  offset:1];
+    [bodyView addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeBottom  offset:0];
     
-    // messageLabel
     if (_bodyStyle == YWAlertPublicBodyStyleDefalut) {
-        [self getDefalutBody:bodyView text:message];
+        if (message && message.length > 0) {
+            UIView *lineBoad = ({
+                lineBoad = [UIView new];
+                lineBoad.backgroundColor = DefaultLineTranslucenceColor;
+                [bodyView addSubview:lineBoad];
+                lineBoad;
+            });
+            [_bodyLineList addObject:lineBoad];
+            
+            [lineBoad addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:0];
+            [lineBoad addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:0];
+            [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
+            [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
+
+            [self getDefalutBody:bodyView text:message];
+            [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
+        }else{
+            [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+        }
+    }else if (_bodyStyle == YWAlertPublicBodyStyleCustom){
+        UIView *lineBoad = ({
+            lineBoad = [UIView new];
+            lineBoad.backgroundColor = DefaultLineTranslucenceColor;
+            [bodyView addSubview:lineBoad];
+            lineBoad;
+        });
+        [_bodyLineList addObject:lineBoad];
+        
+        [lineBoad addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:0];
+        [lineBoad addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:0];
+        [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
+        [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
+        
     }
-
-    [bodyView layoutIfNeeded];
-
     
-    UIView *lineBoad = ({
-        lineBoad = [UIView new];
-        lineBoad.backgroundColor = DefaultLineTranslucenceColor;
-        [alert addSubview:lineBoad];
-        _lineBoad = lineBoad;
-        lineBoad;
-    });
-    [_bodyLineList addObject:lineBoad];
-
-
-    [lineBoad addConstraint:NSLayoutAttributeLeft equalTo:alert offset:0];
-    [lineBoad addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
-    [lineBoad addConstraint:NSLayoutAttributeTop equalTo:bodyView toAttribute:NSLayoutAttributeBottom offset:0];
-    [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
-
     
     // BodyView
     UIView *btnView = [[UIView alloc] init];
@@ -282,7 +279,7 @@ static const float titleHeight = 40;
     
     [btnView addConstraint:NSLayoutAttributeLeft equalTo:alert offset:0];
     [btnView addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
-    [btnView addConstraint:NSLayoutAttributeTop equalTo:lineBoad toAttribute:NSLayoutAttributeBottom offset:0];
+    [btnView addConstraint:NSLayoutAttributeTop equalTo:bodyView toAttribute:NSLayoutAttributeBottom offset:0];
     switch (_footStyle) {
         case YWAlertPublicFootStyleDefalut:
             [self getDefalutFootView:otherButtonTitles cancelButtonTitle:cancelButtonTitle];
@@ -296,21 +293,29 @@ static const float titleHeight = 40;
         default:
             break;
     }
+    
+    [_backgroundAlterView addConstraint:NSLayoutAttributeTop equalTo:self.alertView offset:0];
+    [_backgroundAlterView addConstraint:NSLayoutAttributeBottom equalTo:self.alertView offset:0];
+    [_backgroundAlterView addConstraint:NSLayoutAttributeLeft equalTo:self.alertView offset:0];
+    [_backgroundAlterView addConstraint:NSLayoutAttributeRight equalTo:self.alertView offset:0];
+
    
-   //更新alert内部布局约束
-    CGFloat alertHeight = CGRectGetHeight(titleView.frame) + 1 + CGRectGetHeight(bodyView.frame) + 1 + CGRectGetHeight(btnView.frame);
-    [alert addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
-    [alert addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
-    _lay = [alert addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight identifier:@"alertHeight"];
+  
+}
+- (void)setAlertViewFrame{
     
-    [alert addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
+    [self.titleView layoutIfNeeded];
+    [self.messageContainerView layoutIfNeeded];
+    [self.btnContainerView layoutIfNeeded];
 
+    //更新alert内部布局约束
+    CGFloat alertHeight = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageContainerView.frame) + CGRectGetHeight(self.btnContainerView.frame);
     
-    [_backgroundAlterView addConstraint:NSLayoutAttributeTop equalTo:alert offset:0];
-    [_backgroundAlterView addConstraint:NSLayoutAttributeBottom equalTo:alert offset:0];
-    [_backgroundAlterView addConstraint:NSLayoutAttributeLeft equalTo:alert offset:0];
-    [_backgroundAlterView addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
-
+    [self.alertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
+    [self.alertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+     [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
+    [self.alertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
+    
 }
 
 - (void)getDefalutBody:(UIView *)bodyView
@@ -321,9 +326,6 @@ static const float titleHeight = 40;
     [self.messageLabel addConstraint:NSLayoutAttributeTop equalTo:bodyView toAttribute:NSLayoutAttributeTop offset:10];
     [self.messageLabel addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:20];
     [self.messageLabel addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:-20];
-    
-    [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20];
-    [self.messageLabel layoutIfNeeded];
 }
 
 
@@ -335,7 +337,7 @@ static const float titleHeight = 40;
     if ((cancelButtonTitle && cancelButtonTitle.length > 0) || otherButtonTitles.count > 0) {
         
         [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:btnHeight + 10];
-        [_btnContainerView layoutIfNeeded];
+
         CGFloat startValue = 30;
         CGFloat middleValue = 20;
         if (cancelButtonTitle && cancelButtonTitle.length > 0) {
@@ -349,14 +351,14 @@ static const float titleHeight = 40;
             cancelBtn.layer.cornerRadius = 8;
 
             if (otherButtonTitles.count > 0) {
-                CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  count * middleValue - startValue * 2)/(count+1);
+                CGFloat w = (_alterWidth -  count * middleValue - startValue * 2)/(count+1);
                 cancelBtn.frame = CGRectMake(startValue, 5, w, btnHeight);
                 [self createSpectOtherBtn:otherButtonTitles originX:CGRectGetMaxX(cancelBtn.frame) + middleValue width:w height:btnHeight value:middleValue];
             }else{
-                cancelBtn.frame = CGRectMake(startValue, 5, CGRectGetWidth(_btnContainerView.frame), btnHeight);
+                cancelBtn.frame = CGRectMake(startValue, 5, _alterWidth, btnHeight);
             }
         }else{
-            CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  (count - 1) * middleValue - startValue * 2)/count;
+            CGFloat w = (_alterWidth -  (count - 1) * middleValue - startValue * 2)/count;
             [self createSpectOtherBtn:otherButtonTitles originX:startValue width:w height:btnHeight  value:middleValue];
         }
         
@@ -403,8 +405,6 @@ static const float titleHeight = 40;
         [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
 
-    [_btnContainerView layoutIfNeeded];
-
 }
 - (CGFloat)createVerticalOtherBtn:(NSArray <NSString *>*)otherButtonTitles
                            height:(CGFloat)height{
@@ -414,11 +414,9 @@ static const float titleHeight = 40;
     for (NSString *btnTitle in otherButtonTitles) {
         UIButton *otherBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         otherBtn.tag = 101 + i;
-        
         otherBtn.frame = CGRectMake(0, i * (height + 1), width, height);
         otherBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [otherBtn setTitle:btnTitle forState:UIControlStateNormal];
-//        otherBtn.backgroundColor = DefaultTranslucenceColor;
         [otherBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [otherBtn addTarget:self action:@selector(buttionClick:) forControlEvents:UIControlEventTouchUpInside];
         [_btnContainerView addSubview:otherBtn];
@@ -450,7 +448,6 @@ static const float titleHeight = 40;
     if ((cancelButtonTitle && cancelButtonTitle.length > 0) || otherButtonTitles.count > 0) {
         
         [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:btnHeight];
-        [_btnContainerView layoutIfNeeded];
         
         if (cancelButtonTitle && cancelButtonTitle.length > 0) {
             UIButton *cancelBtn = self.cancelBtn;
@@ -458,7 +455,7 @@ static const float titleHeight = 40;
             [_btnContainerView addSubview:cancelBtn];
             [self.buttionList addObject:cancelBtn];
             if (otherButtonTitles.count > 0) {
-                CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  count)/(count+1);
+                CGFloat w = (_alterWidth -  count)/(count+1);
                 cancelBtn.frame = CGRectMake(0, 0, w, btnHeight);
                 UIView *lineView = [UIView new];
                 lineView.backgroundColor = DefaultLineTranslucenceColor;
@@ -468,17 +465,16 @@ static const float titleHeight = 40;
                 [self createDefalutOtherBtn:otherButtonTitles originX:CGRectGetMaxX(lineView.frame) width:w height:btnHeight];
                 
             }else{
-                cancelBtn.frame = CGRectMake(0, 0, CGRectGetWidth(_btnContainerView.frame), btnHeight);
+                cancelBtn.frame = CGRectMake(0, 0, _alterWidth, btnHeight);
             }
             
         }else{
-            CGFloat w = (CGRectGetWidth(_btnContainerView.frame) -  (count - 1))/count;
+            CGFloat w = (_alterWidth -  (count - 1))/count;
             [self createDefalutOtherBtn:otherButtonTitles originX:0 width:w height:btnHeight];
         }
         
     }else{
         [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
-        [_btnContainerView layoutIfNeeded];
     }
     
 }
@@ -494,7 +490,6 @@ static const float titleHeight = 40;
         otherBtn.frame = CGRectMake(x + (i*(width+1)), 0, width, height);
         otherBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [otherBtn setTitle:btnTitle forState:UIControlStateNormal];
-//        otherBtn.backgroundColor = DefaultTranslucenceColor;
         [otherBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [otherBtn addTarget:self action:@selector(buttionClick:) forControlEvents:UIControlEventTouchUpInside];
         [_btnContainerView addSubview:otherBtn];
@@ -575,37 +570,39 @@ static const float titleHeight = 40;
         [btn setTitleColor:color forState:UIControlStateNormal];
     }
 }
-- (void)setButtionTitleFont:(CGFloat)font index:(NSInteger)index{
-    UIButton *btn = [self.btnContainerView viewWithTag:100+index];
-    if (btn) {
-        btn.titleLabel.font = [UIFont systemFontOfSize:font];
-    }
-}
-- (void)setButtionTitleFontWithName:(NSString *)name size:(CGFloat)size index:(NSInteger)index{
+- (void)setButtionTitleFontWithName:(NSString *)name
+                               size:(CGFloat)size
+                              index:(NSInteger)index{
     UIButton *btn = [self.btnContainerView viewWithTag:100+index];
     if (btn) {
         btn.titleLabel.font = [UIFont fontWithName:name size:size];
     }
 }
-
+- (void)setTitleFontWithName:(NSString *)name size:(CGFloat)size{
+    if (name) {
+        self.titleLabel.font = [UIFont fontWithName:name size:size];
+    }else{
+        self.titleLabel.font = [UIFont systemFontOfSize:size];
+    }
+}
+- (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size{
+    if (name) {
+        self.messageLabel.font = [UIFont fontWithName:name size:size];
+    }else{
+        self.messageLabel.font = [UIFont systemFontOfSize:size];
+    }
+}
 - (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
     
     [self.messageContainerView addSubview:bodyView];
     
-    [bodyView addConstraint:NSLayoutAttributeTop equalTo:self.messageContainerView toAttribute:NSLayoutAttributeTop offset:5];
+    [bodyView addConstraint:NSLayoutAttributeTop equalTo:self.messageContainerView offset:0];
+
     [bodyView addConstraint:NSLayoutAttributeLeft equalTo:self.messageContainerView offset:5];
     [bodyView addConstraint:NSLayoutAttributeRight equalTo:self.messageContainerView offset:-5];
     [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:height];
-    [self.messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:bodyView offset:5];
     
-    
-    [self removeConstraint:_lay];
-    //更新alert内部布局约束
-    CGFloat alertHeight = CGRectGetHeight(self.titleView.frame) + 1 + height + 5 + 1 + CGRectGetHeight(self.btnContainerView.frame);
-    [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
-    
-    [self.alertView layoutIfNeeded];
-
+    [self.messageContainerView addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:1];
 
 }
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
@@ -732,32 +729,11 @@ static const float titleHeight = 40;
     }
     return _buttionList;
 }
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    [self setAlertViewFrame];
+}
 
-//MARK: --- 跟控制器相关
-+ (UIViewController*)currentViewController {
-    UIViewController* rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    return [self currentViewControllerFrom:rootViewController];
-}
-// 通过递归拿到当前控制器
-+ (UIViewController*)currentViewControllerFrom:(UIViewController*)viewController {
-    
-    if ([viewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController* navigationController = (UINavigationController *)viewController;
-        // 如果传入的控制器是导航控制器,则返回最后一个
-        return [self currentViewControllerFrom:navigationController.viewControllers.lastObject];
-    }else if([viewController isKindOfClass:[UITabBarController class]]) {
-        
-        UITabBarController* tabBarController = (UITabBarController *)viewController;
-        // 如果传入的控制器是tabBar控制器,则返回选中的那个
-        return [self currentViewControllerFrom:tabBarController.selectedViewController];
-    }else if(viewController.presentedViewController != nil) {
-        // 如果传入的控制器发生了modal,则就可以拿到modal的那个控制器
-        return [self currentViewControllerFrom:viewController.presentedViewController];
-    }else {
-        return viewController;
-    }
-    
-}
 - (void)dealloc{
     NSLog(@"%s",__func__);
     _lineList = nil;
@@ -773,8 +749,6 @@ static const float titleHeight = 40;
     _closeBtn = nil;
     _cancelBtn = nil;
     _buttionList = nil;
-    _lineBoad = nil;
-    _lay = nil;
     _backgroundAlterView = nil;
     _backgroundColor = nil;
 }

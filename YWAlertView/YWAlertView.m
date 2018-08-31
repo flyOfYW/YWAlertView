@@ -8,6 +8,7 @@
 
 #import "YWAlertView.h"
 #import "YWAlert.h"
+#import "YWActionSheet.h"
 
 @implementation YWAlertView
 
@@ -24,12 +25,15 @@
         case YWAlertViewStyleAlert:
             alertView = [YWAlertView YWAlertTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:nil];
             break;
-            
+        case YWAlertViewStyleActionSheet:
+            alertView = [YWAlertView YWSheetTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:nil];
+            break;
         default:
             break;
     }
     return alertView;
 }
+
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
                                               message:(nullable NSString *)message
                                        preferredStyle:(YWAlertViewStyle)preferredStyle
@@ -44,14 +48,29 @@
         case YWAlertViewStyleAlert:
             alertView = [YWAlertView YWAlertTitle:title message:message delegate:nil footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
             break;
-            
+        case YWAlertViewStyleActionSheet:
+            alertView = [YWAlertView YWSheetTitle:title message:message delegate:nil footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
+            break;
         default:
             break;
     }
     return alertView;
 }
+//MARK: --- YWAlertViewStyleActionSheet
++ (nullable id<YWAlertViewProtocol>)YWSheetTitle:(nullable NSString *)title
+                                         message:(nullable NSString *)message
+                                        delegate:(nullable id<YWAlertViewDelegate>)delegate
+                                       footStyle:(YWAlertPublicFootStyle)footStyle
+                                       bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                               cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                               otherButtonTitles:(nullable NSArray *)otherButtonTitles
+                                         handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
+   return [[YWActionSheet alloc] initWithTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
+}
 
 
+
+//MARK: --- YWAlertViewStyleAlert
 + (nullable id<YWAlertViewProtocol>)YWAlertTitle:(nullable NSString *)title
                                          message:(nullable NSString *)message
                                         delegate:(nullable id<YWAlertViewDelegate>)delegate

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */; };
+		DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */; };
 		DAB7F2EF21369E5200F7E29A /* UIColor+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E121369E5200F7E29A /* UIColor+YW.m */; };
 		DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E321369E5200F7E29A /* UIImage+YW.m */; };
 		DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */; };
@@ -44,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA2C7AAA21379EDB00EABC75 /* YWActionSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWActionSheet.h; sourceTree = "<group>"; };
+		DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWActionSheet.m; sourceTree = "<group>"; };
+		DA2C7AAD21379F9B00EABC75 /* YWAlertViewHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAlertViewHelper.h; sourceTree = "<group>"; };
+		DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWAlertViewHelper.m; sourceTree = "<group>"; };
 		DAB7F2E021369E5200F7E29A /* UIColor+YW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+YW.h"; sourceTree = "<group>"; };
 		DAB7F2E121369E5200F7E29A /* UIColor+YW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+YW.m"; sourceTree = "<group>"; };
 		DAB7F2E221369E5200F7E29A /* UIImage+YW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+YW.h"; sourceTree = "<group>"; };
@@ -117,11 +123,15 @@
 				DAB7F2E721369E5200F7E29A /* yw_alter_close@3x.png */,
 				DAB7F2E821369E5200F7E29A /* YWAlert.h */,
 				DAB7F2E921369E5200F7E29A /* YWAlert.m */,
+				DA2C7AAA21379EDB00EABC75 /* YWActionSheet.h */,
+				DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */,
 				DAB7F2EA21369E5200F7E29A /* YWAlertView.h */,
 				DAB7F2EB21369E5200F7E29A /* YWAlertView.m */,
 				DAB7F2EC21369E5200F7E29A /* YWAlertViewProtocol.h */,
 				DAB7F2ED21369E5200F7E29A /* YWContainerViewController.h */,
 				DAB7F2EE21369E5200F7E29A /* YWContainerViewController.m */,
+				DA2C7AAD21379F9B00EABC75 /* YWAlertViewHelper.h */,
+				DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */,
 			);
 			name = YWAlertView;
 			path = ../../YWAlertView;
@@ -321,8 +331,10 @@
 			files = (
 				DAD13ED82133DA4000106659 /* ViewController.m in Sources */,
 				DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */,
+				DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */,
 				DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */,
 				DAD13EE32133DA4000106659 /* main.m in Sources */,
+				DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */,
 				DAB7F2EF21369E5200F7E29A /* UIColor+YW.m in Sources */,
 				DAB7F2F421369E5200F7E29A /* YWAlert.m in Sources */,
 				DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */,
