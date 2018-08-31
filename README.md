@@ -30,8 +30,8 @@
   
   >   1. 默认情况下 
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png)
-  >   2. footView上的按钮横排，这个类似系统的，当多个按钮的时候，就横排显示，而YWAlertView提供两个模式：横排和竖排，供开发者自由选择
-  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/2.png)
+  >   2. footView上的按钮横排，这个类似系统的，当多个按钮的时候，就横排显示，而YWAlertView提供三个模式：横排和竖排以及有按钮之间有间距的横排，供开发者自由选择
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/2.png) ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/6.png)
   >   3.  没有footView的情况下，可以选择行，把close按钮显示，字体也可以修改
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/3.png)
   >   4.  bodyView支持自定义（默认显示文字）
