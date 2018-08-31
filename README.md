@@ -28,4 +28,4 @@
   
   > #### YWAlertViewStyleAlert 的模式
   
-   >> 默认情况下 ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png '默认情况下')
+   >> * 默认情况下 ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png '默认情况下')
