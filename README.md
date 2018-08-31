@@ -26,5 +26,5 @@
   * 注意点：YWAlertView并不是view，可以比作是一个简单的工厂，通过它管理规格去生成不同的控件，因为这样后期将陆续加入其它的控件，日历，地址等
   
   
-  > YWAlertViewStyleAlert
-  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png '默认情况下')
+  > YWAlertViewStyleAlert 的模式
+  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png "默认情况下")
