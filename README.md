@@ -27,4 +27,4 @@
   
   
   > YWAlertViewStyleAlert
-  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png)
+  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png,'iaos')
