@@ -75,8 +75,13 @@
   ```
   
  >    3.  全局配置基本参数
- 
- > >  基本
+ >    >  创建一个继承NSObject的实体类，并且准守<YWAlertViewThemeProtocol>协议，实现其基本的参数配置方法，在显示alert的时候使用该实体类的对象，如：
+  
+  ```
+      id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"主题配置颜色以及背景图" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert setTheme:[YWTheme new]];
+    [alert showOnViewController];
+  ```
   
   
   
