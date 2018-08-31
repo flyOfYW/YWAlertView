@@ -11,4 +11,6 @@
    1. 将YWAlertView文件拖入项目，引入头文件 
    > #import "YWAlertView.h"
    2. 使用cocopod
-   > pod 'YWAlertView'
+   ```ruby
+      pod 'YWAlertView'
+   ```
