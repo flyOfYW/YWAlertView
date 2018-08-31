@@ -38,3 +38,4 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/4.png)
   >   5.  全局配置基本设置（色调、背景、字体大小、字号等）解决在每次弹框设置这些的参数的烦恼
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/5.png)
+  >   6.  其他情况，请结合demo
