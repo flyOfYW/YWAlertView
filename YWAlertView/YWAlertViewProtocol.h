@@ -60,6 +60,31 @@ typedef enum : NSUInteger {
  @return color
  */
 - (UIColor *)alertCancelColor;
+/**
+ 修改title的字体
+
+ @return string
+ */
+- (NSString *)alertTitleFontWithName;
+/**
+ 修改title的字号大小
+ 
+ @return string
+ */
+- (CGFloat )alertTitleFont;
+/**
+ 修改Message的字体
+ 
+ @return string
+ */
+- (NSString *)alertMessageFontWithName;
+/**
+ 修改title的字号大小
+ 
+ @return string
+ */
+- (CGFloat )alertMessageFont;
+
 
 
 @end

@@ -448,6 +448,25 @@ static const float btnHeight = 40;
         _cancelBtn.backgroundColor = color;
     }
     
+    CGFloat alp1 = 16;
+    if ([theme respondsToSelector:@selector(alertTitleFont)]) {
+        alp1 = [theme alertTitleFont];
+    }
+    if ([theme respondsToSelector:@selector(alertTitleFontWithName)]) {
+        [self setTitleFontWithName:[theme alertTitleFontWithName] size:alp1];
+    }else{
+        [self setTitleFontWithName:nil size:alp1];
+    }
+    CGFloat alp2 = 14;
+    if ([theme respondsToSelector:@selector(alertMessageFont)]) {
+        alp2 = [theme alertMessageFont];
+    }
+    if ([theme respondsToSelector:@selector(alertMessageFontWithName)]) {
+        [self setMessageFontWithName:[theme alertMessageFontWithName] size:alp2];
+    }else{
+        [self setMessageFontWithName:nil size:alp2];
+    }
+    
 }
 //MARK: --- getter & setter
 - (UIView *)cancelContainerView{

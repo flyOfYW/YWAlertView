@@ -126,7 +126,7 @@
 - (void)alert_vertical{
     
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib.Do any additional setup after loading the view," delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok",@"other"]];
-//    [alert setMessageFontWithName:nil size:30];
+    [alert setMessageFontWithName:@"BodoniSvtyTwoITCTT-BookIta" size:16];
     [alert show];
     
 }
@@ -135,24 +135,31 @@
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib" preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:nil otherButtonTitles:nil handler:^(NSInteger buttonIndex, id  _Nullable value) {
         NSLog(@"block=当前点击--%zi",buttonIndex);
     }];
-    
+    [alert setMessageFontWithName:@"Bodoni Ornaments" size:15];
     [alert showCloseOnTitleView];
     [alert show];
 }
 - (void)alert_defalut_body_custom{
     
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:nil delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleCustom cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok",@"other"]];
-    UIImageView *view = [UIImageView new];
-    view.image = [UIImage imageNamed:@"105459445"];
+    
+    UIView *view = [UIView new];
+    
+    UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:@[@"自定义的body",@"自定义的body"]];
+    seg.selectedSegmentIndex = 0;
+    seg.frame = CGRectMake(20, 20, 200, 30);
+    [view addSubview:seg];
     [alert setCustomBodyView:view height:80];
     [alert show];
 }
+
 - (void)alert_defalut_body_theme{
     
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"主题配置颜色以及背景图" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"Warm prompt" message:@"Theme configuration color and background map" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
     [alert setTheme:[YWTheme new]];
     [alert hiddenAllLineView];
     [alert hiddenBodyLineView];
+
     [alert show];
 }
 - (void)alert_defalut_body_VC{
@@ -177,6 +184,7 @@
 }
 - (void)sheet_no_title{
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:nil message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [alert setMessageFontWithName:@"BradleyHandITCTT-Bold" size:20];
     [alert show];
 }
 

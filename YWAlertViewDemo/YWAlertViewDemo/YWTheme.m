@@ -21,6 +21,12 @@
 - (CGFloat)alterBackgroundViewArticulation{
     return 0.5;
 }
+- (NSString *)alertMessageFontWithName{
+    return @"AmericanTypewriter";
+}
+- (NSString *)alertTitleFontWithName{
+    return @"Baskerville-SemiBoldItalic";
+}
 - (void)dealloc{
     NSLog(@"%s",__func__);
 }
