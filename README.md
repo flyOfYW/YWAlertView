@@ -29,4 +29,6 @@
   > #### * YWAlertViewStyleAlert 的模式
   
   >   1. 默认情况下 
-  >      > ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png '默认情况下')
+  >      >  ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png)
+  >   2. footView上的按钮横排，这个类似系统的，当多个按钮的时候，就横排显示，而YWAlertView提供两个模式：横排和竖排，供开发者自由选择
+  >      >  ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/2.png)
