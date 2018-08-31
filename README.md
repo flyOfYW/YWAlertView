@@ -58,11 +58,21 @@
  ### 使用
   
   >   1.  delegate回调
+  
   ```
      id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
     [alert show];
   ```
   
+  >   2.  block回调
+  
+  ```
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,typically from a nib" preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:nil otherButtonTitles:nil handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        NSLog(@"block=当前点击--%zi",buttonIndex);
+    }];
+    [alert setMessageFontWithName:@"Bodoni Ornaments" size:15];
+    [alert show];
+  ```
   
   
   
