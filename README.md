@@ -40,4 +40,5 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/5.png)
   >   6.  其他情况，请结合demo
   
-    > #### * YWAlertViewStyleActionSheet 的模式
+  
+  > #### * YWAlertViewStyleActionSheet 的模式
