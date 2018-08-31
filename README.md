@@ -34,3 +34,5 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/2.png)
   >   3.  没有footView的情况下，可以选择行，把close按钮显示，字体也可以修改
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/3.png)
+  >   4.  bodyView支持自定义（默认显示文字）
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/4.png)
