@@ -82,6 +82,27 @@
     [alert setTheme:[YWTheme new]];
     [alert showOnViewController];
   ```
+>    >  该继承NSObject的实体类的m文件内容如下，按需实现<YWAlertViewThemeProtocol>相应的方法
+  ```
+  @implementation YWTheme
+- (UIColor *)alertCancelColor{
+    return [UIColor redColor];
+}
+- (UIImage *)alertBackgroundView{
+    return [UIImage imageNamed:@"105459445"];
+}
+- (CGFloat)alterBackgroundViewArticulation{
+    return 0.5;
+}
+- (NSString *)alertMessageFontWithName{
+    return @"AmericanTypewriter";
+}
+- (NSString *)alertTitleFontWithName{
+    return @"Baskerville-SemiBoldItalic";
+}
+  @end
+  
+  ```
   
   
   
