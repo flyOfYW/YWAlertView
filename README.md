@@ -27,4 +27,4 @@
   
   
   > YWAlertViewStyleAlert
-  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png,'iaos')
+  >> ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/1.png '默认情况下')
