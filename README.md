@@ -36,3 +36,5 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/3.png)
   >   4.  bodyView支持自定义（默认显示文字）
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/4.png)
+  >   5.  全局配置基本设置（色调、背景、字体大小、字号等）解决在每次弹框设置这些的参数的烦恼
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/5.png)
