@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */; };
 		DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */; };
-		DAB7F2EF21369E5200F7E29A /* UIColor+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E121369E5200F7E29A /* UIColor+YW.m */; };
 		DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E321369E5200F7E29A /* UIImage+YW.m */; };
 		DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */; };
 		DAB7F2F221369E5200F7E29A /* yw_alter_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAB7F2E621369E5200F7E29A /* yw_alter_close@2x.png */; };
@@ -17,6 +16,7 @@
 		DAB7F2F421369E5200F7E29A /* YWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E921369E5200F7E29A /* YWAlert.m */; };
 		DAB7F2F521369E5200F7E29A /* YWAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2EB21369E5200F7E29A /* YWAlertView.m */; };
 		DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2EE21369E5200F7E29A /* YWContainerViewController.m */; };
+		DACFBF602139466D0078E9F4 /* YWDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DACFBF5F2139466D0078E9F4 /* YWDatePicker.m */; };
 		DAD13ED52133DA4000106659 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD13ED42133DA4000106659 /* AppDelegate.m */; };
 		DAD13ED82133DA4000106659 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD13ED72133DA4000106659 /* ViewController.m */; };
 		DAD13EDB2133DA4000106659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAD13ED92133DA4000106659 /* Main.storyboard */; };
@@ -26,6 +26,7 @@
 		DAD13EED2133DA4000106659 /* YWAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD13EEC2133DA4000106659 /* YWAlertViewDemoTests.m */; };
 		DAD13EF82133DA4000106659 /* YWAlertViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD13EF72133DA4000106659 /* YWAlertViewDemoUITests.m */; };
 		DAE0C284213650F70001A6AE /* YWTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C283213650F70001A6AE /* YWTheme.m */; };
+		DAE96213214F5D1F00590F85 /* NSDate+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE96212214F5D1F00590F85 /* NSDate+YW.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +51,6 @@
 		DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWActionSheet.m; sourceTree = "<group>"; };
 		DA2C7AAD21379F9B00EABC75 /* YWAlertViewHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAlertViewHelper.h; sourceTree = "<group>"; };
 		DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWAlertViewHelper.m; sourceTree = "<group>"; };
-		DAB7F2E021369E5200F7E29A /* UIColor+YW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+YW.h"; sourceTree = "<group>"; };
-		DAB7F2E121369E5200F7E29A /* UIColor+YW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+YW.m"; sourceTree = "<group>"; };
 		DAB7F2E221369E5200F7E29A /* UIImage+YW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+YW.h"; sourceTree = "<group>"; };
 		DAB7F2E321369E5200F7E29A /* UIImage+YW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YW.m"; sourceTree = "<group>"; };
 		DAB7F2E421369E5200F7E29A /* UIView+Autolayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Autolayout.h"; sourceTree = "<group>"; };
@@ -65,6 +64,8 @@
 		DAB7F2EC21369E5200F7E29A /* YWAlertViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAlertViewProtocol.h; sourceTree = "<group>"; };
 		DAB7F2ED21369E5200F7E29A /* YWContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWContainerViewController.h; sourceTree = "<group>"; };
 		DAB7F2EE21369E5200F7E29A /* YWContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWContainerViewController.m; sourceTree = "<group>"; };
+		DACFBF5E2139466D0078E9F4 /* YWDatePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDatePicker.h; sourceTree = "<group>"; };
+		DACFBF5F2139466D0078E9F4 /* YWDatePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDatePicker.m; sourceTree = "<group>"; };
 		DAD13ED02133DA4000106659 /* YWAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YWAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD13ED32133DA4000106659 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAD13ED42133DA4000106659 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -83,6 +84,8 @@
 		DAD13EF92133DA4000106659 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAE0C282213650F70001A6AE /* YWTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWTheme.h; sourceTree = "<group>"; };
 		DAE0C283213650F70001A6AE /* YWTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWTheme.m; sourceTree = "<group>"; };
+		DAE96211214F5D1F00590F85 /* NSDate+YW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+YW.h"; sourceTree = "<group>"; };
+		DAE96212214F5D1F00590F85 /* NSDate+YW.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+YW.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,10 +116,10 @@
 		DAB7F2DF21369E5200F7E29A /* YWAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				DAB7F2E021369E5200F7E29A /* UIColor+YW.h */,
-				DAB7F2E121369E5200F7E29A /* UIColor+YW.m */,
 				DAB7F2E221369E5200F7E29A /* UIImage+YW.h */,
 				DAB7F2E321369E5200F7E29A /* UIImage+YW.m */,
+				DAE96211214F5D1F00590F85 /* NSDate+YW.h */,
+				DAE96212214F5D1F00590F85 /* NSDate+YW.m */,
 				DAB7F2E421369E5200F7E29A /* UIView+Autolayout.h */,
 				DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */,
 				DAB7F2E621369E5200F7E29A /* yw_alter_close@2x.png */,
@@ -125,6 +128,8 @@
 				DAB7F2E921369E5200F7E29A /* YWAlert.m */,
 				DA2C7AAA21379EDB00EABC75 /* YWActionSheet.h */,
 				DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */,
+				DACFBF5E2139466D0078E9F4 /* YWDatePicker.h */,
+				DACFBF5F2139466D0078E9F4 /* YWDatePicker.m */,
 				DAB7F2EA21369E5200F7E29A /* YWAlertView.h */,
 				DAB7F2EB21369E5200F7E29A /* YWAlertView.m */,
 				DAB7F2EC21369E5200F7E29A /* YWAlertViewProtocol.h */,
@@ -332,10 +337,11 @@
 				DAD13ED82133DA4000106659 /* ViewController.m in Sources */,
 				DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */,
 				DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */,
+				DACFBF602139466D0078E9F4 /* YWDatePicker.m in Sources */,
 				DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */,
 				DAD13EE32133DA4000106659 /* main.m in Sources */,
+				DAE96213214F5D1F00590F85 /* NSDate+YW.m in Sources */,
 				DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */,
-				DAB7F2EF21369E5200F7E29A /* UIColor+YW.m in Sources */,
 				DAB7F2F421369E5200F7E29A /* YWAlert.m in Sources */,
 				DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */,
 				DAD13ED52133DA4000106659 /* AppDelegate.m in Sources */,

@@ -110,12 +110,29 @@
                 [self sheet_no_canlcel];
                 break;
                 
+            default:
+                break;
+        }
+    }else if (indexPath.section == 2){
+        switch (indexPath.row) {
+            case 0:
+                [self date_defalut];
+                break;
+            case 1:
+                [self date_defalut_Vertical];
+                break;
+            case 2:
+                [self date_defalut_once];
+                break;
                 
                 
             default:
                 break;
         }
     }
+    
+    
+    
 }
 
 - (void)alert_defalut{
@@ -201,9 +218,31 @@
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"没有取消按钮" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:nil otherButtonTitles:@[@"other 1",@"other 2"]];
     [alert show];
 }
+- (void)date_defalut{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+    [alert setTitleViewTitleColor:[UIColor redColor]];
+    [alert show];
+}
+- (void)date_defalut_Vertical{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+    [alert show];
+}
+- (void)date_defalut_once{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:nil sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+    [alert show];
+}
+
+
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+
 
     /*
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取图片" message:@"00000" preferredStyle: UIAlertControllerStyleActionSheet];
@@ -241,6 +280,8 @@
     [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上",@"YWAlertViewStyleAlert的YWAlertPublicFootStyleSegmentation字号及其大小"]}];
     
     [self.list addObject:@{@"section":@"  sheet模式",@"msg":@[@"YWAlertViewStyleActionSheet模式下",@"YWAlertViewStyleActionSheet模式下没有头部情况下",@"YWAlertViewStyleActionSheet模式下没有message情况下",@"YWAlertViewStyleActionSheet模式下没有other情况下",@"YWAlertViewStyleActionSheet模式下没有cancel情况下"]}];
+
+    [self.list addObject:@{@"section":@"  date模式",@"msg":@[@"中心显示日期选择器横排按钮",@"中心显示日期选择器竖排按钮",@"中心显示日期选择器只有一个按钮"]}];
 
     
 }

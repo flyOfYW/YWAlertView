@@ -9,7 +9,7 @@
 #import "YWAlertView.h"
 #import "YWAlert.h"
 #import "YWActionSheet.h"
-
+#import "YWDatePicker.h"
 @implementation YWAlertView
 
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
@@ -84,4 +84,14 @@
     
 }
 
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
+                                            footStyle:(YWAlertPublicFootStyle)footStyle
+                                            bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                    sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
+    
+    return [[YWDatePicker alloc] initWithTitle:title delegate:nil footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
+    
+}
 @end

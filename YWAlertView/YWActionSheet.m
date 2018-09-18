@@ -89,9 +89,9 @@ static const float btnHeight = 40;
     [_maskView addSubview:self.gaussianBlurOnMaskView];
     
     //整个sheet
-//    UIView *sheet = [[UIView alloc] initWithFrame:CGRectMake(0, currentView.frame.size.height,currentView.frame.size.width, 300)];
+    //    UIView *sheet = [[UIView alloc] initWithFrame:CGRectMake(0, currentView.frame.size.height,currentView.frame.size.width, 300)];
     UIView *sheet = [[UIView alloc] initWithFrame:CGRectMake(0, currentView.frame.size.height,currentView.frame.size.width, 300)];
-
+    
     sheet.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     sheet.backgroundColor = [UIColor clearColor];
     self.sheetView = sheet;
@@ -112,7 +112,7 @@ static const float btnHeight = 40;
     [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
- 
+    
     [self layoutIfNeeded];
     
     __weak typeof(self)weakSelf = self;
@@ -164,7 +164,7 @@ static const float btnHeight = 40;
     [_upperView addConstraint:NSLayoutAttributeLeft equalTo:self.sheetView offset:10];
     [_upperView addConstraint:NSLayoutAttributeRight equalTo:self.sheetView offset:-10];
     [_upperView addConstraint:NSLayoutAttributeTop equalTo:self.sheetView offset:0];
-
+    
     //头部设置
     _titleView = [UIView new];
     _titleView.backgroundColor = [UIColor whiteColor];
@@ -173,7 +173,7 @@ static const float btnHeight = 40;
     [_titleView addConstraint:NSLayoutAttributeLeft equalTo:_upperView offset:0];
     [_titleView addConstraint:NSLayoutAttributeRight equalTo:_upperView offset:0];
     [_titleView addConstraint:NSLayoutAttributeTop equalTo:_upperView offset:0];
-
+    
     if (title && title.length > 0) {
         _titleView.backgroundColor = [UIColor whiteColor];
         self.titleLabel.text = title;
@@ -182,8 +182,8 @@ static const float btnHeight = 40;
         [self.titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:10];
         [self.titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
         [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView offset:14];
-
-
+        
+        
         UIView *lineTop = [UIView new];
         lineTop.backgroundColor = DefaultLineTranslucenceColor;
         [_titleView addSubview:lineTop];
@@ -195,7 +195,7 @@ static const float btnHeight = 40;
         [lineTop addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
         
         [_titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:28+1];
-
+        
     }else{
         [_titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
@@ -208,10 +208,10 @@ static const float btnHeight = 40;
     [_messageContainerView addConstraint:NSLayoutAttributeLeft equalTo:_upperView offset:0];
     [_messageContainerView addConstraint:NSLayoutAttributeRight equalTo:_upperView offset:0];
     [_messageContainerView addConstraint:NSLayoutAttributeTop equalTo:_titleView toAttribute:NSLayoutAttributeBottom offset:0];
-
+    
     if (message) {
         self.messageLabel.text = message;
-
+        
         [_messageContainerView addSubview:self.messageLabel];
         
         [self.messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:10];
@@ -222,19 +222,19 @@ static const float btnHeight = 40;
         lineTop.backgroundColor = DefaultLineTranslucenceColor;
         [_messageContainerView addSubview:lineTop];
         [_bodyLineList addObject:lineTop];
-
+        
         [lineTop addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:0];
         [lineTop addConstraint:NSLayoutAttributeRight equalTo:_messageContainerView offset:0];
         [lineTop addConstraint:NSLayoutAttributeBottom equalTo:_messageContainerView offset:0];
         [lineTop addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
-
+        
         [_messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:28+1];
-
+        
     }else{
         [_messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
     
-
+    
     //other设置
     _otherContainerView = [UIView new];
     _otherContainerView.backgroundColor = [UIColor whiteColor];
@@ -250,14 +250,14 @@ static const float btnHeight = 40;
         [_otherContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:btnHeight * otherButtonTitles.count + otherButtonTitles.count - 1];
         [_otherContainerView layoutIfNeeded];
         [self createOtherButtion:otherButtonTitles width:CGRectGetWidth(_otherContainerView.frame) height:btnHeight];
-
+        
     }else{
         [_otherContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
-
+        
     }
     
     [_upperView addConstraint:NSLayoutAttributeBottom equalTo:_otherContainerView toAttribute:NSLayoutAttributeBottom offset:0];
-
+    
     
     if (cancelButtonTitle && cancelButtonTitle.length > 0) {
         
@@ -267,7 +267,7 @@ static const float btnHeight = 40;
         
         [_cancelContainerView addConstraint:NSLayoutAttributeLeft equalTo:self.sheetView offset:10];
         [_cancelContainerView addConstraint:NSLayoutAttributeRight equalTo:self.sheetView offset:-10];
-
+        
         [_cancelContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:btnHeight];
         
         [_cancelContainerView addConstraint:NSLayoutAttributeTop equalTo:_upperView toAttribute:NSLayoutAttributeBottom offset:10];
@@ -276,7 +276,7 @@ static const float btnHeight = 40;
         [_cancelBtn addConstraint:NSLayoutAttributeRight equalTo:self.cancelContainerView offset:0];
         [_cancelBtn addConstraint:NSLayoutAttributeTop equalTo:self.cancelContainerView offset:0];
         [_cancelBtn addConstraint:NSLayoutAttributeBottom equalTo:self.cancelContainerView offset:0];
-
+        
         _bottomValue = 10;
     }
     
@@ -290,7 +290,7 @@ static const float btnHeight = 40;
     rect.size.height = heigth;
     self.sheetView.frame = rect;
     NSLog(@"%s",__func__);
-
+    
 }
 
 - (void)createOtherButtion:(NSArray <NSString *>*)otherButtonTitles
@@ -326,13 +326,11 @@ static const float btnHeight = 40;
 //MAKR: --- 按钮点击事件
 - (void)buttionClick:(UIButton *)btn{
     [self hiddenAlertView];
-    if (btn.tag != 100) {
-        if (_handler) {
-            _handler(btn.tag - 100,btn.titleLabel.text);
-        }
-        if (_delegate && [_delegate respondsToSelector:@selector(didClickAlertView:value:)]) {
-            [_delegate didClickAlertView:btn.tag - 100 value:btn.titleLabel.text];
-        }
+    if (_handler) {
+        _handler(btn.tag - 100,btn.titleLabel.text);
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickAlertView:value:)]) {
+        [_delegate didClickAlertView:btn.tag - 100 value:btn.titleLabel.text];
     }
 }
 
@@ -547,7 +545,7 @@ static const float btnHeight = 40;
     _backgroundAlterView = nil;
     _backgroundColor = nil;
     _upperView = nil;
-
-
+    
+    
 }
 @end

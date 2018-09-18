@@ -11,7 +11,8 @@
 
 typedef NS_ENUM(NSInteger, YWAlertViewStyle){
     YWAlertViewStyleAlert = 0,
-   YWAlertViewStyleActionSheet = 1,
+    YWAlertViewStyleActionSheet = 1,
+    YWAlertViewStyleDatePicker = 2,
 };
 
 @interface YWAlertView : NSObject
@@ -58,4 +59,14 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                     otherButtonTitles:(nullable NSArray *)otherButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
+
+
+
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
+                                            footStyle:(YWAlertPublicFootStyle)footStyle
+                                            bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                    sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
+
 @end

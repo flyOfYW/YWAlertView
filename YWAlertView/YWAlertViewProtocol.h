@@ -16,8 +16,14 @@ typedef enum : NSUInteger {
 } YWAlertPublicFootStyle;
 
 typedef enum : NSUInteger {
+    
     YWAlertPublicBodyStyleDefalut,
     YWAlertPublicBodyStyleCustom,
+    
+    
+    //YWDatePicker专用
+    YWAlertStyleShowYearMonthDayHourMinuteSecond,//年月日时分秒
+    
 } YWAlertPublicBodyStyle;
 
 

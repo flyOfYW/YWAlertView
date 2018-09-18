@@ -10,7 +10,7 @@
 
 @interface UIView (Autolayout)
 -(void)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to offset:(CGFloat)offset;
-
+-(NSLayoutConstraint *)addConstraintAndReturn:(NSLayoutAttribute)attribute equalTo:(UIView *)to toAttribute:(NSLayoutAttribute)toAttribute offset:(CGFloat)offset;
 -(void)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to toAttribute:(NSLayoutAttribute)toAttribute offset:(CGFloat)offset;
 - (void)removeAllAutoLayout;
 - (void)removeAutoLayout:(NSLayoutConstraint *)constraint;

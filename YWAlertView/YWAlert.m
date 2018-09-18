@@ -14,7 +14,6 @@ static const float titleHeight = 40;
 #import "YWAlert.h"
 #import "UIView+Autolayout.h"
 #import "YWContainerViewController.h"
-#import "UIColor+YW.h"
 #import "YWAlertViewHelper.h"
 
 @interface YWAlert ()
@@ -233,27 +232,7 @@ static const float titleHeight = 40;
     [bodyView addConstraint:NSLayoutAttributeRight equalTo:alert offset:0];
     [bodyView addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeBottom  offset:0];
     
-    if (_bodyStyle == YWAlertPublicBodyStyleDefalut) {
-        if (message && message.length > 0) {
-            UIView *lineBoad = ({
-                lineBoad = [UIView new];
-                lineBoad.backgroundColor = DefaultLineTranslucenceColor;
-                [bodyView addSubview:lineBoad];
-                lineBoad;
-            });
-            [_bodyLineList addObject:lineBoad];
-            
-            [lineBoad addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:0];
-            [lineBoad addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:0];
-            [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
-            [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
-
-            [self getDefalutBody:bodyView text:message];
-            [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
-        }else{
-            [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
-        }
-    }else if (_bodyStyle == YWAlertPublicBodyStyleCustom){
+  if (_bodyStyle == YWAlertPublicBodyStyleCustom){
         UIView *lineBoad = ({
             lineBoad = [UIView new];
             lineBoad.backgroundColor = DefaultLineTranslucenceColor;
@@ -267,7 +246,27 @@ static const float titleHeight = 40;
         [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
         [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
         
-    }
+  }  else {//其他情况均做默认情况处理
+      if (message && message.length > 0) {
+          UIView *lineBoad = ({
+              lineBoad = [UIView new];
+              lineBoad.backgroundColor = DefaultLineTranslucenceColor;
+              [bodyView addSubview:lineBoad];
+              lineBoad;
+          });
+          [_bodyLineList addObject:lineBoad];
+          
+          [lineBoad addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:0];
+          [lineBoad addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:0];
+          [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
+          [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
+          
+          [self getDefalutBody:bodyView text:message];
+          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
+      }else{
+          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+      }
+  }
     
     
     // BodyView
@@ -291,6 +290,7 @@ static const float titleHeight = 40;
             [self getSegmentationFootView:otherButtonTitles cancelButtonTitle:cancelButtonTitle];
             break;
         default:
+            [self getDefalutFootView:otherButtonTitles cancelButtonTitle:cancelButtonTitle];
             break;
     }
     
