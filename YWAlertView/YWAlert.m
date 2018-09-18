@@ -261,8 +261,19 @@ static const float titleHeight = 40;
           [lineBoad addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:0];
           [lineBoad addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
           
-          [self getDefalutBody:bodyView text:message];
-          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
+          
+          if (!title || title.length <= 0) {
+
+              [self getDefalutBody:bodyView text:message value:22];
+
+              [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:44 + 1];
+              
+          }else{
+              [self getDefalutBody:bodyView text:message value:10];
+
+              [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
+          }
+          
       }else{
           [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
       }
@@ -319,11 +330,11 @@ static const float titleHeight = 40;
 }
 
 - (void)getDefalutBody:(UIView *)bodyView
-                  text:(NSString *)text{
+                  text:(NSString *)text value:(CGFloat)value{
     self.messageLabel.text = text;
     [bodyView addSubview:self.messageLabel];
 
-    [self.messageLabel addConstraint:NSLayoutAttributeTop equalTo:bodyView toAttribute:NSLayoutAttributeTop offset:10];
+    [self.messageLabel addConstraint:NSLayoutAttributeTop equalTo:bodyView toAttribute:NSLayoutAttributeTop offset:value];
     [self.messageLabel addConstraint:NSLayoutAttributeLeft equalTo:bodyView offset:20];
     [self.messageLabel addConstraint:NSLayoutAttributeRight equalTo:bodyView offset:-20];
 }
