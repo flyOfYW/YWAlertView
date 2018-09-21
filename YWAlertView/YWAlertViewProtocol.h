@@ -23,7 +23,12 @@ typedef enum : NSUInteger {
     
     //YWDatePicker专用
     YWAlertStyleShowYearMonthDayHourMinuteSecond,//年月日时分秒
-    
+    YWAlertStyleShowYearMonthDayHourMinute,//年月日时分
+    YWAlertStyleShowYearMonthDay,//年月日
+    YWAlertStyleShowYearMonth,//年月
+    YWAlertStyleShowHourMinuteSecond,//时分秒
+
+
 } YWAlertPublicBodyStyle;
 
 
@@ -42,6 +47,7 @@ typedef enum : NSUInteger {
  @return 0~1(越小越清晰)
  */
 - (CGFloat)alterBackgroundViewArticulation;
+
 /**
  alert的背景颜色
 
@@ -54,12 +60,6 @@ typedef enum : NSUInteger {
  @return color
  */
 - (UIColor *)alertTitleViewColor;
-/**
- 蒙层的背景图
- 
- @return im
- */
-- (UIImage *)alertGaussianBlurImage;
 /**
  取消按钮的颜色
  
@@ -99,7 +99,6 @@ typedef enum : NSUInteger {
 
 @protocol YWAlertViewProtocol <NSObject>
 @required
-
 /**
  默认显示在Windows上
  */
@@ -110,6 +109,13 @@ typedef enum : NSUInteger {
 - (void)hiddenAlertView;
 //config配置信息
 @optional
+/**
+ 设置默认选中的时间，该方法针对日期选择模式有效
+
+ @param dateString 默认选中的时间
+ */
+- (void)selectedDateOnDatePicker:(NSString *)dateString;
+
 /**
  显示在viewController上
  */
@@ -196,12 +202,19 @@ typedef enum : NSUInteger {
 - (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height;
 
 /**
- alert背景图
+ alert背景图(目前对YWAlert有效)
 
  @param image image
  @param articulation 0~1(越小越清晰)
  */
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation;
+/**
+ 设置蒙版的背景图
+
+ @param image 蒙版的背景图（可使用高斯的image）
+ */
+- (void)setGaussianBlurImage:(UIImage *)image;
+
 
 /**
  统一配置信息

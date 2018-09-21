@@ -52,14 +52,86 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     }
     return [NSDate date];
 }
-+(NSDate *)date:(NSString *)dateString formatString:(NSString *)format{
++ (NSDate *)date:(NSString *)dateString formatString:(NSString *)format{
     NSDateFormatter *dateFormatter = [self currentDateFormatter];
     [dateFormatter setDateFormat:format];
     return [dateFormatter dateFromString:dateString];
 }
++ (NSString *)dateByTimeStamp:(long long)timeStamp format:(YWDateStyle)dateStyle{
+    switch (dateStyle) {
+        case YWDateStyleYYYYMMDDHHMMSS:
+            return  [self dateYYYYMMDDHHMMSSByTimeStamp:timeStamp];
+            break;
+        case YWDateStyleYYYYMMDDHHMM:
+            return  [self dateYYYYMMDDHHMMByTimeStamp:timeStamp];
+            break;
+        case YWDateStyleYYYYMMDD:
+            return  [self dateYYYYMMDDByTimeStamp:timeStamp];
+            break;
+        case YWDateStyleYYYYMM:
+            return  [self dateYYYYMMByTimeStamp:timeStamp];
+            break;
+        case YWDateStyleHHMMSS:
+            return  [self dateHHMMSSByTimeStamp:timeStamp];
+            break;
+        case YWDateStyleHHMM:
+            return  [self dateHHMMByTimeStamp:timeStamp];
+            break;
+        default:
+            break;
+    }
+    return @"";
+}
++ (NSString *)dateYYYYMMDDHHMMSSByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%d-%02d-%02d %02d:%02d:%02d", cTime->tm_year + 1900, cTime->tm_mon + 1, cTime->tm_mday,cTime->tm_hour,cTime->tm_min,cTime->tm_sec];
+}
++ (NSString *)dateYYYYMMDDHHMMByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%d-%02d-%02d %02d:%02d", cTime->tm_year + 1900, cTime->tm_mon + 1, cTime->tm_mday,cTime->tm_hour,cTime->tm_min];
+}
++ (NSString *)dateYYYYMMDDByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%d-%02d-%02d", cTime->tm_year + 1900, cTime->tm_mon + 1, cTime->tm_mday];
+}
++ (NSString *)dateYYYYMMByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%d-%02d", cTime->tm_year + 1900, cTime->tm_mon + 1];
+}
++ (NSString *)dateHHMMSSByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%02d:%02d:%02d",cTime->tm_hour,cTime->tm_min,cTime->tm_sec];
+}
++ (NSString *)dateHHMMByTimeStamp:(long long)timeStamp{
+    
+    time_t timeInterval = [NSDate dateWithTimeIntervalSince1970:timeStamp].timeIntervalSince1970;
+    
+    struct tm *cTime = localtime(&timeInterval);
+    
+    return [NSString stringWithFormat:@"%02d:%02d",cTime->tm_hour,cTime->tm_min];
+}
 
-
--(NSInteger)year{
+- (NSInteger)year{
     NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:self];
     return components.year;
 }

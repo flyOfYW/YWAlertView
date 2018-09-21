@@ -419,6 +419,19 @@ static const float btnHeight = 40;
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
     NSLog(@"***********暂时不支持");
 }
+- (void)selectedDateOnDatePicker:(NSString *)dateString{
+    NSLog(@"***********暂时不支持");
+}
+/**
+ 设置蒙版的背景图
+ 
+ @param image 蒙版的背景图（可使用高斯的image）
+ */
+- (void)setGaussianBlurImage:(UIImage *)image{
+    self.gaussianBlurOnMaskView.hidden = NO;
+    self.gaussianBlurOnMaskView.image = image;
+}
+
 /**
  统一配置信息
  
@@ -437,9 +450,6 @@ static const float btnHeight = 40;
     }
     if ([theme respondsToSelector:@selector(alertTitleViewColor)]) {
         [self setTitleViewBackColor:[theme alertTitleViewColor]];
-    }
-    if ([theme respondsToSelector:@selector(alertGaussianBlurImage)]) {
-        NSLog(@"***********暂时不支持");
     }
     if ([theme respondsToSelector:@selector(alertCancelColor)]) {
         UIColor *color = [theme alertCancelColor];

@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "YWAlertView.h"
 #import "YWTheme.h"
-
+#import "UIImage+YW.h"
 
 @interface ViewController ()
 <YWAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -124,6 +124,12 @@
             case 2:
                 [self date_defalut_once];
                 break;
+            case 3:
+                [self date_defalut_yearMoth];
+                break;
+            case 4:
+                [self date_defalut_hourMinuteSecond];
+                break;
                 
                 
             default:
@@ -227,25 +233,38 @@
     [alert show];
 }
 - (void)date_defalut{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
-        
-    }];
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" message:nil delegate:self preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"]];
     [alert setTitleViewTitleColor:[UIColor redColor]];
     [alert show];
 }
 - (void)date_defalut_Vertical{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertStyleShowYearMonthDayHourMinute cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
         
     }];
     [alert show];
 }
 - (void)date_defalut_once{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker footStyle:YWAlertPublicFootStyleVertical bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:nil sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDay cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
         
     }];
-    [alert show];
+    [alert setGaussianBlurImage:[UIImage yw_blurImage:[UIImage imageNamed:@"bg_fuweus"] blur:1]];
+    [alert showOnViewController];
 }
 
+- (void)date_defalut_yearMoth{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonth cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+    [alert setGaussianBlurImage:[UIImage yw_blurImage:[UIImage imageNamed:@"bg_fuweus"] blur:1]];
+    [alert showOnViewController];
+}
+- (void)date_defalut_hourMinuteSecond{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期"  footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+    [alert setGaussianBlurImage:[UIImage yw_blurImage:[UIImage imageNamed:@"bg_fuweus"] blur:1]];
+    [alert showOnViewController];
+}
 
 
 
@@ -289,7 +308,7 @@
     
     [self.list addObject:@{@"section":@"  sheet模式",@"msg":@[@"YWAlertViewStyleActionSheet模式下",@"YWAlertViewStyleActionSheet模式下没有头部情况下",@"YWAlertViewStyleActionSheet模式下没有message情况下",@"YWAlertViewStyleActionSheet模式下没有other情况下",@"YWAlertViewStyleActionSheet模式下没有cancel情况下"]}];
 
-    [self.list addObject:@{@"section":@"  date模式",@"msg":@[@"中心显示日期选择器横排按钮",@"中心显示日期选择器竖排按钮",@"中心显示日期选择器只有一个按钮"]}];
+    [self.list addObject:@{@"section":@"  date模式",@"msg":@[@"中心显示日期选择器年月日时分秒",@"中心显示日期选择器年月日时分",@"中心显示日期选择器年月日",@"中心显示日期选择器年月",@"中心显示日期选择器时分秒"]}];
 
     
 }

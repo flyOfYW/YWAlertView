@@ -28,6 +28,11 @@
         case YWAlertViewStyleActionSheet:
             alertView = [YWAlertView YWSheetTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:nil];
             break;
+        case YWAlertViewStyleDatePicker:
+            alertView = [YWAlertView alertViewWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle sureButtonTitles:otherButtonTitles.firstObject];
+
+            break;
+
         default:
             break;
     }
@@ -50,6 +55,9 @@
             break;
         case YWAlertViewStyleActionSheet:
             alertView = [YWAlertView YWSheetTitle:title message:message delegate:nil footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
+            break;
+        case YWAlertViewStyleDatePicker:
+            alertView = [YWAlertView alertViewWithTitle:title footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle sureButtonTitles:otherButtonTitles.firstObject handler:handler];
             break;
         default:
             break;
@@ -83,15 +91,21 @@
    return [[YWAlert alloc] initWithTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
     
 }
-
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
-                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
-                                    sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
-    
+                                     sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
     return [[YWDatePicker alloc] initWithTitle:title delegate:nil footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
     
+}
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                             delegate:(nullable id<YWAlertViewDelegate>)delegate
+                                            footStyle:(YWAlertPublicFootStyle)footStyle
+                                            bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                     sureButtonTitles:(nullable NSString *)sureButtonTitles{
+    return [[YWDatePicker alloc] initWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:nil];
+
 }
 @end

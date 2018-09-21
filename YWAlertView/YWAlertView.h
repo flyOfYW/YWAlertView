@@ -60,13 +60,40 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                     otherButtonTitles:(nullable NSArray *)otherButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
 
+/**
+ 快速调用datePicker使用block回调
 
-
+ @param title 标题（可选）
+ @param footStyle footView的样式
+ @param bodyStyle 日历格式的样式
+ @param cancelButtonTitle  取消按钮的标题
+ @param sureButtonTitles 其他按钮的标题
+ @param handler blcok
+ @return 弹框的对象
+ */
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
-                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                     sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
+
+/**
+  快速调用datePicker使用delegate回调
+
+ @param title 标题（可选）
+ @param delegate 委托代理
+ @param footStyle footView的样式
+ @param bodyStyle 日历格式的样式
+ @param cancelButtonTitle 取消按钮的标题
+ @param sureButtonTitles 其他按钮的标题
+ @return 弹框的对象
+ */
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                             delegate:(nullable id<YWAlertViewDelegate>)delegate
+                                            footStyle:(YWAlertPublicFootStyle)footStyle
+                                            bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                     sureButtonTitles:(nullable NSString *)sureButtonTitles;
+
 
 @end

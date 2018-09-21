@@ -619,15 +619,25 @@ static const float titleHeight = 40;
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
     _backgroundAlterView.hidden = NO;
     _backgroundAlterView.image = image;
-//    uint32_t rgbaValue = [_backgroundColor rgbaValue];
-//    UIColor *co = [UIColor colorWithRed:190 / 255.0f green:100 / 255.0 blue:255 / 255.0 alpha:0.4];
-//    CGFloat r = 0, g = 0, b = 0, a = 0;
-//    [co getRed:&r green:&g blue:&b alpha:&a];
-//
+
     UIColor *newColor = [_backgroundColor colorWithAlphaComponent:articulation];
     self.titleView.backgroundColor = newColor;
     self.messageContainerView.backgroundColor = newColor;
     self.btnContainerView.backgroundColor = newColor;
+    
+}
+- (void)selectedDateOnDatePicker:(NSString *)dateString{
+    NSLog(@"***********暂时不支持");
+
+}
+/**
+ 设置蒙版的背景图
+ 
+ @param image 蒙版的背景图（可使用高斯的image）
+ */
+- (void)setGaussianBlurImage:(UIImage *)image{
+    self.gaussianBlurOnMaskView.hidden = NO;
+    self.gaussianBlurOnMaskView.image = image;
 }
 
 //MAKR: --- 统一参数配置/主题
@@ -653,13 +663,6 @@ static const float titleHeight = 40;
        UIColor *cancelColor = [theme alertCancelColor];
         if (cancelColor) {
             [self.cancelBtn setTitleColor:cancelColor forState:UIControlStateNormal];
-        }
-    }
-    if ([theme respondsToSelector:@selector(alertGaussianBlurImage)]) {
-       UIImage *blur = [theme alertGaussianBlurImage];
-        if (blur) {
-            self.gaussianBlurOnMaskView.hidden = NO;
-            self.gaussianBlurOnMaskView.image = blur;
         }
     }
     if ([theme respondsToSelector:@selector(alertBackgroundColor)]) {

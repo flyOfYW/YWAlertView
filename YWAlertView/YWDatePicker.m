@@ -7,12 +7,13 @@
 //
 
 #import "YWDatePicker.h"
+#import "YWContainerViewController.h"
 #import "UIView+Autolayout.h"
 #import "YWAlertViewHelper.h"
 #import "NSDate+YW.h"
 
 static const float titleViewHeight = 40;
-static const float butttionViewHeight = 45;
+static const float butttionViewHeight = 40;
 
 #define YWMAXYEAR 2099
 #define YWMINYEAR 1927
@@ -21,7 +22,6 @@ static const float butttionViewHeight = 45;
 @interface YWDatePicker ()
 <UIPickerViewDelegate,UIPickerViewDataSource>
 {
-    CGFloat _pickerAlertViewWidth;
     NSLayoutConstraint *_layOnTitleViewHeight;//方便后期扩展自定义高度
     NSLayoutConstraint *_layOnButtionViewHeight;//方便后期扩展自定义高度
     NSLayoutConstraint *_layPickerViewHeight;//方便后期扩展自定义高度
@@ -45,6 +45,11 @@ static const float butttionViewHeight = 45;
     NSInteger _minuteIndex;
     NSInteger _secondIndex;
     BOOL _isSetSpeartorView;//是否设置过分割线的颜色
+    BOOL _isModal;
+    
+    NSInteger _font;//字体大小
+    CGFloat _pickerHeight;
+    CGFloat _pickerAlertViewWidth;
 
 }
 //sheet的容器
@@ -78,6 +83,7 @@ static const float butttionViewHeight = 45;
 
 @property (nonatomic,  copy) NSString *dateValue;
 
+@property (nonatomic,  copy) NSString *defalutDateString;
 
 @end
 
@@ -106,9 +112,44 @@ static const float butttionViewHeight = 45;
     _datePickerStyle = bodyStyle;
     _buttionList = @[].mutableCopy;
     if (mode == 0) {
-        _pickerAlertViewWidth = currentView.frame.size.width - 20;
-        //横屏或者ipad时，宽度为394即可
-        _pickerAlertViewWidth = _pickerAlertViewWidth > 394 ? 394 : _pickerAlertViewWidth;
+        switch (bodyStyle) {
+            case YWAlertStyleShowYearMonthDayHourMinuteSecond:
+                _pickerAlertViewWidth = currentView.frame.size.width - 20;
+                //横屏或者ipad时，宽度为394即可
+                _pickerAlertViewWidth = _pickerAlertViewWidth > 394 ? 394 : _pickerAlertViewWidth;
+                if (_pickerAlertViewWidth == 300) {
+                    _font = 13;
+                }else if (_pickerAlertViewWidth == 394){
+                    _font = 15;
+                }else{
+                    _font = 14;
+                }
+                _pickerHeight = 160;
+                break;
+            case YWAlertStyleShowYearMonthDayHourMinute:
+                _pickerAlertViewWidth = 300;
+                _font = 15;
+                _pickerHeight = 140;
+                break;
+                
+            case YWAlertStyleShowYearMonthDay:
+                _pickerAlertViewWidth = 280;
+                _font = 15;
+                _pickerHeight = 120;
+                break;
+            case YWAlertStyleShowYearMonth:
+                _pickerAlertViewWidth = 280;
+                _font = 15;
+                _pickerHeight = 120;
+                break;
+            case YWAlertStyleShowHourMinuteSecond:
+                _pickerAlertViewWidth = 280;
+                _font = 15;
+                _pickerHeight = 120;
+                break;
+            default:
+                break;
+        }
     }else{
         _pickerAlertViewWidth = 300;
     }
@@ -137,6 +178,14 @@ static const float butttionViewHeight = 45;
     switch (_datePickerStyle) {
         case YWAlertStyleShowYearMonthDayHourMinuteSecond:
             return 6;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            return 5;
+        case YWAlertStyleShowYearMonthDay:
+            return 3;
+        case YWAlertStyleShowYearMonth:
+            return 2;
+        case YWAlertStyleShowHourMinuteSecond:
+            return 3;
         default:
             return 0;
     }
@@ -155,7 +204,7 @@ static const float butttionViewHeight = 45;
         }else{
             nameLabel.textColor = [UIColor blackColor];
         }
-        [nameLabel setFont:[UIFont systemFontOfSize:15]];
+        [nameLabel setFont:[UIFont systemFontOfSize:_font]];
         [self changeSpearatorLineColor];
     }
     NSString *title;
@@ -168,6 +217,32 @@ static const float butttionViewHeight = 45;
             else if (component == 4) title = [NSString stringWithFormat:@"%@分",_minuteArray[row]];
             else if (component == 5) title = [NSString stringWithFormat:@"%@秒",_secondArray[row]];
             break;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            if (component==0) title = [NSString stringWithFormat:@"%@年",_yearArray[row]];
+            else if (component == 1) title = [NSString stringWithFormat:@"%@月",_monthArray[row]];
+            else if (component == 2) title = [NSString stringWithFormat:@"%@日",_dayArray[row]];
+            else if (component == 3) title = [NSString stringWithFormat:@"%@时",_hourArray[row]];
+            else if (component == 4) title = [NSString stringWithFormat:@"%@分",_minuteArray[row]];
+
+            break;
+        case YWAlertStyleShowYearMonthDay:
+            if (component==0) title = [NSString stringWithFormat:@"%@年",_yearArray[row]];
+            else if (component == 1) title = [NSString stringWithFormat:@"%@月",_monthArray[row]];
+            else if (component == 2) title = [NSString stringWithFormat:@"%@日",_dayArray[row]];
+            
+            break;
+        case YWAlertStyleShowYearMonth:
+            if (component==0) title = [NSString stringWithFormat:@"%@年",_yearArray[row]];
+            else if (component == 1) title = [NSString stringWithFormat:@"%@月",_monthArray[row]];
+            
+            break;
+        case YWAlertStyleShowHourMinuteSecond:
+            if (component==0) title = [NSString stringWithFormat:@"%@时",_hourArray[row]];
+            else if (component == 1) title = [NSString stringWithFormat:@"%@分",_minuteArray[row]];
+            else if (component == 2) title = [NSString stringWithFormat:@"%@秒",_secondArray[row]];
+
+            break;
+
         default:
             title = @"";
             break;
@@ -176,7 +251,7 @@ static const float butttionViewHeight = 45;
     return nameLabel;
 }
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{
-    return 40;
+    return 36;
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     BOOL isNeddReload = NO;//是否需要刷新
@@ -202,6 +277,58 @@ static const float butttionViewHeight = 45;
             _dateValue = [NSString stringWithFormat:@"%@-%@-%@ %@:%@:%@",_yearArray[_yearIndex],_monthArray[_monthIndex],_dayArray[_dayIndex],_hourArray[_hourIndex],_minuteArray[_minuteIndex],_secondArray[_secondIndex]];
             break;
         }
+        case YWAlertStyleShowYearMonthDayHourMinute:{
+            if (component == 0)      _yearIndex   = row;
+            else if (component == 1) _monthIndex  = row;
+            else if (component == 2) _dayIndex    = row;
+            else if (component == 3) _hourIndex   = row;
+            else if (component == 4) _minuteIndex = row;
+            
+            if (component == 0 || component == 1) {
+                [self daysOnYear:[_yearArray[_yearIndex] integerValue] month:[_monthArray[_monthIndex] integerValue]];
+                if (_dayArray.count - 1 < _dayIndex) {
+                    _dayIndex = _dayArray.count - 1;
+                }
+                isNeddReload = YES;
+                self.messageLabel.text = [NSString stringWithFormat:@"%@",_yearArray[_yearIndex]];
+                [pickerView reloadComponent:2];
+                
+            }
+            _dateValue = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",_yearArray[_yearIndex],_monthArray[_monthIndex],_dayArray[_dayIndex],_hourArray[_hourIndex],_minuteArray[_minuteIndex]];
+            break;
+        }
+        case YWAlertStyleShowYearMonthDay:{
+            if (component == 0)      _yearIndex   = row;
+            else if (component == 1) _monthIndex  = row;
+            else if (component == 2) _dayIndex    = row;
+            if (component == 0 || component == 1) {
+                [self daysOnYear:[_yearArray[_yearIndex] integerValue] month:[_monthArray[_monthIndex] integerValue]];
+                if (_dayArray.count - 1 < _dayIndex) {
+                    _dayIndex = _dayArray.count - 1;
+                }
+                isNeddReload = YES;
+                self.messageLabel.text = [NSString stringWithFormat:@"%@",_yearArray[_yearIndex]];
+                [pickerView reloadComponent:2];
+            }
+            _dateValue = [NSString stringWithFormat:@"%@-%@-%@",_yearArray[_yearIndex],_monthArray[_monthIndex],_dayArray[_dayIndex]];
+            break;
+        }
+        case YWAlertStyleShowYearMonth:{
+            if (component == 0)      _yearIndex   = row;
+            else if (component == 1) _monthIndex  = row;
+            if (component == 0) {
+                self.messageLabel.text = [NSString stringWithFormat:@"%@",_yearArray[_yearIndex]];
+            }
+            _dateValue = [NSString stringWithFormat:@"%@-%@",_yearArray[_yearIndex],_monthArray[_monthIndex]];
+            break;
+        }
+        case YWAlertStyleShowHourMinuteSecond:{
+                 if (component == 0) _hourIndex   = row;
+            else if (component == 1) _minuteIndex = row;
+            else if (component == 2) _secondIndex = row;
+            _dateValue = [NSString stringWithFormat:@"%@:%@:%@",_hourArray[_hourIndex],_minuteArray[_minuteIndex],_secondArray[_secondIndex]];
+            break;
+        }
         default:
             break;
     }
@@ -216,11 +343,27 @@ static const float butttionViewHeight = 45;
     NSInteger minuteNum = _minuteArray.count;
     NSInteger secondNum = _secondArray.count;
     
-    dayNum = [self daysOnYear:[_yearArray[_yearIndex] integerValue] month:[_monthArray[_monthIndex] integerValue]];
+    if (_datePickerStyle !=YWAlertStyleShowYearMonth
+        || _datePickerStyle !=YWAlertStyleShowHourMinuteSecond) {
+        dayNum = [self daysOnYear:[_yearArray[_yearIndex] integerValue] month:[_monthArray[_monthIndex] integerValue]];
+    }
+    
     
     switch (_datePickerStyle) {
         case YWAlertStyleShowYearMonthDayHourMinuteSecond:
             return @[@(yearNum),@(monthNum),@(dayNum),@(hourNum),@(minuteNum),@(secondNum)];
+            break;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            return @[@(yearNum),@(monthNum),@(dayNum),@(hourNum),@(minuteNum)];
+            break;
+        case YWAlertStyleShowYearMonthDay:
+            return @[@(yearNum),@(monthNum),@(dayNum)];
+            break;
+        case YWAlertStyleShowYearMonth:
+            return @[@(yearNum),@(monthNum)];
+            break;
+        case YWAlertStyleShowHourMinuteSecond:
+            return @[@(hourNum),@(minuteNum),@(secondNum)];
             break;
         default:
             return @[];
@@ -290,7 +433,7 @@ static const float butttionViewHeight = 45;
     [_messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
     [_messageLabel addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
     [_messageLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView toAttribute:NSLayoutAttributeBottom offset:0];
-    _layPickerViewHeight = [_messageLabel addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:170];
+    _layPickerViewHeight = [_messageLabel addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:_pickerHeight];
 
     [_messageLabel addSubview:self.datePicker];
     
@@ -462,16 +605,27 @@ static const float butttionViewHeight = 45;
     if (_datePickerStyle == YWAlertStyleShowYearMonthDayHourMinuteSecond){
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
                        @(_hourIndex),@(_minuteIndex),@(_secondIndex)];
+        self.messageLabel.text = _yearArray[_yearIndex];
+    }else if (_datePickerStyle == YWAlertStyleShowYearMonthDayHourMinute){
+        indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
+                       @(_hourIndex),@(_minuteIndex)];
+        self.messageLabel.text = _yearArray[_yearIndex];
+    }else if (_datePickerStyle == YWAlertStyleShowYearMonthDay){
+        indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex)];
+        self.messageLabel.text = _yearArray[_yearIndex];
+    }else if (_datePickerStyle == YWAlertStyleShowYearMonth){
+        indexArray = @[@(_yearIndex),@(_monthIndex)];
+        self.messageLabel.text = _yearArray[_yearIndex];
+    }else if (_datePickerStyle == YWAlertStyleShowHourMinuteSecond){
+        indexArray = @[@(_hourIndex),@(_minuteIndex),@(_secondIndex)];
     }
-    
-    [self.datePicker reloadAllComponents];
     
     for (int i=0; i<indexArray.count; i++) {
 
     [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
     }
     
-    self.messageLabel.text = _yearArray[_yearIndex];
+
 }
 
 //通过年月求每月天数
@@ -517,30 +671,20 @@ static const float butttionViewHeight = 45;
     }
 }
 
-//MARK: ---
-- (void)show{
-    UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
-    [keyWindows addSubview:self];
-    
-    [self addConstraint:NSLayoutAttributeLeft equalTo:keyWindows offset:0];
-    [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
-    [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
-    [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
-    
-    [self layoutIfNeeded];
-    
-    _datePicker.delegate = self;
-    _datePicker.dataSource = self;
-    
-    
-    [self getNowDate:[NSDate date:@"2020-09-20 23:31:20" format:YWDateStyleYYYYMMDDHHMMSS] animated:NO];
-    
-}
+
 
 -(void)buttionClick:(UIButton *)btn{
-    [self removeFromSuperview];
+    [self hiddenAlertView];
+    if (_isModal) {
+        [[YWAlertViewHelper currentViewController] dismissViewControllerAnimated:YES completion:nil];
+    }
+    if (_handler) {
+        _handler(btn.tag,_dateValue);
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickAlertView:value:)]) {
+        [_delegate didClickAlertView:btn.tag value:_dateValue];
+    }
 }
-
 - (void)setSheetFrame{
     
     [self.titleView layoutIfNeeded];
@@ -555,14 +699,292 @@ static const float butttionViewHeight = 45;
     [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
     
 }
-
-//MARK: --- 参数设置
-- (void)setTitleViewTitleColor:(UIColor *)color{
+//MARK: --- 显示
+- (void)show{
     
-    _dateLabelColor = color;
+    UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
+    [keyWindows addSubview:self];
+    
+    [self addConstraint:NSLayoutAttributeLeft equalTo:keyWindows offset:0];
+    [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
+    [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
+    [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
+    
+    [self layoutIfNeeded];
+    
+    _datePicker.delegate = self;
+    _datePicker.dataSource = self;
+    
+    switch (_datePickerStyle) {
+        case YWAlertStyleShowYearMonthDayHourMinuteSecond:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDDHHMMSS] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDDHHMM] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonthDay:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDD] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonth:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMM] animated:NO];
+            break;
+        case YWAlertStyleShowHourMinuteSecond:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleHHMMSS] animated:NO];
+            break;
+
+            
+        default:
+            break;
+    }
+    
+    
+}
+- (void)showOnViewController{
+    
+    self.maskView.backgroundColor = [UIColor clearColor];
+    switch (_datePickerStyle) {
+        case YWAlertStyleShowYearMonthDayHourMinuteSecond:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDDHHMMSS] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDDHHMM] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonthDay:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMMDD] animated:NO];
+            break;
+        case YWAlertStyleShowYearMonth:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleYYYYMM] animated:NO];
+            break;
+        case YWAlertStyleShowHourMinuteSecond:
+            [self getNowDate:[NSDate date:_defalutDateString format:YWDateStyleHHMMSS] animated:NO];
+            break;
+            
+        default:
+            break;
+    }
+    _isModal = YES;
+    YWContainerViewController *conVC = [YWContainerViewController new];
+    conVC.alertView = self;
+    conVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    conVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:YES completion:nil];
     
 }
 
+/**
+ 隐藏
+ */
+- (void)hiddenAlertView{
+    [self removeFromSuperview];
+}
+//MARK: --- 参数设置
+- (void)selectedDateOnDatePicker:(NSString *)dateString{
+    _defalutDateString = dateString;
+}
+/**
+ 隐藏bodyview上下的两个分隔线
+ */
+- (void)hiddenBodyLineView{
+    
+}
+/**
+ 隐藏所有的分隔线
+ */
+- (void)hiddenAllLineView{
+    
+}
+
+/**
+ 是否显示关闭的按妞
+ */
+- (void)showCloseOnTitleView{
+    
+}
+
+/**
+ 设置整个弹框的背景颜色
+ 
+ @param color 颜色
+ */
+- (void)setAlertViewBackgroundColor:(UIColor *)color{
+    self.pickerAlertView.backgroundColor = color;
+}
+/**
+ 设置titleView的背景颜色
+ 
+ @param color 颜色
+ */
+- (void)setTitleViewBackColor:(UIColor *)color{
+    if (_titleView) {
+        _titleView.backgroundColor = color;
+    }
+}
+/**
+ 设置titleView的title颜色
+ 
+ @param color 颜色
+ */
+- (void)setTitleViewTitleColor:(UIColor *)color{
+    _titleLabel.textColor = color;
+}
+/**
+ 设置message的字体颜色
+ 
+ @param color 颜色
+ */
+- (void)setMessageTitleColor:(UIColor *)color{
+    _dateLabelColor = color;
+}
+/**
+ 设置所有按钮的字体颜色
+ 
+ @param color 颜色
+ */
+- (void)setAllButtionTitleColor:(UIColor *)color{
+    if (_cancelBtn) {
+        [_cancelBtn setTitleColor:color forState:UIControlStateNormal];
+    }
+    if (_sureBtn) {
+        [_sureBtn setTitleColor:color forState:UIControlStateNormal];
+    }
+}
+/**
+ 设置单个按钮的颜色
+ 
+ @param color 颜色
+ @param index 下标
+ */
+- (void)setButtionTitleColor:(UIColor *)color index:(NSInteger)index{
+    UIButton *btn = [_buttionContainerView viewWithTag:100 + index];
+    if (btn) {
+        [btn setTitleColor:color forState:UIControlStateNormal];
+    }
+}
+/**
+ 设置单个按钮的字体以及其大小
+ 
+ @param name 什么字体
+ @param size 大小
+ @param index 小标
+ */
+- (void)setButtionTitleFontWithName:(NSString *)name size:(CGFloat)size index:(NSInteger)index{
+    UIButton *btn = [_buttionContainerView viewWithTag:100 + index];
+    if (btn) {
+        if (name) {
+            btn.titleLabel.font = [UIFont fontWithName:name size:size];
+        }else{
+           btn.titleLabel.font = [UIFont systemFontOfSize:size];
+        }
+    }
+}
+/**
+ 设置title的字体以及其大小
+ 
+ @param name 什么字体(为nil时,即是系统字体)
+ @param size 大小
+ */
+- (void)setTitleFontWithName:(NSString *)name size:(CGFloat)size{
+    if (_titleLabel) {
+        if (name) {
+            _titleLabel.font = [UIFont fontWithName:name size:size];
+
+        }else{
+            _titleLabel.font = [UIFont systemFontOfSize:size];
+        }
+    }
+    
+}
+/**
+ 设置message的字体以及其大小
+ 
+ @param name 什么字体(为nil时,即是系统字体)
+ @param size 大小
+ */
+- (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size{
+    
+}
+/**
+ 自定义bodyview
+ 
+ @param bodyView 需要定义的view
+ @param height 该view的高度
+ */
+- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
+    
+}
+
+/**
+ alert背景图
+ 
+ @param image image
+ @param articulation 0~1(越小越清晰)
+ */
+- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
+
+}
+/**
+ 设置蒙版的背景图
+ 
+ @param image 蒙版的背景图（可使用高斯的image）
+ */
+- (void)setGaussianBlurImage:(UIImage *)image{
+    self.gaussianBlurOnMaskView.hidden = NO;
+    self.gaussianBlurOnMaskView.image = image;
+}
+/**
+ 统一配置信息
+ 
+ @param theme 主题
+ */
+- (void)setTheme:(id<YWAlertViewThemeProtocol>)theme{
+ 
+    if ([theme respondsToSelector:@selector(alertBackgroundView)]) {
+        UIImage *img = [theme alertBackgroundView];
+        if (img) {
+            CGFloat alp = 0;
+            if ([theme respondsToSelector:@selector(alterBackgroundViewArticulation)]) {
+                alp = [theme alterBackgroundViewArticulation];
+            }
+            [self setAlertBackgroundView:img articulation:alp];
+        }
+    }
+    if ([theme respondsToSelector:@selector(alertTitleViewColor)]) {
+        UIColor *titleColor = [theme alertTitleViewColor];
+        if (titleColor) {
+            [self setTitleViewTitleColor:titleColor];
+        }
+    }
+    if ([theme respondsToSelector:@selector(alertCancelColor)]) {
+        UIColor *cancelColor = [theme alertCancelColor];
+        if (cancelColor) {
+            [self.cancelBtn setTitleColor:cancelColor forState:UIControlStateNormal];
+        }
+    }
+    if ([theme respondsToSelector:@selector(alertBackgroundColor)]) {
+        UIColor *backgroundColor = [theme alertBackgroundColor];
+        [self setAlertViewBackgroundColor:backgroundColor];
+    }
+    
+    CGFloat alp1 = 16;
+    if ([theme respondsToSelector:@selector(alertTitleFont)]) {
+        alp1 = [theme alertTitleFont];
+    }
+    if ([theme respondsToSelector:@selector(alertTitleFontWithName)]) {
+        [self setTitleFontWithName:[theme alertTitleFontWithName] size:alp1];
+    }else{
+        [self setTitleFontWithName:nil size:alp1];
+    }
+    CGFloat alp2 = 14;
+    if ([theme respondsToSelector:@selector(alertMessageFont)]) {
+        alp2 = [theme alertMessageFont];
+    }
+    if ([theme respondsToSelector:@selector(alertMessageFontWithName)]) {
+        [self setMessageFontWithName:[theme alertMessageFontWithName] size:alp2];
+    }else{
+        [self setMessageFontWithName:nil size:alp2];
+    }
+
+}
 //MARK: --- 懒加载
 
 - (UIView *)maskView{
@@ -585,7 +1007,6 @@ static const float butttionViewHeight = 45;
 - (UIView *)titleView{
     if (!_titleView) {
         _titleView = [UIView new];
-        _titleView.backgroundColor = DefaultTranslucenceColor;
     }
     return _titleView;
 }

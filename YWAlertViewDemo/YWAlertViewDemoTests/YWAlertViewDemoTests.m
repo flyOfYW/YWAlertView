@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "NSDate+YW.h"
 
 @interface YWAlertViewDemoTests : XCTestCase
 
@@ -25,14 +26,18 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+   
+    
 }
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{
         // Put the code you want to measure the time of here.
+        long long temp = 1537499110;
+        for (int  i = 0; i < 20; i ++) {
+            [NSDate dateYYYYMMDDByTimeStamp:temp];
+        }
     }];
 }
 
