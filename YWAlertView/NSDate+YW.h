@@ -38,6 +38,8 @@ typedef enum : NSUInteger {
 @property (readonly) NSInteger minute;
 //获取该NSDate的秒数
 @property (readonly) NSInteger seconds;
+//获取该NSDate的这个日期对应的月份共有多少天
+@property (readonly) NSInteger days;
 
 /**
  获取NSCalendar对象
@@ -111,4 +113,172 @@ typedef enum : NSUInteger {
  */
 + (NSString *)dateHHMMByTimeStamp:(long long)timeStamp;
 
+/**
+ 获取昨天的日期
+ 
+ @return 日期
+ */
++ (NSString *)getDateOfYesterday;
+/**
+ 获取当期的日期
+ 
+ @return 日期
+ */
++ (NSString *)getDateOfNow;
+/**
+ 获取明天的日期
+ 
+ @return 日期
+ */
++ (NSString *)getDateOfTomorrow;
+/**
+ 获取本月最后一天的日期
+ 
+ @return 日期
+ */
++ (NSString *)getDateOfThisMonth;
+/**
+ 获取某天的几天前的日期
+ 
+ @param someDate 某天(someData为nil时，默认今天)
+ @param day 天数
+ @return 日期
+ */
++ (NSString *)getTheDateBeforeSomeday:(NSDate *)someDate
+                                  day:(NSInteger)day;
+/**
+ 获取某天的几天后的日期
+ 
+ @param someDate 某天(someData为nil时，默认今天)
+ @param day 天数
+ @return 日期
+ */
++ (NSString *)getTheDateAfterSomeday:(NSDate *)someDate
+                                 day:(NSInteger)day;
+/**
+ 获取本季度的第一天日期
+ 
+ @return 日期
+ */
++ (NSString *)getTheDateOfTheFirstDayOfTheQuarter;
+/**
+ 获取本季度的最后一天日期
+ 
+ @return 日期
+ */
++ (NSString *)getTheDateOfTheLastDayOfTheQuarter;
+
+/**
+ 获取昨天的起始秒（单位：秒(s)）
+ 
+ @return 昨天的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfYesterday;
+/**
+ 获取昨天的结束秒（单位：秒(s)）
+ 
+ @return 昨天的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfYesterday;
+/**
+ 获取当前的时间戳
+ 
+ @return 当前的时间戳
+ */
++ (NSTimeInterval)getNowTimeInterval;
+/**
+ 获取今天的结束秒（单位：秒(s)）
+ 
+ @return 今天的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfToday;
+/**
+ 获取该天的起始秒（单位：秒(s)）
+ 
+ @param theDate 该天的日期
+ @return 该天的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfThisDay:(NSDate *)theDate;
+/**
+ 获取该天的结束秒（单位：秒(s)）
+ 
+ @param theDate 该天的日期
+ @return 该天的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfThisDay:(NSDate *)theDate;
+/**
+ 获取上个月的起始秒（单位：秒）
+ 
+ @return 上个月的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfLastMonth;
+/**
+ 获取上个月的结束秒（单位：秒）
+ 
+ @return 上个月的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfLastMonth;
+/**
+ 获取该月的起始秒 （单位：秒）
+ 
+ @param date 日期（支持yyyy-MM yyyy-MM-dd等格式）
+ @return 该月的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfTheMonth:(NSDate *)date;
+/**
+ 该月的结束秒 （单位：秒）
+ 
+ @param date 日期（支持yyyy-MM yyyy-MM-dd等格式）
+ @return 该月的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfTheMonth:(NSDate*)date;
+/**
+ 获取本月的起始秒（单位：秒）
+ 
+ @return 本月的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfThisMonth;
+/**
+ 获取本月的起始秒（单位：秒）
+ 
+ @return 本月的起始秒
+ */
++ (NSTimeInterval)getEndTimeOfThisMonth;
+/**
+ 获取本季度的开始秒 （单位：秒）
+ 
+ * @return: 本季的开始秒
+ */
++ (NSTimeInterval)getStartTimeOfThisSeason;
+
+/**
+ 获取本季度的结束秒 （单位：秒）
+ 
+ * @return: 本季的结束秒
+ */
++ (NSTimeInterval) getEndTimeOfThisSeason;
+/**
+ 获取本年的起始秒
+ 
+ @return 本年的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfThisYear;
+/**
+ 获取本年的结束秒
+ 
+ @return 本年的结束秒
+ */
++ (NSTimeInterval)getEndTimeOfThisYear;
+/**
+ 获取上年的起始秒
+ 
+ @return 上年的起始秒
+ */
++ (NSTimeInterval) getStartTimeOfLastYear;
+/**
+ 获取上年的结束秒
+ 
+ @return 上年的结束秒
+ */
++ (NSTimeInterval) getEndTimeOfLastYear;
 @end

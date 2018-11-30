@@ -22,6 +22,7 @@
     [super viewDidLoad];
     [self initData];
     
+    
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tableView.dataSource = self;
@@ -31,6 +32,7 @@
     tableView.backgroundColor = [UIColor cyanColor];
     
 }
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.list.count;
 }

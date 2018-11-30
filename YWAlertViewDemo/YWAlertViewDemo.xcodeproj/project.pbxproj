@@ -27,6 +27,7 @@
 		DAD13EF82133DA4000106659 /* YWAlertViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD13EF72133DA4000106659 /* YWAlertViewDemoUITests.m */; };
 		DAE0C284213650F70001A6AE /* YWTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C283213650F70001A6AE /* YWTheme.m */; };
 		DAE96213214F5D1F00590F85 /* NSDate+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE96212214F5D1F00590F85 /* NSDate+YW.m */; };
+		DAF1A64821AE90BA00AB682A /* YWTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF1A64721AE90BA00AB682A /* YWTimeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		DAE0C283213650F70001A6AE /* YWTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWTheme.m; sourceTree = "<group>"; };
 		DAE96211214F5D1F00590F85 /* NSDate+YW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+YW.h"; sourceTree = "<group>"; };
 		DAE96212214F5D1F00590F85 /* NSDate+YW.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+YW.m"; sourceTree = "<group>"; };
+		DAF1A64621AE90BA00AB682A /* YWTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWTimeViewController.h; sourceTree = "<group>"; };
+		DAF1A64721AE90BA00AB682A /* YWTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWTimeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,8 @@
 				DAD13ED72133DA4000106659 /* ViewController.m */,
 				DAE0C282213650F70001A6AE /* YWTheme.h */,
 				DAE0C283213650F70001A6AE /* YWTheme.m */,
+				DAF1A64621AE90BA00AB682A /* YWTimeViewController.h */,
+				DAF1A64721AE90BA00AB682A /* YWTimeViewController.m */,
 				DAD13ED92133DA4000106659 /* Main.storyboard */,
 				DAD13EDC2133DA4000106659 /* Assets.xcassets */,
 				DAD13EDE2133DA4000106659 /* LaunchScreen.storyboard */,
@@ -343,6 +348,7 @@
 				DAE96213214F5D1F00590F85 /* NSDate+YW.m in Sources */,
 				DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */,
 				DAB7F2F421369E5200F7E29A /* YWAlert.m in Sources */,
+				DAF1A64821AE90BA00AB682A /* YWTimeViewController.m in Sources */,
 				DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */,
 				DAD13ED52133DA4000106659 /* AppDelegate.m in Sources */,
 				DAE0C284213650F70001A6AE /* YWTheme.m in Sources */,
@@ -510,7 +516,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5K2WE2JQRA;
+				DEVELOPMENT_TEAM = DAQVFLTRMF;
 				INFOPLIST_FILE = YWAlertViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -525,7 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5K2WE2JQRA;
+				DEVELOPMENT_TEAM = DAQVFLTRMF;
 				INFOPLIST_FILE = YWAlertViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

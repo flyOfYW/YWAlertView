@@ -114,10 +114,10 @@ static const float butttionViewHeight = 40;
     if (mode == 0) {
         switch (bodyStyle) {
             case YWAlertStyleShowYearMonthDayHourMinuteSecond:
-                _pickerAlertViewWidth = currentView.frame.size.width - 20;
+                _pickerAlertViewWidth = currentView.frame.size.width - 10;
                 //横屏或者ipad时，宽度为394即可
                 _pickerAlertViewWidth = _pickerAlertViewWidth > 394 ? 394 : _pickerAlertViewWidth;
-                if (_pickerAlertViewWidth == 300) {
+                if (_pickerAlertViewWidth == 310) {
                     _font = 13;
                 }else if (_pickerAlertViewWidth == 394){
                     _font = 15;
@@ -621,7 +621,6 @@ static const float butttionViewHeight = 40;
     }
     
     for (int i=0; i<indexArray.count; i++) {
-
     [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
     }
     
