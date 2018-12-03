@@ -116,7 +116,7 @@ static const float btnHeight = 40;
     [self layoutIfNeeded];
     
     __weak typeof(self)weakSelf = self;
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:0.7 animations:^{
         
         CGRect sheetFrame = weakSelf.sheetView.frame;
         

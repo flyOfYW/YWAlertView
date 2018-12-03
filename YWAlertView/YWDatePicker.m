@@ -106,7 +106,6 @@ static const float butttionViewHeight = 40;
     if (!self) {
         return nil;
     }
-    
     _handler = handler;
     _delegate = delegate;
     _datePickerStyle = bodyStyle;
@@ -169,7 +168,8 @@ static const float butttionViewHeight = 40;
     }else{
         _pickerAlertViewWidth = YWAlertScreenW;
         _pickerHeight = 160;
-        UIView *alert = [[UIView alloc] initWithFrame:CGRectMake(0, (YWAlertScreenH-300), _pickerAlertViewWidth , 300)];
+        UIView *alert = [[UIView alloc] initWithFrame:CGRectMake(0, YWAlertScreenH, _pickerAlertViewWidth , 300)];
+        alert.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         alert.backgroundColor = [UIColor whiteColor];
         [self addSubview:alert];
         _pickerAlertView = alert;
@@ -673,28 +673,27 @@ static const float butttionViewHeight = 40;
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
                        @(_hourIndex),@(_minuteIndex),@(_secondIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
-        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d:%02d",date.year,date.month,date.day,date.hour,date.minute,date.seconds];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d:%02d",date.year,(int)date.month,(int)date.day,(int)date.hour,(int)date.minute,(int)date.seconds];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonthDayHourMinute){
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
                        @(_hourIndex),@(_minuteIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
-        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d",date.year,date.month,date.day,date.hour,date.minute];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d",date.year,(int)date.month,(int)date.day,(int)date.hour,(int)date.minute];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonthDay){
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
-        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d",date.year,date.month,date.day];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d",date.year,(int)date.month,(int)date.day];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonth){
         indexArray = @[@(_yearIndex),@(_monthIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
-        _dateValue = [NSString stringWithFormat:@"%zi-%02d",date.year,date.month];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d",date.year,(int)date.month];
     }else if (_datePickerStyle == YWAlertStyleShowHourMinuteSecond){
         indexArray = @[@(_hourIndex),@(_minuteIndex),@(_secondIndex)];
-        _dateValue = [NSString stringWithFormat:@"%02d-%02d-%02d",date.hour,date.minute,date.seconds];
+        _dateValue = [NSString stringWithFormat:@"%02d-%02d-%02d",(int)date.hour,(int)date.minute,(int)date.seconds];
     }
     
     for (int i=0; i<indexArray.count; i++) {
         [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
-        NSLog(@"selectRow:%@",indexArray[i]);
     }
 
 }
@@ -767,14 +766,19 @@ static const float butttionViewHeight = 40;
         [self.pickerAlertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
         [self.pickerAlertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
         [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
+        [self.pickerAlertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:heigth];
     }else{
         heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame);
-        [self.pickerAlertView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
-        [self.pickerAlertView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
-        [self.pickerAlertView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+        CGRect rect = self.pickerAlertView.frame;
+        rect.size.height = heigth;
+        self.pickerAlertView.frame = rect;
+        [UIView animateWithDuration:0.62 animations:^{
+            CGRect rect1 = self.pickerAlertView.frame;
+            rect1.origin.y = YWAlertScreenH - heigth;
+            self.pickerAlertView.frame = rect1;
+        }];
     }
-    [self.pickerAlertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:heigth];
-    
+
 }
 
 //MARK: --- 显示

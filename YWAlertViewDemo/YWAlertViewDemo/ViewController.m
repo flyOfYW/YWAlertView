@@ -139,7 +139,6 @@
                 [self date_defalut_yearMonthDay_foot];
                 break;
                 
-                
             default:
                 break;
         }
@@ -150,7 +149,6 @@
 }
 
 - (void)alert_defalut{
-    
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
     [alert show];
 }
