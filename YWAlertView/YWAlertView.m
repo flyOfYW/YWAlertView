@@ -29,8 +29,7 @@
             alertView = [YWAlertView YWSheetTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:nil];
             break;
         case YWAlertViewStyleDatePicker:
-            alertView = [YWAlertView alertViewWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle sureButtonTitles:otherButtonTitles.firstObject];
-
+            @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
             break;
 
         default:
@@ -57,7 +56,7 @@
             alertView = [YWAlertView YWSheetTitle:title message:message delegate:nil footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
             break;
         case YWAlertViewStyleDatePicker:
-            alertView = [YWAlertView alertViewWithTitle:title footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle sureButtonTitles:otherButtonTitles.firstObject handler:handler];
+            @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
             break;
         default:
             break;
@@ -91,21 +90,40 @@
    return [[YWAlert alloc] initWithTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
     
 }
-+(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+
+//MARK: --- 日期的快速调用方法
++ (nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                      sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
-    return [[YWDatePicker alloc] initWithTitle:title delegate:nil footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
-    
+    if (preferredStyle == YWAlertViewStyleDatePicker) {
+        return [[YWDatePicker alloc] initWithTitle:title delegate:nil footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
+    }else if (preferredStyle == YWAlertViewStyleDatePicker2){
+        return [[YWDatePicker alloc] initWithTitle:title delegate:nil footStyle:footStyle bodyStyle:bodyStyle mode:1 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
+    }else{
+        @throw [NSException exceptionWithName:@"提示" reason:@"请检查preferredStyle是否正确" userInfo:nil];
+        return nil;
+    }
 }
-+(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
++ (nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                              delegate:(nullable id<YWAlertViewDelegate>)delegate
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                      sureButtonTitles:(nullable NSString *)sureButtonTitles{
-    return [[YWDatePicker alloc] initWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:nil];
+    
+    if (preferredStyle == YWAlertViewStyleDatePicker) {
+        return [[YWDatePicker alloc] initWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle mode:0 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:nil];
+    }else if (preferredStyle == YWAlertViewStyleDatePicker2){
+        return [[YWDatePicker alloc] initWithTitle:title delegate:delegate footStyle:footStyle bodyStyle:bodyStyle mode:1 cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:nil];
+    }else{
+        @throw [NSException exceptionWithName:@"提示" reason:@"请检查preferredStyle是否正确" userInfo:nil];
+        return nil;
+    }
+    
 
 }
 @end

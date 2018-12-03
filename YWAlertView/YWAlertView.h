@@ -12,7 +12,8 @@
 typedef NS_ENUM(NSInteger, YWAlertViewStyle){
     YWAlertViewStyleAlert = 0,
     YWAlertViewStyleActionSheet = 1,
-    YWAlertViewStyleDatePicker = 2,
+    YWAlertViewStyleDatePicker = 2,//datePicker默认在中间显示
+    YWAlertViewStyleDatePicker2 = 3,//datePicke显示在底部
 };
 
 @interface YWAlertView : NSObject
@@ -64,6 +65,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
  快速调用datePicker使用block回调
 
  @param title 标题（可选）
+ @param preferredStyle dataPicker的显示位置，默认YWAlertViewStyleDatePicker（中间）
  @param footStyle footView的样式
  @param bodyStyle 日历格式的样式
  @param cancelButtonTitle  取消按钮的标题
@@ -72,6 +74,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
  @return 弹框的对象
  */
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
@@ -81,6 +84,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
   快速调用datePicker使用delegate回调
 
  @param title 标题（可选）
+ @param preferredStyle dataPicker的显示位置，默认YWAlertViewStyleDatePicker（中间）
  @param delegate 委托代理
  @param footStyle footView的样式
  @param bodyStyle 日历格式的样式
@@ -89,6 +93,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
  @return 弹框的对象
  */
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                       preferredStyle:(YWAlertViewStyle)preferredStyle
                                              delegate:(nullable id<YWAlertViewDelegate>)delegate
                                             footStyle:(YWAlertPublicFootStyle)footStyle
                                             bodyStyle:(YWAlertPublicBodyStyle)bodyStyle

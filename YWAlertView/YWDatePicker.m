@@ -50,7 +50,7 @@ static const float butttionViewHeight = 40;
     NSInteger _font;//字体大小
     CGFloat _pickerHeight;
     CGFloat _pickerAlertViewWidth;
-
+    NSInteger _mode;
 }
 //sheet的容器
 @property (nonatomic, strong) UIView *pickerAlertView;
@@ -111,62 +111,73 @@ static const float butttionViewHeight = 40;
     _delegate = delegate;
     _datePickerStyle = bodyStyle;
     _buttionList = @[].mutableCopy;
-    if (mode == 0) {
-        switch (bodyStyle) {
-            case YWAlertStyleShowYearMonthDayHourMinuteSecond:
-                _pickerAlertViewWidth = currentView.frame.size.width - 10;
-                //横屏或者ipad时，宽度为394即可
-                _pickerAlertViewWidth = _pickerAlertViewWidth > 394 ? 394 : _pickerAlertViewWidth;
-                if (_pickerAlertViewWidth == 310) {
-                    _font = 13;
-                }else if (_pickerAlertViewWidth == 394){
-                    _font = 15;
-                }else{
-                    _font = 14;
-                }
-                _pickerHeight = 160;
-                break;
-            case YWAlertStyleShowYearMonthDayHourMinute:
-                _pickerAlertViewWidth = 300;
-                _font = 15;
-                _pickerHeight = 140;
-                break;
-                
-            case YWAlertStyleShowYearMonthDay:
-                _pickerAlertViewWidth = 280;
-                _font = 15;
-                _pickerHeight = 120;
-                break;
-            case YWAlertStyleShowYearMonth:
-                _pickerAlertViewWidth = 280;
-                _font = 15;
-                _pickerHeight = 120;
-                break;
-            case YWAlertStyleShowHourMinuteSecond:
-                _pickerAlertViewWidth = 280;
-                _font = 15;
-                _pickerHeight = 120;
-                break;
-            default:
-                break;
-        }
-    }else{
-        _pickerAlertViewWidth = 300;
-    }
-    
+    _mode = mode;
     self.maskView.frame = currentView.frame;
     [self addSubview:_maskView];
     self.gaussianBlurOnMaskView.frame = currentView.frame;
     [_maskView addSubview:self.gaussianBlurOnMaskView];
     
-    UIView *alert = [[UIView alloc] initWithFrame:CGRectMake(10, (YWAlertScreenH-300)/2, _pickerAlertViewWidth , 300)];
-    alert.backgroundColor = [UIColor whiteColor];
-    alert.layer.cornerRadius = 15.0f;
-    alert.layer.masksToBounds = YES;
-    [self addSubview:alert];
-    _pickerAlertView = alert;
+    switch (bodyStyle) {
+        case YWAlertStyleShowYearMonthDayHourMinuteSecond:
+            _pickerAlertViewWidth = currentView.frame.size.width - 10;
+            //横屏或者ipad时，宽度为394即可
+            _pickerAlertViewWidth = _pickerAlertViewWidth > 394 ? 394 : _pickerAlertViewWidth;
+            if (_pickerAlertViewWidth == 310) {
+                _font = 13;
+            }else if (_pickerAlertViewWidth == 394){
+                _font = 15;
+            }else{
+                _font = 14;
+            }
+            _pickerHeight = 160;
+            break;
+        case YWAlertStyleShowYearMonthDayHourMinute:
+            _pickerAlertViewWidth = 300;
+            _font = 15;
+            _pickerHeight = 140;
+            break;
+            
+        case YWAlertStyleShowYearMonthDay:
+            _pickerAlertViewWidth = 280;
+            _font = 15;
+            _pickerHeight = 120;
+            break;
+        case YWAlertStyleShowYearMonth:
+            _pickerAlertViewWidth = 280;
+            _font = 15;
+            _pickerHeight = 120;
+            break;
+        case YWAlertStyleShowHourMinuteSecond:
+            _pickerAlertViewWidth = 280;
+            _font = 15;
+            _pickerHeight = 120;
+            break;
+        default:
+            break;
+    }
     
-    [self onPrepareTitle:title footStyle:footStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:sureButtonTitles frame:currentView.frame];
+    if (mode == 0) {
+        UIView *alert = [[UIView alloc] initWithFrame:CGRectMake(10, (YWAlertScreenH-300)/2, _pickerAlertViewWidth , 300)];
+        alert.backgroundColor = [UIColor whiteColor];
+        alert.layer.cornerRadius = 15.0f;
+        alert.layer.masksToBounds = YES;
+        [self addSubview:alert];
+        _pickerAlertView = alert;
+        
+        [self onPrepareTitle:title footStyle:footStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:sureButtonTitles frame:currentView.frame];
+        
+    }else{
+        _pickerAlertViewWidth = YWAlertScreenW;
+        _pickerHeight = 160;
+        UIView *alert = [[UIView alloc] initWithFrame:CGRectMake(0, (YWAlertScreenH-300), _pickerAlertViewWidth , 300)];
+        alert.backgroundColor = [UIColor whiteColor];
+        [self addSubview:alert];
+        _pickerAlertView = alert;
+        
+        [self onPrepareAlertViewOnFoot:title cancelButtonTitle:cancelButtonTitle otherButtonTitles:sureButtonTitles frame:currentView.frame];
+    }
+    
+
     [self initData];
     
     return self;
@@ -371,7 +382,63 @@ static const float butttionViewHeight = 40;
             
     }
 }
-//MARK: --- 开始搭建界面
+//MARK: --- 开始搭建界面（alertView在底部）
+- (void)onPrepareAlertViewOnFoot:(nullable NSString *)title
+               cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+               otherButtonTitles:(nullable NSString *)otherButtonTitles
+                           frame:(CGRect)frame{
+    
+    [_pickerAlertView addSubview:self.titleView];
+    [self.titleView addConstraint:NSLayoutAttributeTop equalTo:_pickerAlertView offset:0];
+    [self.titleView addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
+    [self.titleView addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
+    
+    _layOnTitleViewHeight = [self.titleView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:titleViewHeight];
+
+    [self.cancelBtn setTitle:cancelButtonTitle forState:UIControlStateNormal];
+    [self.titleView addSubview:_cancelBtn];
+    [_buttionList addObject:_cancelBtn];
+    
+    [self.sureBtn setTitle:otherButtonTitles forState:UIControlStateNormal];
+    [self.titleView addSubview:_sureBtn];
+    [_buttionList addObject:_sureBtn];
+    
+    [_cancelBtn addConstraint:NSLayoutAttributeTop equalTo:self.titleView offset:0];
+    [_cancelBtn addConstraint:NSLayoutAttributeBottom equalTo:self.titleView offset:0];
+    [_cancelBtn addConstraint:NSLayoutAttributeLeft equalTo:self.titleView offset:10];
+    [_cancelBtn addConstraint:NSLayoutAttributeWidth equalTo:nil toAttribute:NSLayoutAttributeWidth offset:60];
+    
+    [_sureBtn addConstraint:NSLayoutAttributeTop equalTo:self.titleView offset:0];
+    [_sureBtn addConstraint:NSLayoutAttributeBottom equalTo:self.titleView offset:0];
+    [_sureBtn addConstraint:NSLayoutAttributeRight equalTo:self.titleView toAttribute:NSLayoutAttributeRight offset:-10];
+    [_sureBtn addConstraint:NSLayoutAttributeWidth equalTo:nil toAttribute:NSLayoutAttributeWidth offset:60];
+    
+    
+    self.titleLabel.text = title;
+    [self.titleView addSubview:self.titleLabel];
+    [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:self.titleView offset:0];
+    [self.titleLabel addConstraint:NSLayoutAttributeBottom equalTo:self.titleView offset:0];
+    [self.titleLabel  addConstraint:NSLayoutAttributeLeft equalTo:_cancelBtn toAttribute:NSLayoutAttributeRight offset:10];
+    [self.titleLabel  addConstraint:NSLayoutAttributeRight equalTo:_sureBtn toAttribute:NSLayoutAttributeLeft offset:-10];
+    
+    
+    //添加pickerView
+    [_pickerAlertView addSubview:self.messageLabel];
+    [_messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
+    [_messageLabel addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
+    [_messageLabel addConstraint:NSLayoutAttributeTop equalTo:self.titleView toAttribute:NSLayoutAttributeBottom offset:0];
+    _layPickerViewHeight = [_messageLabel addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:_pickerHeight];
+    
+    [_messageLabel addSubview:self.datePicker];
+    
+    [_datePicker addConstraint:NSLayoutAttributeLeft equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeRight equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeBottom equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeTop equalTo:_messageLabel offset:0];
+    
+
+}
+//MARK: --- 开始搭建界面（alertView在中间）
 - (void)onPrepareTitle:(nullable NSString *)title
              footStyle:(YWAlertPublicFootStyle)footStyle
      cancelButtonTitle:(nullable NSString *)cancelButtonTitle
@@ -606,24 +673,29 @@ static const float butttionViewHeight = 40;
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
                        @(_hourIndex),@(_minuteIndex),@(_secondIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d:%02d",date.year,date.month,date.day,date.hour,date.minute,date.seconds];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonthDayHourMinute){
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex),
                        @(_hourIndex),@(_minuteIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d %02d:%02d",date.year,date.month,date.day,date.hour,date.minute];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonthDay){
         indexArray = @[@(_yearIndex),@(_monthIndex),@(_dayIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d-%02d",date.year,date.month,date.day];
     }else if (_datePickerStyle == YWAlertStyleShowYearMonth){
         indexArray = @[@(_yearIndex),@(_monthIndex)];
         self.messageLabel.text = _yearArray[_yearIndex];
+        _dateValue = [NSString stringWithFormat:@"%zi-%02d",date.year,date.month];
     }else if (_datePickerStyle == YWAlertStyleShowHourMinuteSecond){
         indexArray = @[@(_hourIndex),@(_minuteIndex),@(_secondIndex)];
+        _dateValue = [NSString stringWithFormat:@"%02d-%02d-%02d",date.hour,date.minute,date.seconds];
     }
     
     for (int i=0; i<indexArray.count; i++) {
-    [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
+        [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
+        NSLog(@"selectRow:%@",indexArray[i]);
     }
-    
 
 }
 
@@ -688,16 +760,23 @@ static const float butttionViewHeight = 40;
     
     [self.titleView layoutIfNeeded];
     [self.messageLabel layoutIfNeeded];
-    [self.buttionContainerView layoutIfNeeded];
-
-    CGFloat heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame) + CGRectGetHeight(self.buttionContainerView.frame);
-
-    [self.pickerAlertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
-    [self.pickerAlertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+    CGFloat heigth = 0;
+    if (_mode == 0) {
+        [self.buttionContainerView layoutIfNeeded];
+       heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame) + CGRectGetHeight(self.buttionContainerView.frame);
+        [self.pickerAlertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+        [self.pickerAlertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
+        [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
+    }else{
+        heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame);
+        [self.pickerAlertView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+        [self.pickerAlertView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
+        [self.pickerAlertView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+    }
     [self.pickerAlertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:heigth];
-    [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
     
 }
+
 //MARK: --- 显示
 - (void)show{
     
@@ -779,6 +858,9 @@ static const float butttionViewHeight = 40;
 //MARK: --- 参数设置
 - (void)selectedDateOnDatePicker:(NSString *)dateString{
     _defalutDateString = dateString;
+    if (dateString) {
+        _dateValue = [NSString stringWithFormat:@"%@",dateString];
+    }
 }
 /**
  隐藏bodyview上下的两个分隔线
@@ -984,7 +1066,7 @@ static const float butttionViewHeight = 40;
     }
 
 }
-//MARK: --- 懒加载
+#pragma mark - getter / setter
 
 - (UIView *)maskView{
     if (!_maskView) {
@@ -1049,7 +1131,6 @@ static const float butttionViewHeight = 40;
     }
     return _sureBtn;
 }
-#pragma mark - getter / setter
 -(UIPickerView *)datePicker {
     if (!_datePicker) {
         _datePicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
