@@ -21,6 +21,8 @@
   
     > YWAlertViewStyleAlert
     > YWAlertViewStyleActionSheet
+    > YWAlertViewStyleDatePicker
+    > YWAlertViewStyleDatePicker2
     
     
   * 注意点：YWAlertView并不是view，可以比作是一个简单的工厂，通过它管理规格去生成不同的控件，因为这样后期将陆续加入其它的控件，日历，地址等
@@ -52,7 +54,14 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/9.png)
   >   4.  其他情况，请结合demo
   
-  
+  > #####  *  YWAlertViewStyleDatePicker 的模式
+  >   1.  年月日时分秒，位置显示在中间，按钮横排显示
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/10.png)
+  >   2.  年月日时分，位置显示在中间，按钮竖排显示
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/11.png)
+  >   3.  年月日，位置显示在底部
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/13.png)
+  >   4.  其他情况，请结合demo
   
   
  ### 使用
