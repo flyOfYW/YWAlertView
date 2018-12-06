@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YWAlertViewProtocol.h"
 
-@interface YWAlert : UIView <YWAlertViewProtocol>
+@interface YWAlert : UIView <YWAlertAlertViewProtocol>
 
 @property (nonatomic, weak) _Nullable id delegate;
 

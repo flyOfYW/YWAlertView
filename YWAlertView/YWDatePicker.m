@@ -12,8 +12,6 @@
 #import "YWAlertViewHelper.h"
 #import "NSDate+YW.h"
 
-static const float titleViewHeight = 40;
-static const float butttionViewHeight = 40;
 
 #define YWMAXYEAR 2099
 #define YWMINYEAR 1927
@@ -26,6 +24,9 @@ static const float butttionViewHeight = 40;
     NSLayoutConstraint *_layOnButtionViewHeight;//方便后期扩展自定义高度
     NSLayoutConstraint *_layPickerViewHeight;//方便后期扩展自定义高度
 
+    NSLayoutConstraint *_layAlertPickerViewHeight;//方便后期扩展自定义高度
+
+    
     NSMutableArray *_buttionList;
     YWAlertPublicBodyStyle _datePickerStyle;
 
@@ -51,6 +52,10 @@ static const float butttionViewHeight = 40;
     CGFloat _pickerHeight;
     CGFloat _pickerAlertViewWidth;
     NSInteger _mode;
+    /** 0-默认，1-要重新更新约束，2-约束已经生效了 */
+    NSInteger _setFrame;
+    
+    UIColor *_maskViewOriginColor;
 }
 //sheet的容器
 @property (nonatomic, strong) UIView *pickerAlertView;
@@ -457,6 +462,23 @@ static const float butttionViewHeight = 40;
         _layOnTitleViewHeight = [self.titleView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:0];
     }
     
+    
+    
+    //添加pickerView
+    [_pickerAlertView addSubview:self.messageLabel];
+    [_messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
+    [_messageLabel addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
+    [_messageLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView toAttribute:NSLayoutAttributeBottom offset:0];
+    
+    _layPickerViewHeight = [_messageLabel addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:_pickerHeight];
+    [_messageLabel addSubview:self.datePicker];
+    
+    [_datePicker addConstraint:NSLayoutAttributeLeft equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeRight equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeBottom equalTo:_messageLabel offset:0];
+    [_datePicker addConstraint:NSLayoutAttributeTop equalTo:_messageLabel offset:0];
+
+    
     //按钮部分（footView）
     UIView *buttV = [UIView new];
     [_pickerAlertView addSubview:buttV];
@@ -464,8 +486,9 @@ static const float butttionViewHeight = 40;
     
     [_buttionContainerView addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
     [_buttionContainerView addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
-    [_buttionContainerView addConstraint:NSLayoutAttributeBottom equalTo:_pickerAlertView offset:0];
-    
+//    [_buttionContainerView addConstraint:NSLayoutAttributeBottom equalTo:_pickerAlertView offset:0];
+    [_buttionContainerView addConstraint:NSLayoutAttributeTop equalTo:_messageLabel toAttribute:NSLayoutAttributeBottom offset:0];
+
     
     if (cancelButtonTitle && cancelButtonTitle.length > 0) {
         [_buttionContainerView addSubview:self.cancelBtn];
@@ -494,20 +517,6 @@ static const float butttionViewHeight = 40;
         }
         
     }
-    
-    //添加pickerView
-    [_pickerAlertView addSubview:self.messageLabel];
-    [_messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_pickerAlertView offset:0];
-    [_messageLabel addConstraint:NSLayoutAttributeRight equalTo:_pickerAlertView offset:0];
-    [_messageLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView toAttribute:NSLayoutAttributeBottom offset:0];
-    _layPickerViewHeight = [_messageLabel addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:_pickerHeight];
-
-    [_messageLabel addSubview:self.datePicker];
-    
-    [_datePicker addConstraint:NSLayoutAttributeLeft equalTo:_messageLabel offset:0];
-    [_datePicker addConstraint:NSLayoutAttributeRight equalTo:_messageLabel offset:0];
-    [_datePicker addConstraint:NSLayoutAttributeBottom equalTo:_messageLabel offset:0];
-    [_datePicker addConstraint:NSLayoutAttributeTop equalTo:_messageLabel offset:0];
 
 
 }
@@ -745,9 +754,6 @@ static const float butttionViewHeight = 40;
 
 -(void)buttionClick:(UIButton *)btn{
     [self hiddenAlertView];
-    if (_isModal) {
-        [[YWAlertViewHelper currentViewController] dismissViewControllerAnimated:YES completion:nil];
-    }
     if (_handler) {
         _handler(btn.tag,_dateValue);
     }
@@ -762,11 +768,17 @@ static const float butttionViewHeight = 40;
     CGFloat heigth = 0;
     if (_mode == 0) {
         [self.buttionContainerView layoutIfNeeded];
-       heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame) + CGRectGetHeight(self.buttionContainerView.frame);
-        [self.pickerAlertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
-        [self.pickerAlertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
-        [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
-        [self.pickerAlertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:heigth];
+        heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame) + CGRectGetHeight(self.buttionContainerView.frame);
+        if (_layAlertPickerViewHeight) {
+            _layAlertPickerViewHeight.constant = heigth;
+            [self.pickerAlertView setNeedsUpdateConstraints];
+        }else{
+            [self.pickerAlertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+            [self.pickerAlertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
+            [self.pickerAlertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_pickerAlertViewWidth];
+            _layAlertPickerViewHeight = [self.pickerAlertView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:heigth];
+
+        }
     }else{
         heigth = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageLabel.frame);
         CGRect rect = self.pickerAlertView.frame;
@@ -778,12 +790,13 @@ static const float butttionViewHeight = 40;
             self.pickerAlertView.frame = rect1;
         }];
     }
-
+    _setFrame = 2;
 }
 
 //MARK: --- 显示
 - (void)show{
     
+    _isModal = NO;
     UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
     [keyWindows addSubview:self];
     
@@ -792,7 +805,19 @@ static const float butttionViewHeight = 40;
     [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
     
-    [self layoutIfNeeded];
+    if (_setFrame == 0) {
+        [self layoutIfNeeded];
+    }else if (_setFrame == 1){//重新更新约束了
+        
+    }else if (_setFrame == 2){
+        if (_mode == 1) {
+            [UIView animateWithDuration:0.62 animations:^{
+                CGRect rect1 = self.pickerAlertView.frame;
+                rect1.origin.y = YWAlertScreenH - rect1.size.height;
+                self.pickerAlertView.frame = rect1;
+            }];
+        }
+    }
     
     _datePicker.delegate = self;
     _datePicker.dataSource = self;
@@ -823,6 +848,7 @@ static const float butttionViewHeight = 40;
 }
 - (void)showOnViewController{
     
+    _maskViewOriginColor = self.maskView.backgroundColor;
     self.maskView.backgroundColor = [UIColor clearColor];
     switch (_datePickerStyle) {
         case YWAlertStyleShowYearMonthDayHourMinuteSecond:
@@ -849,21 +875,56 @@ static const float butttionViewHeight = 40;
     conVC.alertView = self;
     conVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     conVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:YES completion:nil];
-    
+    [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:NO completion:^{
+        if (self-> _mode == 1) {
+            [UIView animateWithDuration:0.6 animations:^{
+                CGRect rect1 = self.pickerAlertView.frame;
+                rect1.origin.y = YWAlertScreenH - rect1.size.height;
+                self.pickerAlertView.frame = rect1;
+            }];
+        }
+    }];
 }
 
 /**
  隐藏
  */
 - (void)hiddenAlertView{
-    [self removeFromSuperview];
+    
+    if (_mode == 1) {
+        [UIView animateWithDuration:0.62 animations:^{
+            CGRect rect1 = self.pickerAlertView.frame;
+            rect1.origin.y = YWAlertScreenH;
+            self.pickerAlertView.frame = rect1;
+        } completion:^(BOOL finished) {
+            if (self -> _isModal) {
+                [[YWAlertViewHelper currentViewController] dismissViewControllerAnimated:YES completion:^{
+                    self.maskView.backgroundColor = self -> _maskViewOriginColor;
+                }];
+            }else{
+                [self removeFromSuperview];
+            }
+        }];
+    }else{
+        if (self -> _isModal) {
+            [[YWAlertViewHelper currentViewController] dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self removeFromSuperview];
+        }
+    }
 }
-//MARK: --- 参数设置
-- (void)selectedDateOnDatePicker:(NSString *)dateString{
+//MARK: --------------------- 参数设置 ---------------
+- (void)selectedDateOnDatePickerView:(NSString *)dateString{
     _defalutDateString = dateString;
     if (dateString) {
         _dateValue = [NSString stringWithFormat:@"%@",dateString];
+    }
+}
+- (void)setPickerHeightOnDatePickerView:(CGFloat)height{
+    if (height >= 120) {
+        _layPickerViewHeight.constant = height;
+        [self setNeedsLayout];
+        _setFrame = 1;
     }
 }
 /**
@@ -876,13 +937,6 @@ static const float butttionViewHeight = 40;
  隐藏所有的分隔线
  */
 - (void)hiddenAllLineView{
-    
-}
-
-/**
- 是否显示关闭的按妞
- */
-- (void)showCloseOnTitleView{
     
 }
 
@@ -986,18 +1040,12 @@ static const float butttionViewHeight = 40;
  @param size 大小
  */
 - (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size{
-    
+    if (name) {
+        self.messageLabel.font = [UIFont fontWithName:name size:size];
+    }else{
+        self.messageLabel.font = [UIFont systemFontOfSize:size];
+    }
 }
-/**
- 自定义bodyview
- 
- @param bodyView 需要定义的view
- @param height 该view的高度
- */
-- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
-    
-}
-
 /**
  alert背景图
  
@@ -1147,6 +1195,7 @@ static const float butttionViewHeight = 40;
 - (void)layoutSubviews{
     [super layoutSubviews];
     [self setSheetFrame];
+    NSLog(@"%s",__func__);
 }
 
 #pragma mark - 改变分割线的颜色
@@ -1162,6 +1211,5 @@ static const float butttionViewHeight = 40;
 }
 - (void)dealloc{
     NSLog(@"%s",__func__);
- 
 }
 @end

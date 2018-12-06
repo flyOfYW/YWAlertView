@@ -28,6 +28,8 @@
 #define DefaultTranslucenceColor [UIColor colorWithRed:255 / 255.0f green:255 / 255.0 blue:255 / 255.0 alpha:0.98]
 #define DefaultLineTranslucenceColor [UIColor colorWithRed:219 / 255.0f green:219 / 255.0 blue:219 / 255.0 alpha:0.7]
 
+static const float titleViewHeight = 40;
+static const float butttionViewHeight = 40;
 
 
 #import <UIKit/UIKit.h>

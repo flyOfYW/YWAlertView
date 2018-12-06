@@ -15,6 +15,7 @@ static const float titleHeight = 40;
 #import "UIView+Autolayout.h"
 #import "YWContainerViewController.h"
 #import "YWAlertViewHelper.h"
+#import "UIImage+YW.h"
 
 @interface YWAlert ()
 {
@@ -27,6 +28,12 @@ static const float titleHeight = 40;
     UIImageView *_backgroundAlterView;
     BOOL _isModal;
     UIColor *_backgroundColor;
+    
+    /** 0-默认，1-要重新更新约束，2-约束已经生效了 */
+    NSInteger _setFrame;
+    
+    NSLayoutConstraint *_layAlertHeight;//方便后期扩展自定义高度
+
 }
 //alter的容器
 @property (nonatomic, strong) UIView *alertView;
@@ -113,17 +120,25 @@ static const float titleHeight = 40;
     [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
-    
-    [self layoutIfNeeded];
-    
+    _isModal = NO;
+    if (_setFrame == 0) {
+        [self layoutIfNeeded];
+    }else if (_setFrame == 1){
+        
+    }else if (_setFrame ==2){
+        
+    }
     __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.25 animations:^{
         weakSelf.maskView.backgroundColor = [UIColor colorWithRed:10 / 255.0 green:10 / 255.0 blue:10 / 255.0 alpha:0.4];
         weakSelf.maskView.alpha = 1;
+        weakSelf.alertView.alpha = 1;
     }];
     
 }
 - (void)showOnViewController{
+    self.maskView.alpha = 1;
+    self.alertView.alpha = 1;
     _isModal = YES;
     YWContainerViewController *conVC = [YWContainerViewController new];
     conVC.alertView = self;
@@ -132,8 +147,17 @@ static const float titleHeight = 40;
     [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:YES completion:nil];
     
 }
-
-//MARK: --- buttion_Action
+- (void)hiddenAlertView{
+    __weak typeof(self)weakSelf = self;
+    
+    [UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.8 options:0 animations:^{
+        weakSelf.maskView.alpha = 0.0f;
+        weakSelf.alertView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [weakSelf removeFromSuperview];
+    }];
+}
+//MARK: ------- ------------- buttion_Action ---------------------
 - (void)buttionClick:(UIButton *)btn{
     [self hiddenAlertView];
     if (_isModal) {
@@ -147,17 +171,9 @@ static const float titleHeight = 40;
         [_delegate didClickAlertView:btn.tag - 100 value:btn.titleLabel.text];
     }
 }
-- (void)hiddenAlertView{
-    __weak typeof(self)weakSelf = self;
 
-    [UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.8 options:0 animations:^{
-        weakSelf.maskView.alpha = 0.0f;
-        weakSelf.alertView.alpha = 0.0f;
-    } completion:^(BOOL finished) {
-        [weakSelf removeFromSuperview];
-    }];
-}
-//MAKR: --- 准备布局
+//MARK: --------------------- private method ------------------------
+//准备布局
 - (void)onPrepareTitle:(nullable NSString *)title
                  message:(nullable NSString *)message
        cancelButtonTitle:(nullable NSString *)cancelButtonTitle
@@ -248,6 +264,7 @@ static const float titleHeight = 40;
         
   }  else {//其他情况均做默认情况处理
       if (message && message.length > 0) {
+          
           UIView *lineBoad = ({
               lineBoad = [UIView new];
               lineBoad.backgroundColor = DefaultLineTranslucenceColor;
@@ -321,12 +338,18 @@ static const float titleHeight = 40;
 
     //更新alert内部布局约束
     CGFloat alertHeight = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageContainerView.frame) + CGRectGetHeight(self.btnContainerView.frame);
-    
-    [self.alertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
-    [self.alertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
-     [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
-    [self.alertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
-    
+
+    if (_layAlertHeight) {
+        _layAlertHeight.constant = alertHeight;
+        [self.alertView setNeedsUpdateConstraints];
+    }else{
+        [self.alertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
+        [self.alertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+        //    [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
+        [self.alertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
+        _layAlertHeight = [self.alertView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:alertHeight];
+    }
+    _setFrame = 2;
 }
 
 - (void)getDefalutBody:(UIView *)bodyView
@@ -409,7 +432,6 @@ static const float titleHeight = 40;
             }
             [cancelBtn setTitle:cancelButtonTitle forState:UIControlStateNormal];
             [_btnContainerView addSubview:cancelBtn];
-            
         }
         [_btnContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:origin];
     }else{
@@ -539,7 +561,7 @@ static const float titleHeight = 40;
         i ++;
     }
 }
-//MARK: --- 配置信息
+//MARK: ------------------------ 配置信息 -------------------------------
 - (void)setAlertViewBackgroundColor:(UIColor *)color{
     _backgroundColor = color;
     self.alertView.backgroundColor = _backgroundColor;
@@ -548,6 +570,13 @@ static const float titleHeight = 40;
     self.btnContainerView.backgroundColor = _backgroundColor;
 }
 - (void)showCloseOnTitleView{
+    if([UIScreen mainScreen].scale == 2.0) {
+        [self.closeBtn setImage:[UIImage getImageOnBundle:@"yw_alter_close@2x" ofType:@"png" forClass:[self class]] forState:UIControlStateNormal];
+    }else if ([UIScreen mainScreen].scale == 3.0){
+        [self.closeBtn setImage:[UIImage getImageOnBundle:@"yw_alter_close@3x" ofType:@"png" forClass:[self class]] forState:UIControlStateNormal];
+    }else{
+        [self.closeBtn setImage:[UIImage getImageOnBundle:@"yw_alter_close@2x" ofType:@"png" forClass:[self class]] forState:UIControlStateNormal];
+    }
     self.closeBtn.hidden = NO;
 }
 - (void)hiddenAllLineView{
@@ -603,19 +632,6 @@ static const float titleHeight = 40;
         self.messageLabel.font = [UIFont systemFontOfSize:size];
     }
 }
-- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
-    
-    [self.messageContainerView addSubview:bodyView];
-    
-    [bodyView addConstraint:NSLayoutAttributeTop equalTo:self.messageContainerView offset:0];
-
-    [bodyView addConstraint:NSLayoutAttributeLeft equalTo:self.messageContainerView offset:5];
-    [bodyView addConstraint:NSLayoutAttributeRight equalTo:self.messageContainerView offset:-5];
-    [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:height];
-    
-    [self.messageContainerView addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:1];
-
-}
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
     _backgroundAlterView.hidden = NO;
     _backgroundAlterView.image = image;
@@ -626,10 +642,6 @@ static const float titleHeight = 40;
     self.btnContainerView.backgroundColor = newColor;
     
 }
-- (void)selectedDateOnDatePicker:(NSString *)dateString{
-    NSLog(@"***********暂时不支持");
-
-}
 /**
  设置蒙版的背景图
  
@@ -639,8 +651,36 @@ static const float titleHeight = 40;
     self.gaussianBlurOnMaskView.hidden = NO;
     self.gaussianBlurOnMaskView.image = image;
 }
-
-//MAKR: --- 统一参数配置/主题
+//MARK:  ------------  专属协议方法（协议的私有方法）-----------------
+- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
+    [self.messageContainerView addSubview:bodyView];
+    [bodyView addConstraint:NSLayoutAttributeTop equalTo:self.messageContainerView offset:0];
+    [bodyView addConstraint:NSLayoutAttributeLeft equalTo:self.messageContainerView offset:5];
+    [bodyView addConstraint:NSLayoutAttributeRight equalTo:self.messageContainerView offset:-5];
+    [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:height];
+    [self.messageContainerView addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:1];
+}
+/**
+ 修改tiele（因为考虑到title,一般文字不是很多，所以高度不会变化，默认40）
+ 
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title{
+    self.titleLabel.text = title;
+}
+/**
+ 修改message信息，高度也会跟着适配
+ 
+ @param message 信息
+ */
+- (void)resetAlertMessage:(NSString *)message{
+    if (_bodyStyle != YWAlertPublicBodyStyleCustom) {
+        self.messageLabel.text = message;
+        _setFrame = 1;
+        [self setNeedsLayout];
+    }
+}
+//MARK:  --------------- 统一参数配置/主题 ---------------------
 - (void)setTheme:(id<YWAlertViewThemeProtocol>)theme{
     
     if ([theme respondsToSelector:@selector(alertBackgroundView)]) {
@@ -691,7 +731,7 @@ static const float titleHeight = 40;
 
 }
 
-//MARK: --- getter & setter
+//MARK: ----------------------- getter & setter --------------------
 - (UIButton *)cancelBtn{
     if (!_cancelBtn) {
         _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -750,7 +790,7 @@ static const float titleHeight = 40;
 - (UIButton *)closeBtn{
     if (!_closeBtn) {
         _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_closeBtn setImage:[UIImage imageNamed:@"yw_alter_close"] forState:UIControlStateNormal];
+//        [_closeBtn setImage:[UIImage imageNamed:@"yw_alter_close"] forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(hiddenAlertView) forControlEvents:UIControlEventTouchUpInside];
         _closeBtn.hidden = YES;
     }
@@ -765,6 +805,7 @@ static const float titleHeight = 40;
 - (void)layoutSubviews{
     [super layoutSubviews];
     [self setAlertViewFrame];
+    NSLog(@"%s",__func__);
 }
 
 - (void)dealloc{

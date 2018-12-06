@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class YWResultModel;
+
 typedef enum : NSUInteger {
     YWAlertPublicFootStyleDefalut,//横排
     YWAlertPublicFootStyleVertical,//竖排
@@ -27,7 +29,11 @@ typedef enum : NSUInteger {
     YWAlertStyleShowYearMonthDay,//年月日
     YWAlertStyleShowYearMonth,//年月
     YWAlertStyleShowHourMinuteSecond,//时分秒
-
+    
+    //YWAddressPicker专用
+    YWAlertAddressPickerShowProvince, // 只显示省
+    YWAlertAddressPickerShowCity,// 显示省市
+    YWAlertAddressPickerShowArea,// 显示省市区（默认）
 
 } YWAlertPublicBodyStyle;
 
@@ -91,12 +97,9 @@ typedef enum : NSUInteger {
  */
 - (CGFloat )alertMessageFont;
 
-
-
 @end
 
-
-
+//MARK: --------- YWAlertViewProtocol(基本接口协议)
 @protocol YWAlertViewProtocol <NSObject>
 @required
 /**
@@ -110,13 +113,6 @@ typedef enum : NSUInteger {
 //config配置信息
 @optional
 /**
- 设置默认选中的时间，该方法针对日期选择模式有效
-
- @param dateString 默认选中的时间
- */
-- (void)selectedDateOnDatePicker:(NSString *)dateString;
-
-/**
  显示在viewController上
  */
 - (void)showOnViewController;
@@ -128,11 +124,6 @@ typedef enum : NSUInteger {
  隐藏所有的分隔线
  */
 - (void)hiddenAllLineView;
-
-/**
- 是否显示关闭的按妞
- */
-- (void)showCloseOnTitleView;
 
 /**
  设置整个弹框的背景颜色
@@ -194,14 +185,6 @@ typedef enum : NSUInteger {
  */
 - (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size;
 /**
- 自定义bodyview
-
- @param bodyView 需要定义的view
- @param height 该view的高度
- */
-- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height;
-
-/**
  alert背景图(目前对YWAlert有效)
 
  @param image image
@@ -214,8 +197,6 @@ typedef enum : NSUInteger {
  @param image 蒙版的背景图（可使用高斯的image）
  */
 - (void)setGaussianBlurImage:(UIImage *)image;
-
-
 /**
  统一配置信息
 
@@ -223,6 +204,74 @@ typedef enum : NSUInteger {
  */
 - (void)setTheme:(id<YWAlertViewThemeProtocol>)theme;
 @end
+
+
+
+//MARK: ------------------ addressPicker 私有的方法 ------------------
+@protocol YWAlertAddressPickerViewProtocol <YWAlertViewProtocol>
+/**
+ 设置
+
+ @param defalutModel 默认的省市区（具体使用，参考demo）
+ */
+- (void)setDefalutOnAddressPickerView:(YWResultModel *)defalutModel;
+/**
+ 设置picker的高度
+
+ @param height 高度
+ */
+- (void)setPickerHeightOnAddressPickerView:(CGFloat)height;
+@end
+
+
+
+//MARK: ------------------- datePicker 私有的方法 ------------------
+@protocol YWAlertDatePickerViewProtocol <YWAlertViewProtocol>
+/**
+ 设置默认选中的时间，该方法针对日期选择模式有效
+ 
+ @param dateString 默认选中的时间
+ */
+- (void)selectedDateOnDatePickerView:(NSString *)dateString;
+/**
+ 设置picker的高度
+ 
+ @param height 高度
+ */
+- (void)setPickerHeightOnDatePickerView:(CGFloat)height;
+
+@end
+
+//MARK: ------------------ alert 私有的方法 ------------------
+@protocol YWAlertAlertViewProtocol <YWAlertViewProtocol>
+/**
+ 自定义bodyview
+ 
+ @param bodyView 需要定义的view
+ @param height 该view的高度
+ */
+- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height;
+/**
+ 是否显示关闭的按妞
+ */
+- (void)showCloseOnTitleView;
+/**
+ 修改tiele（因为考虑到title,一般文字不是很多，所以高度不会变化，默认40）
+
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title;
+/**
+ 修改message信息，高度也会跟着适配
+
+ @param message 信息
+ */
+- (void)resetAlertMessage:(NSString *)message;
+
+@end
+
+
+
 
 @protocol YWAlertViewDelegate <NSObject>
 

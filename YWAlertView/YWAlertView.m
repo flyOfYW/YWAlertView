@@ -10,6 +10,8 @@
 #import "YWAlert.h"
 #import "YWActionSheet.h"
 #import "YWDatePicker.h"
+#import "YWAddressPicker.h"
+
 @implementation YWAlertView
 
 +(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
@@ -30,6 +32,13 @@
             break;
         case YWAlertViewStyleDatePicker:
             @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
+            break;
+        case YWAlertViewStyleDatePicker2:
+            @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
+            break;
+
+        case YWAlertViewStyleAddressPicker:
+            alertView = [YWAlertView YWAddressTitle:title message:nil delegate:delegate bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:nil];
             break;
 
         default:
@@ -58,11 +67,30 @@
         case YWAlertViewStyleDatePicker:
             @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
             break;
+        case YWAlertViewStyleDatePicker2:
+            @throw [NSException exceptionWithName:@"调用提示" reason:@"请使用dataPicker快速调用方法" userInfo:nil];
+            break;
+        case YWAlertViewStyleAddressPicker:
+            alertView = [YWAlertView YWAddressTitle:title message:nil delegate:nil bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
+            break;
         default:
             break;
     }
     return alertView;
 }
+//MARK: --- YWAlertViewStyleAddressPicker
++ (nullable id<YWAlertViewProtocol>)YWAddressTitle:(nullable NSString *)title
+                                           message:(nullable NSString *)message
+                                          delegate:(nullable id<YWAlertViewDelegate>)delegate
+                                         bodyStyle:(YWAlertPublicBodyStyle)bodyStyle
+                                 cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                 otherButtonTitles:(nullable NSArray *)otherButtonTitles
+                                           handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
+    
+    return [[YWAddressPicker alloc] initWithTitle:title delegate:delegate bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle okButtonTitles:otherButtonTitles.firstObject handler:handler];
+}
+
+
 //MARK: --- YWAlertViewStyleActionSheet
 + (nullable id<YWAlertViewProtocol>)YWSheetTitle:(nullable NSString *)title
                                          message:(nullable NSString *)message
@@ -90,6 +118,9 @@
    return [[YWAlert alloc] initWithTitle:title message:message delegate:delegate footStyle:footStyle bodyStyle:bodyStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles handler:handler];
     
 }
+
+
+
 
 //MARK: --- 日期的快速调用方法
 + (nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title

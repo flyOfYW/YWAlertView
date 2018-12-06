@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "YWAlertViewProtocol.h"
+#import "YWAddressModel.h"
 
 typedef NS_ENUM(NSInteger, YWAlertViewStyle){
     YWAlertViewStyleAlert = 0,
     YWAlertViewStyleActionSheet = 1,
     YWAlertViewStyleDatePicker = 2,//datePicker默认在中间显示
     YWAlertViewStyleDatePicker2 = 3,//datePicke显示在底部
+    YWAlertViewStyleAddressPicker = 4,
+
 };
 
 @interface YWAlertView : NSObject

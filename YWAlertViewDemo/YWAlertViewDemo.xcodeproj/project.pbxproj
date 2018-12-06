@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA02F36521B76DB50025F1DE /* YWAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DA02F36421B76DB50025F1DE /* YWAlertView.bundle */; };
+		DA02F36821B76F6E0025F1DE /* YWAddressPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA02F36721B76F6E0025F1DE /* YWAddressPicker.m */; };
+		DA02F36B21B7A21E0025F1DE /* YWAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA02F36A21B7A21E0025F1DE /* YWAddressModel.m */; };
 		DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */; };
 		DA2C7AAF21379F9B00EABC75 /* YWAlertViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */; };
 		DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E321369E5200F7E29A /* UIImage+YW.m */; };
 		DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */; };
-		DAB7F2F221369E5200F7E29A /* yw_alter_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAB7F2E621369E5200F7E29A /* yw_alter_close@2x.png */; };
-		DAB7F2F321369E5200F7E29A /* yw_alter_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAB7F2E721369E5200F7E29A /* yw_alter_close@3x.png */; };
 		DAB7F2F421369E5200F7E29A /* YWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2E921369E5200F7E29A /* YWAlert.m */; };
 		DAB7F2F521369E5200F7E29A /* YWAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2EB21369E5200F7E29A /* YWAlertView.m */; };
 		DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB7F2EE21369E5200F7E29A /* YWContainerViewController.m */; };
@@ -48,6 +49,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA02F36421B76DB50025F1DE /* YWAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YWAlertView.bundle; sourceTree = "<group>"; };
+		DA02F36621B76F6E0025F1DE /* YWAddressPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAddressPicker.h; sourceTree = "<group>"; };
+		DA02F36721B76F6E0025F1DE /* YWAddressPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWAddressPicker.m; sourceTree = "<group>"; };
+		DA02F36921B7A21E0025F1DE /* YWAddressModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAddressModel.h; sourceTree = "<group>"; };
+		DA02F36A21B7A21E0025F1DE /* YWAddressModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWAddressModel.m; sourceTree = "<group>"; };
 		DA2C7AAA21379EDB00EABC75 /* YWActionSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWActionSheet.h; sourceTree = "<group>"; };
 		DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWActionSheet.m; sourceTree = "<group>"; };
 		DA2C7AAD21379F9B00EABC75 /* YWAlertViewHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAlertViewHelper.h; sourceTree = "<group>"; };
@@ -56,8 +62,6 @@
 		DAB7F2E321369E5200F7E29A /* UIImage+YW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YW.m"; sourceTree = "<group>"; };
 		DAB7F2E421369E5200F7E29A /* UIView+Autolayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Autolayout.h"; sourceTree = "<group>"; };
 		DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Autolayout.m"; sourceTree = "<group>"; };
-		DAB7F2E621369E5200F7E29A /* yw_alter_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yw_alter_close@2x.png"; sourceTree = "<group>"; };
-		DAB7F2E721369E5200F7E29A /* yw_alter_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yw_alter_close@3x.png"; sourceTree = "<group>"; };
 		DAB7F2E821369E5200F7E29A /* YWAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAlert.h; sourceTree = "<group>"; };
 		DAB7F2E921369E5200F7E29A /* YWAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAlert.m; sourceTree = "<group>"; };
 		DAB7F2EA21369E5200F7E29A /* YWAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAlertView.h; sourceTree = "<group>"; };
@@ -125,14 +129,14 @@
 				DAE96212214F5D1F00590F85 /* NSDate+YW.m */,
 				DAB7F2E421369E5200F7E29A /* UIView+Autolayout.h */,
 				DAB7F2E521369E5200F7E29A /* UIView+Autolayout.m */,
-				DAB7F2E621369E5200F7E29A /* yw_alter_close@2x.png */,
-				DAB7F2E721369E5200F7E29A /* yw_alter_close@3x.png */,
 				DAB7F2E821369E5200F7E29A /* YWAlert.h */,
 				DAB7F2E921369E5200F7E29A /* YWAlert.m */,
 				DA2C7AAA21379EDB00EABC75 /* YWActionSheet.h */,
 				DA2C7AAB21379EDB00EABC75 /* YWActionSheet.m */,
 				DACFBF5E2139466D0078E9F4 /* YWDatePicker.h */,
 				DACFBF5F2139466D0078E9F4 /* YWDatePicker.m */,
+				DA02F36621B76F6E0025F1DE /* YWAddressPicker.h */,
+				DA02F36721B76F6E0025F1DE /* YWAddressPicker.m */,
 				DAB7F2EA21369E5200F7E29A /* YWAlertView.h */,
 				DAB7F2EB21369E5200F7E29A /* YWAlertView.m */,
 				DAB7F2EC21369E5200F7E29A /* YWAlertViewProtocol.h */,
@@ -140,6 +144,9 @@
 				DAB7F2EE21369E5200F7E29A /* YWContainerViewController.m */,
 				DA2C7AAD21379F9B00EABC75 /* YWAlertViewHelper.h */,
 				DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */,
+				DA02F36921B7A21E0025F1DE /* YWAddressModel.h */,
+				DA02F36A21B7A21E0025F1DE /* YWAddressModel.m */,
+				DA02F36421B76DB50025F1DE /* YWAlertView.bundle */,
 			);
 			name = YWAlertView;
 			path = ../../YWAlertView;
@@ -266,7 +273,7 @@
 		DAD13EC82133DA4000106659 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = yaowei;
 				TargetAttributes = {
 					DAD13ECF2133DA4000106659 = {
@@ -312,9 +319,8 @@
 			files = (
 				DAD13EE02133DA4000106659 /* LaunchScreen.storyboard in Resources */,
 				DAD13EDD2133DA4000106659 /* Assets.xcassets in Resources */,
-				DAB7F2F321369E5200F7E29A /* yw_alter_close@3x.png in Resources */,
-				DAB7F2F221369E5200F7E29A /* yw_alter_close@2x.png in Resources */,
 				DAD13EDB2133DA4000106659 /* Main.storyboard in Resources */,
+				DA02F36521B76DB50025F1DE /* YWAlertView.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +347,7 @@
 			files = (
 				DAD13ED82133DA4000106659 /* ViewController.m in Sources */,
 				DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */,
+				DA02F36B21B7A21E0025F1DE /* YWAddressModel.m in Sources */,
 				DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */,
 				DACFBF602139466D0078E9F4 /* YWDatePicker.m in Sources */,
 				DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */,
@@ -352,6 +359,7 @@
 				DAB7F2F021369E5200F7E29A /* UIImage+YW.m in Sources */,
 				DAD13ED52133DA4000106659 /* AppDelegate.m in Sources */,
 				DAE0C284213650F70001A6AE /* YWTheme.m in Sources */,
+				DA02F36821B76F6E0025F1DE /* YWAddressPicker.m in Sources */,
 				DAB7F2F521369E5200F7E29A /* YWAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,6 +429,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -428,6 +437,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -476,6 +486,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -483,6 +494,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

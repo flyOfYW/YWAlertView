@@ -14,7 +14,17 @@
 @interface ViewController ()
 <YWAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray *list;
+//Alert懒加载演示
+@property (nonatomic,strong) id <YWAlertViewProtocol>ywAlert;
+//Address懒加载演示
+@property (nonatomic,strong) id <YWAlertViewProtocol>alert;
+//date懒加载演示
+@property (nonatomic,strong) id <YWAlertViewProtocol>dateAlert;
+
+
 @end
+
+int i = 0;
 
 @implementation ViewController
 
@@ -142,15 +152,51 @@
             default:
                 break;
         }
+    }else if (indexPath.section == 3){
+        switch (indexPath.row) {
+            case 0:
+                [self address_defalut];
+                break;
+            case 1:
+                [self address_defalut_lazing];
+                break;
+            case 2:
+                [self address_defalut_modityHeight];
+                break;
+            case 3:
+                [self address_setting_defalutValue];
+                break;
+            case 4:
+                [self address_mode1_defalutValue];
+                break;
+                
+                
+            default:
+                break;
+        }
     }
     
     
     
 }
+- (id<YWAlertViewProtocol>)ywAlert{
+    if (!_ywAlert) {
+        _ywAlert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    }
+    return _ywAlert;
+}
 
 - (void)alert_defalut{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
-    [alert show];
+    if (i == 0) {
+        [self.ywAlert show];
+    }else if (i == 1){
+        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"Do any additional setup after loading the view!Do any additional setup after loading the view!懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
+        [self.ywAlert showOnViewController];
+    }else{
+        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
+        [self.ywAlert show];
+    }
+    i ++;
 }
 - (void)alert_vertical{
     
@@ -165,7 +211,7 @@
         NSLog(@"block=当前点击--%zi",buttonIndex);
     }];
     [alert setMessageFontWithName:@"Bodoni Ornaments" size:15];
-    [alert showCloseOnTitleView];
+    [(id<YWAlertAlertViewProtocol>)alert showCloseOnTitleView];
     [alert show];
 }
 - (void)alert_defalut_body_custom{
@@ -178,7 +224,7 @@
     seg.selectedSegmentIndex = 0;
     seg.frame = CGRectMake(20, 20, 200, 30);
     [view addSubview:seg];
-    [alert setCustomBodyView:view height:80];
+    [(id<YWAlertAlertViewProtocol>)alert setCustomBodyView:view height:80];
     [alert show];
 }
 
@@ -274,19 +320,83 @@
     [alert showOnViewController];
 }
 - (void)date_defalut_foot{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker2  footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDayHourMinuteSecond cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
-        NSLog(@"选择日期 %@",value);
-    }];
-    [alert setTitleViewTitleColor:[UIColor redColor]];
-    [alert show];
+    //懒加载模式演示
+    [(id<YWAlertDatePickerViewProtocol>)self.dateAlert setPickerHeightOnDatePickerView:300];
+    [self.dateAlert show];
+
+    
 }
 - (void)date_defalut_yearMonthDay_foot{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker2  footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDay cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
-        NSLog(@"选择日期 %@",value);
+    //懒加载模式演示
+    [self.dateAlert show];
+    
+}
+
+- (id<YWAlertViewProtocol>)dateAlert{
+    if (!_dateAlert) {
+        _dateAlert = [YWAlertView alertViewWithTitle:@"请选择日期" preferredStyle:YWAlertViewStyleDatePicker2 footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertStyleShowYearMonthDay cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+            NSLog(@"选择日期 %@",value);
+        }];
+    }
+    return _dateAlert;
+}
+
+- (void)address_defalut{
+    
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowArea cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+
+    }];
+    
+    [alert show];
+}
+- (void)address_defalut_lazing{
+    //    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowArea cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+    //
+    //    }];
+    //支持懒加载
+    [self.alert show];
+}
+- (void)address_defalut_modityHeight{
+
+    id<YWAlertAddressPickerViewProtocol>newAlert = (id<YWAlertAddressPickerViewProtocol>)self.alert;
+
+    [newAlert setPickerHeightOnAddressPickerView:220];
+    //支持懒加载
+    [self.alert show];
+}
+
+- (void)address_setting_defalutValue{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowArea cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
+    }];
+#warning 强转协议的原因
+    ///<YWAlertAddressPickerViewProtocol>继承于<YWAlertViewProtocol>
+    ///强转，以便调用<YWAlertAddressPickerViewProtocol>的私有方法
+    id<YWAlertAddressPickerViewProtocol>newAlert = (id<YWAlertAddressPickerViewProtocol>)alert;
+    YWResultModel *reModel = [YWResultModel new];
+    YWProvinceModel *pModel = [YWProvinceModel new];
+    pModel.name = @"广东省";
+    reModel.province = pModel;
+    [newAlert setDefalutOnAddressPickerView:reModel];
+    [alert show];
+}
+- (void)address_mode1_defalutValue{
+    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowCity cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+        
     }];
     [alert show];
 }
 
+
+
+- (id<YWAlertViewProtocol>)alert{
+    if (!_alert) {
+        _alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowArea cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
+            
+        }];
+    }
+    return _alert;
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
@@ -328,7 +438,9 @@
     
     [self.list addObject:@{@"section":@"  sheet模式",@"msg":@[@"YWAlertViewStyleActionSheet模式下",@"YWAlertViewStyleActionSheet模式下没有头部情况下",@"YWAlertViewStyleActionSheet模式下没有message情况下",@"YWAlertViewStyleActionSheet模式下没有other情况下",@"YWAlertViewStyleActionSheet模式下没有cancel情况下"]}];
 
-    [self.list addObject:@{@"section":@"  date模式",@"msg":@[@"中心显示日期选择器年月日时分秒",@"中心显示日期选择器年月日时分",@"中心显示日期选择器年月日",@"中心显示日期选择器年月",@"中心显示日期选择器时分秒",@"中心显示日期选择器年月日时分秒在底部显示",@"中心显示日期选择器年月日在底部显示",]}];
+    [self.list addObject:@{@"section":@"  date模式",@"msg":@[@"中心显示日期选择器年月日时分秒",@"中心显示日期选择器年月日时分",@"中心显示日期选择器年月日",@"中心显示日期选择器年月",@"中心显示日期选择器时分秒",@"底部显示日期选择器年月日时分秒",@"底部显示日期选择器年月日",]}];
+
+    [self.list addObject:@{@"section":@"  address模式",@"msg":@[@"省市区显示",@"懒加载模式",@"修改懒加载alert的高度",@"强转协议，调用专属的方法",@"省市模式"]}];
 
     
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YWAlertViewProtocol.h"
 
-@interface YWDatePicker : UIView <YWAlertViewProtocol>
+@interface YWDatePicker : UIView <YWAlertDatePickerViewProtocol>
 @property (nonatomic, weak) _Nullable id delegate;
 
 - (instancetype _Nullable)initWithTitle:(nullable NSString *)title

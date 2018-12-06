@@ -96,4 +96,16 @@
     return returnImage;
     
 }
+
++ (UIImage *)getImageOnBundle:(NSString *)imageName
+                       ofType:(NSString *)type
+                     forClass:(Class)calss{
+    
+    NSBundle *bundle = [NSBundle bundleForClass:calss];
+    NSURL *url = [bundle URLForResource:@"YWAlertView" withExtension:@"bundle"];
+    NSBundle *plistBundle = [NSBundle bundleWithURL:url];
+    NSString *filePath = [plistBundle pathForResource:imageName ofType:type];
+    return [UIImage imageWithContentsOfFile:filePath];
+}
+ 
 @end

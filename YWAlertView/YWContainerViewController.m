@@ -27,7 +27,9 @@
     [self.alertView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:0];
     [self.alertView addConstraint:NSLayoutAttributeBottom equalTo:self.view offset:0];
 }
-
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+}
 - (void)dealloc{
     NSLog(@"%s",__func__);
 }

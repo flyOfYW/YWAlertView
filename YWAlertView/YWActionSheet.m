@@ -107,6 +107,7 @@ static const float btnHeight = 40;
     UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
     _boundsHeight = keyWindows.bounds.size.height;
     [keyWindows addSubview:self];
+    _isModal = NO;
     
     [self addConstraint:NSLayoutAttributeLeft equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeRight equalTo:keyWindows offset:0];
@@ -361,9 +362,7 @@ static const float btnHeight = 40;
     }
     [self hiddenBodyLineView];
 }
-- (void)showCloseOnTitleView{
-    NSLog(@"********sheetView没有关闭这个按钮功能*********\n");
-}
+
 - (void)setAlertViewBackgroundColor:(UIColor *)color{
     if (_upperView) {
         _upperView.backgroundColor = color;
@@ -412,16 +411,12 @@ static const float btnHeight = 40;
         }
     }
 }
-- (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
-    NSLog(@"***********暂时不支持自定义");
-}
+
 
 - (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
     NSLog(@"***********暂时不支持");
 }
-- (void)selectedDateOnDatePicker:(NSString *)dateString{
-    NSLog(@"***********暂时不支持");
-}
+
 /**
  设置蒙版的背景图
  

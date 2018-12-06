@@ -14,4 +14,7 @@
 /// @return 屏幕截图图像
 + (UIImage *)yw_screenShot;
 + (UIImage *)yw_blurImage:(UIImage *)image blur:(CGFloat)blur;
++ (UIImage *)getImageOnBundle:(NSString *)imageName
+                       ofType:(NSString *)type
+                     forClass:(Class)calss;
 @end
