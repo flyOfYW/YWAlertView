@@ -101,6 +101,10 @@ int i = 0;
             case 7:
                 [self alert_not_title];
                 break;
+            case 8:
+                [self alert_defalut_lazing];
+                break;
+                
             default:
                 break;
         }
@@ -185,14 +189,20 @@ int i = 0;
     }
     return _ywAlert;
 }
-
+- (void)alert_defalut_lazing{
+    [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
+    [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"使用第一行的对象alter"];
+    [self.ywAlert show];
+}
 - (void)alert_defalut{
     if (i == 0) {
         [self.ywAlert show];
     }else if (i == 1){
+        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"第一行的对象alter"];
         [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"Do any additional setup after loading the view!Do any additional setup after loading the view!懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
         [self.ywAlert showOnViewController];
     }else{
+        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"第一行的对象alter"];
         [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
         [self.ywAlert show];
     }
@@ -434,7 +444,7 @@ int i = 0;
 }
 - (void)initData{
     self.list = @[].mutableCopy;
-    [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上",@"YWAlertViewStyleAlert的YWAlertPublicFootStyleSegmentation字号及其大小",@"YWAlertViewStyleAlert的没有title"]}];
+    [self.list addObject:@{@"section":@"  alter模式",@"msg":@[@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleDefalut",@"YWAlertViewStyleAlert模式下的YWAlertPublicStyleVertical",@"YWAlertViewStyleAlert模式下的各个模式均可以显示CloseBtn",@"YWAlertViewStyleAlert模式下的YWAlertPublicBodyStyleCustom",@"YWAlertViewStyleAlert模式下的theme主题配置基本信息",@"YWAlertViewStyleAlert显示控制器上",@"YWAlertViewStyleAlert的YWAlertPublicFootStyleSegmentation字号及其大小",@"YWAlertViewStyleAlert的没有title",@"开始支持懒加载，同时支持修改title以及message，高度动态变化"]}];
     
     [self.list addObject:@{@"section":@"  sheet模式",@"msg":@[@"YWAlertViewStyleActionSheet模式下",@"YWAlertViewStyleActionSheet模式下没有头部情况下",@"YWAlertViewStyleActionSheet模式下没有message情况下",@"YWAlertViewStyleActionSheet模式下没有other情况下",@"YWAlertViewStyleActionSheet模式下没有cancel情况下"]}];
 
