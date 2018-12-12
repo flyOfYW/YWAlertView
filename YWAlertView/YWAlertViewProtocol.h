@@ -107,6 +107,12 @@ typedef enum : NSUInteger {
  */
 - (void)show;
 /**
+ 配合懒加载，即时即地show的时候，回调
+
+ @param handler 回调
+ */
+- (void)showWindowWithHandler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
+/**
  隐藏弹框
  */
 - (void)hiddenAlertView;

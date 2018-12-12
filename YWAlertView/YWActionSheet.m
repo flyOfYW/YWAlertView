@@ -131,6 +131,15 @@ static const float btnHeight = 40;
     
     NSLog(@"%s",__func__);
 }
+/**
+ 配合懒加载，即时即地show的时候，回调
+ 
+ @param handler 回调
+ */
+- (void)showWindowWithHandler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
+    _handler = handler;
+    [self show];
+}
 - (void)hiddenAlertView{
     
     __weak typeof(self)weakSelf = self;
