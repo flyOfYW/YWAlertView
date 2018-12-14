@@ -1,6 +1,7 @@
 # YWAlertView
 提示弹出框、选择弹出框、日期选择器、地址选择器、高效调用、高效扩展
-
+   * v1.3.0 YWAlertView中的YWAlertViewStyleActionSheet模式支持懒加载，支持动态修改title和message，高度自动变化
+   * v1.2.2 YWAlertView中的YWAlertViewStyleAlert模式支持懒加载，支持动态修改title和message，高度自动变化
 
 ### 兼容性
    * iPhone和iPad
