@@ -129,6 +129,22 @@
   
   ```
   
+   >    4.  懒加载
+  
+   ````
+   - (id<YWAlertViewProtocol>)ywAlert{
+    if (!_ywAlert) {
+        _ywAlert = [YWAlertView alertViewWithTitle:nil message:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    }
+    return _ywAlert;
+}
+  - (void)alert_defalut_lazing{
+  //强转协议，调用私有方法 message 和title均支持修改
+    [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
+    [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"使用第一行的对象alter"];
+    [self.ywAlert show];
+}
+   ```
   
   
   
