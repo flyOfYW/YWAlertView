@@ -72,6 +72,13 @@
   >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/13.png)
   >   4.  其他情况，请结合demo
   
+   > #####  *  YWAlertViewStyleAddressPicker 的模式
+  >   1.  省市区显示
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/14.png)
+  >   2.  省市显示
+  >       >   ![image](https://github.com/flyOfYW/YWAlertView/blob/master/image/15.png)
+  >   3.  其他情况，请结合demo
+  
   
  ### 使用
   
