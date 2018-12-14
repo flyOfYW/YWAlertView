@@ -1054,15 +1054,7 @@
         self.messageLabel.font = [UIFont systemFontOfSize:size];
     }
 }
-/**
- alert背景图
- 
- @param image image
- @param articulation 0~1(越小越清晰)
- */
-- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
 
-}
 /**
  设置蒙版的背景图
  
@@ -1071,6 +1063,14 @@
 - (void)setGaussianBlurImage:(UIImage *)image{
     self.gaussianBlurOnMaskView.hidden = NO;
     self.gaussianBlurOnMaskView.image = image;
+}
+/**
+ 修改tiele
+ 
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title{
+    self.titleLabel.text = title;
 }
 /**
  统一配置信息
@@ -1086,7 +1086,6 @@
             if ([theme respondsToSelector:@selector(alterBackgroundViewArticulation)]) {
                 alp = [theme alterBackgroundViewArticulation];
             }
-            [self setAlertBackgroundView:img articulation:alp];
         }
     }
     if ([theme respondsToSelector:@selector(alertTitleViewColor)]) {

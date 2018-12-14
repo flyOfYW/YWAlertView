@@ -103,5 +103,10 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                      sureButtonTitles:(nullable NSString *)sureButtonTitles;
 
+/**
+ 当前版本号
 
+ @return 版本号
+ */
++ (NSString *)version;
 @end

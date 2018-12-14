@@ -155,6 +155,8 @@
         return nil;
     }
     
-
+}
++ (NSString *)version{
+    return @"1.2.2";
 }
 @end

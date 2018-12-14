@@ -191,13 +191,6 @@ typedef enum : NSUInteger {
  */
 - (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size;
 /**
- alert背景图(目前对YWAlert有效)
-
- @param image image
- @param articulation 0~1(越小越清晰)
- */
-- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation;
-/**
  设置蒙版的背景图
 
  @param image 蒙版的背景图（可使用高斯的image）
@@ -209,6 +202,14 @@ typedef enum : NSUInteger {
  @param theme 主题
  */
 - (void)setTheme:(id<YWAlertViewThemeProtocol>)theme;
+
+
+/**
+ 修改tiele
+ 
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title;
 @end
 
 
@@ -248,8 +249,25 @@ typedef enum : NSUInteger {
 
 @end
 
+@protocol YWAlertActionSheetViewProtocol <YWAlertViewProtocol>
+/**
+ 修改message信息，高度也会跟着适配
+ 
+ @param message 信息
+ */
+- (void)resetAlertMessage:(NSString *)message;
+
+@end
+
 //MARK: ------------------ alert 私有的方法 ------------------
 @protocol YWAlertAlertViewProtocol <YWAlertViewProtocol>
+/**
+ alert背景图(目前对YWAlert有效)
+ 
+ @param image image
+ @param articulation 0~1(越小越清晰)
+ */
+- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation;
 /**
  自定义bodyview
  
@@ -261,12 +279,6 @@ typedef enum : NSUInteger {
  是否显示关闭的按妞
  */
 - (void)showCloseOnTitleView;
-/**
- 修改tiele（因为考虑到title,一般文字不是很多，所以高度不会变化，默认40）
-
- @param title 提示名称
- */
-- (void)resetAlertTitle:(NSString *)title;
 /**
  修改message信息，高度也会跟着适配
 

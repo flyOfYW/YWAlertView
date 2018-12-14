@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSMutableArray *list;
 //Alert懒加载演示
 @property (nonatomic,strong) id <YWAlertViewProtocol>ywAlert;
+//sheet懒加载演示
+@property (nonatomic,strong) id <YWAlertViewProtocol>sheetAlert;
 //Address懒加载演示
 @property (nonatomic,strong) id <YWAlertViewProtocol>alert;
 //date懒加载演示
@@ -185,7 +187,7 @@ int i = 0;
 }
 - (id<YWAlertViewProtocol>)ywAlert{
     if (!_ywAlert) {
-        _ywAlert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+        _ywAlert = [YWAlertView alertViewWithTitle:nil message:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
     }
     return _ywAlert;
 }
@@ -270,15 +272,28 @@ int i = 0;
     
     [alert show];
 }
+
+- (id<YWAlertViewProtocol>)sheetAlert{
+    if (!_sheetAlert) {//@"温馨提示"
+        _sheetAlert = [YWAlertView alertViewWithTitle:@"温馨提示" message:nil delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    }
+    return _sheetAlert;
+}
+
 - (void)sheet_defalut{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
-    [alert setMessageFontWithName:nil size:18];
-    [alert show];
+//    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"温馨提示" message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    [(id<YWAlertActionSheetViewProtocol>)self.sheetAlert resetAlertTitle:@"温馨提示"];
+    [(id<YWAlertActionSheetViewProtocol>)self.sheetAlert resetAlertMessage:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view"];
+    [self.sheetAlert show];
 }
 - (void)sheet_no_title{
-    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:nil message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
-    [alert setMessageFontWithName:@"BradleyHandITCTT-Bold" size:20];
-    [alert show];
+//    id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:nil message:@"Do any additional setup after loading the view,setup after loading the view,setup after loading the view" delegate:self preferredStyle:YWAlertViewStyleActionSheet footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+    
+    [self.sheetAlert setMessageFontWithName:@"BradleyHandITCTT-Bold" size:20];
+    [(id<YWAlertActionSheetViewProtocol>)self.sheetAlert resetAlertMessage:@"懒加载演示修改message,同时修改头部"];
+    [(id<YWAlertActionSheetViewProtocol>)self.sheetAlert resetAlertTitle:nil];
+
+    [self.sheetAlert show];
 }
 
 - (void)sheet_no_msg{

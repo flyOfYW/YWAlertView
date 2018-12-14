@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YWAlertView"
-  s.version      = "1.2.2"
+  s.version      = "1.3.0"
   s.summary      = "弹出框"
 
   # This description is used to generate tags and improve search results.

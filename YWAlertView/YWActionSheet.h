@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YWAlertViewProtocol.h"
 
-@interface YWActionSheet : UIView <YWAlertViewProtocol>
+@interface YWActionSheet : UIView <YWAlertActionSheetViewProtocol>
 
 @property (nonatomic, weak) _Nullable id delegate;
 
@@ -22,4 +22,8 @@
                        otherButtonTitles:(nullable NSArray <NSString *> *)otherButtonTitles
                                  handler:(nullable void(^)(NSInteger buttonIndex,
                                                            id _Nullable value))handler;
+@end
+
+@interface YWActionSheetButtion : UIView
+- (instancetype)initWithTitle:(NSString *)title;
 @end

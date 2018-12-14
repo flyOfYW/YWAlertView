@@ -7,8 +7,7 @@
 //
 
 
-static const float btnHeight = 40;
-static const float titleHeight = 40;
+static const float btnHeight = 45;
 
 
 #import "YWAlert.h"
@@ -33,6 +32,9 @@ static const float titleHeight = 40;
     NSInteger _setFrame;
     
     NSLayoutConstraint *_layAlertHeight;//方便后期扩展自定义高度
+
+    NSString *_msg;//记录第一次初始化message，用判断是否加\r\n
+    NSString *_title;//记录第一次初始化title，用判断是否加\r\n
 
 }
 //alter的容器
@@ -88,6 +90,8 @@ static const float titleHeight = 40;
     _footStyle = footStyle;
     _bodyStyle = bodyStyle;
     _delegate = delegate;
+    _msg = message;
+    _title = title;
     _backgroundColor = DefaultTranslucenceColor;
     if (IS_PAD) {
         _alterWidth = 300;
@@ -216,10 +220,11 @@ static const float titleHeight = 40;
         [titleView addSubview:self.titleLabel];
         self.titleLabel.text = title;
         
-        UILabel *titleLabel = self.titleLabel;
-        [titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:0];
-        [titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
-        [titleLabel addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
+        [self getDefalutTitle:titleView offset:15];
+
+//        [titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:0];
+//        [titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
+//        [titleLabel addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
         
         [titleView addSubview:self.closeBtn];
         [self.closeBtn addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
@@ -241,9 +246,33 @@ static const float titleHeight = 40;
         [lineTitle addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
         
         
-        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:titleHeight];
+//        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:titleHeight];
+        [titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:31];
+
     }else{
-        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+        
+        [titleView addSubview:self.titleLabel];
+        
+        [self getDefalutTitle:titleView offset:0];
+        
+        UIView *lineTitle = ({
+            lineTitle = [UIView new];
+            lineTitle.backgroundColor = DefaultLineTranslucenceColor;
+            [titleView addSubview:lineTitle];
+            lineTitle;
+        });
+        [_bodyLineList addObject:lineTitle];
+
+        [lineTitle addConstraint:NSLayoutAttributeLeft equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeRight equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeBottom equalTo:titleView offset:0];
+        [lineTitle addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
+        
+        
+        [titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:1];
+
+        
+//        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
     
 
@@ -290,18 +319,23 @@ static const float titleHeight = 40;
           
           if (!title || title.length <= 0) {
 
-              [self getDefalutBody:bodyView text:message value:22];
+              [self getDefalutBody:bodyView text:message value:18];
 
-              [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:44 + 1];
+              [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:36 + 1];
               
           }else{
               [self getDefalutBody:bodyView text:message value:10];
-
+              //20 = message.top+ message.bottom
               [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:20 + 1];
           }
           
       }else{
-          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+          //测试代码
+          [self getDefalutBody:bodyView text:message value:0];
+          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:0];
+
+          //原来
+//          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
       }
   }
     
@@ -361,8 +395,16 @@ static const float titleHeight = 40;
     _setFrame = 2;
 }
 
+- (void)getDefalutTitle:(UIView *)titleView offset:(CGFloat)offset{
+    
+    [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeTop offset:offset];
+    [self.titleLabel addConstraint:NSLayoutAttributeLeft equalTo:titleView offset:10];
+    [self.titleLabel addConstraint:NSLayoutAttributeRight equalTo:titleView offset:-10];
+    
+}
 - (void)getDefalutBody:(UIView *)bodyView
-                  text:(NSString *)text value:(CGFloat)value{
+                  text:(NSString *)text
+                  value:(CGFloat)value{
     self.messageLabel.text = text;
     [bodyView addSubview:self.messageLabel];
 
@@ -660,6 +702,21 @@ static const float titleHeight = 40;
     self.gaussianBlurOnMaskView.hidden = NO;
     self.gaussianBlurOnMaskView.image = image;
 }
+/**
+ 修改tiele（因为考虑到title,一般文字不是很多，所以高度不会变化，默认40）
+ 
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title{
+    if (!_title) {//测试代码
+        NSString *msg = [NSString stringWithFormat:@"\r\n%@\r\n",title];
+        self.titleLabel.text = msg;
+    }else{
+        self.titleLabel.text = title;
+    }
+    _setFrame = 1;
+    [self setNeedsLayout];
+}
 //MARK:  ------------  专属协议方法（协议的私有方法）-----------------
 - (void)setCustomBodyView:(UIView *)bodyView height:(CGFloat)height{
     [self.messageContainerView addSubview:bodyView];
@@ -670,21 +727,18 @@ static const float titleHeight = 40;
     [self.messageContainerView addConstraint:NSLayoutAttributeBottom equalTo:bodyView offset:1];
 }
 /**
- 修改tiele（因为考虑到title,一般文字不是很多，所以高度不会变化，默认40）
- 
- @param title 提示名称
- */
-- (void)resetAlertTitle:(NSString *)title{
-    self.titleLabel.text = title;
-}
-/**
  修改message信息，高度也会跟着适配
  
  @param message 信息
  */
 - (void)resetAlertMessage:(NSString *)message{
     if (_bodyStyle != YWAlertPublicBodyStyleCustom) {
-        self.messageLabel.text = message;
+        if (!_msg) {//测试代码
+            NSString *msg = [NSString stringWithFormat:@"\r\n%@\r\n",message];
+            self.messageLabel.text = msg;
+        }else{
+            self.messageLabel.text = message;
+        }
         _setFrame = 1;
         [self setNeedsLayout];
     }
@@ -783,6 +837,7 @@ static const float titleHeight = 40;
         _titleLabel = [UILabel new];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.font = [UIFont systemFontOfSize:16];
+        _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;
 }
@@ -792,7 +847,7 @@ static const float titleHeight = 40;
         [_messageLabel setLineBreakMode:NSLineBreakByWordWrapping];
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         _messageLabel.numberOfLines = 0;
-        _messageLabel.font = [UIFont systemFontOfSize:14];
+        _messageLabel.font = [UIFont systemFontOfSize:15];
     }
     return _messageLabel;
 }

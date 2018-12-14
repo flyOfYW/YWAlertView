@@ -515,15 +515,6 @@
     [self setNeedsLayout];
 }
 /**
- alert背景图(目前对YWAlert有效)
- 
- @param image image
- @param articulation 0~1(越小越清晰)
- */
-- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
-    NSLog(@"地址选择器目前不支持alert背景图");
-}
-/**
  设置蒙版的背景图
  
  @param image 蒙版的背景图（可使用高斯的image）

@@ -10,7 +10,7 @@
 #import "YWAlertViewHelper.h"
 #import "UIView+Autolayout.h"
 
-static const float btnHeight = 40;
+static const float btnHeight = 45;
 
 
 
@@ -27,8 +27,8 @@ static const float btnHeight = 40;
     UIColor *_backgroundColor;
     UIView *_upperView;//上部分
     CGFloat _bottomValue;//距离底部的值
-    
     CGFloat _boundsHeight;
+    NSInteger _isNeedLayout;//0-默认，没有开始布局，1-已经布局过，由于设置message，需要重新刷新布局，2-布局已完成
 }
 //sheet的容器
 @property (nonatomic, strong) UIView *sheetView;
@@ -101,7 +101,7 @@ static const float btnHeight = 40;
     
     return self;
 }
-
+//MARK: ---------------------- show&hdien ----------------------------
 - (void)show{
     
     UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
@@ -114,8 +114,11 @@ static const float btnHeight = 40;
     [self addConstraint:NSLayoutAttributeTop equalTo:keyWindows offset:0];
     [self addConstraint:NSLayoutAttributeBottom equalTo:keyWindows offset:0];
     
-    [self layoutIfNeeded];
-    
+    if (_isNeedLayout == 0) {
+        [self layoutIfNeeded];
+    }else if(_isNeedLayout == 1){
+        [self layoutIfNeeded];
+    }
     __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.7 animations:^{
         
@@ -129,7 +132,9 @@ static const float btnHeight = 40;
         
     }];
     
-    NSLog(@"%s",__func__);
+}
+- (void)showOnViewController{
+    [self show];
 }
 /**
  配合懒加载，即时即地show的时候，回调
@@ -152,11 +157,23 @@ static const float btnHeight = 40;
         weakSelf.sheetView.frame = frame;
         weakSelf.maskView.alpha = 0.0f;
     } completion:^(BOOL finished) {
-        
         [weakSelf removeFromSuperview];
+        weakSelf.maskView.alpha = 1;
     }];
 }
+//MARK: ---------------------- action ------------------------------------
+- (void)buttionClick:(UIButton *)btn{
+    [self hiddenAlertView];
+    if (_handler) {
+        _handler(btn.tag - 100,btn.titleLabel.text);
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickAlertView:value:)]) {
+        [_delegate didClickAlertView:btn.tag - 100 value:btn.titleLabel.text];
+    }
+}
 
+//MARK: --------------------- private method ------------------------
+//准备布局
 - (void)onPrepareTitle:(nullable NSString *)title
                message:(nullable NSString *)message
      cancelButtonTitle:(nullable NSString *)cancelButtonTitle
@@ -184,15 +201,18 @@ static const float btnHeight = 40;
     [_titleView addConstraint:NSLayoutAttributeRight equalTo:_upperView offset:0];
     [_titleView addConstraint:NSLayoutAttributeTop equalTo:_upperView offset:0];
     
-    if (title && title.length > 0) {
+//    if (title && title.length > 0) {
         _titleView.backgroundColor = [UIColor whiteColor];
-        self.titleLabel.text = title;
+     if (title && title.length > 0) {
+         self.titleLabel.text = [NSString stringWithFormat:@"\r\n%@\r\n",title];
+     }
+//        self.titleLabel.text = title;
         [_titleView addSubview:self.titleLabel];
         
         [self.titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:10];
         [self.titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
-        [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView offset:14];
-        
+//        [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView offset:14];
+        [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:_titleView offset:0];
         
         UIView *lineTop = [UIView new];
         lineTop.backgroundColor = DefaultLineTranslucenceColor;
@@ -203,12 +223,14 @@ static const float btnHeight = 40;
         [lineTop addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
         [lineTop addConstraint:NSLayoutAttributeBottom equalTo:_titleView offset:0];
         [lineTop addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
-        
-        [_titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:28+1];
-        
-    }else{
-        [_titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
-    }
+
+        [_titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:1];
+    
+//        [_titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:28+1];
+    
+//    }else{
+//        [_titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+//    }
     
     //message设置
     _messageContainerView = [UIView new];
@@ -218,32 +240,27 @@ static const float btnHeight = 40;
     [_messageContainerView addConstraint:NSLayoutAttributeLeft equalTo:_upperView offset:0];
     [_messageContainerView addConstraint:NSLayoutAttributeRight equalTo:_upperView offset:0];
     [_messageContainerView addConstraint:NSLayoutAttributeTop equalTo:_titleView toAttribute:NSLayoutAttributeBottom offset:0];
+    [_messageContainerView addSubview:self.messageLabel];
+    
+    [self.messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:10];
+    [self.messageLabel addConstraint:NSLayoutAttributeRight equalTo:_messageContainerView offset:-10];
+    [self.messageLabel addConstraint:NSLayoutAttributeTop equalTo:_messageContainerView offset:0];
+    
+    UIView *lineMsg = [UIView new];
+    lineMsg.backgroundColor = DefaultLineTranslucenceColor;
+    [_messageContainerView addSubview:lineMsg];
+    [_bodyLineList addObject:lineMsg];
+    
+    [lineMsg addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:0];
+    [lineMsg addConstraint:NSLayoutAttributeRight equalTo:_messageContainerView offset:0];
+    [lineMsg addConstraint:NSLayoutAttributeBottom equalTo:_messageContainerView offset:0];
+    [lineMsg addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
     
     if (message) {
-        self.messageLabel.text = message;
-        
-        [_messageContainerView addSubview:self.messageLabel];
-        
-        [self.messageLabel addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:10];
-        [self.messageLabel addConstraint:NSLayoutAttributeRight equalTo:_messageContainerView offset:-10];
-        [self.messageLabel addConstraint:NSLayoutAttributeTop equalTo:_messageContainerView offset:14];
-        
-        UIView *lineTop = [UIView new];
-        lineTop.backgroundColor = DefaultLineTranslucenceColor;
-        [_messageContainerView addSubview:lineTop];
-        [_bodyLineList addObject:lineTop];
-        
-        [lineTop addConstraint:NSLayoutAttributeLeft equalTo:_messageContainerView offset:0];
-        [lineTop addConstraint:NSLayoutAttributeRight equalTo:_messageContainerView offset:0];
-        [lineTop addConstraint:NSLayoutAttributeBottom equalTo:_messageContainerView offset:0];
-        [lineTop addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
-        
-        [_messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:28+1];
-        
-    }else{
-        [_messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
+        self.messageLabel.text = [NSString stringWithFormat:@"\r\n%@\r\n",message];
     }
-    
+    [_messageContainerView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:1];
+
     
     //other设置
     _otherContainerView = [UIView new];
@@ -290,6 +307,11 @@ static const float btnHeight = 40;
         _bottomValue = 10;
     }
     
+    if (kDevice_Is_iPhoneX || kDevice_Is_iPhoneXR
+        || kDevice_Is_iPhoneXS || kDevice_Is_iPhoneXS_MAX) {
+        _bottomValue += 10;
+    }
+    
 }
 
 - (void)setSheetFrame{
@@ -299,8 +321,7 @@ static const float btnHeight = 40;
     CGRect rect = self.sheetView.frame;
     rect.size.height = heigth;
     self.sheetView.frame = rect;
-    NSLog(@"%s",__func__);
-    
+    _isNeedLayout = 2;
 }
 
 - (void)createOtherButtion:(NSArray <NSString *>*)otherButtonTitles
@@ -333,18 +354,8 @@ static const float btnHeight = 40;
     
 }
 
-//MAKR: --- 按钮点击事件
-- (void)buttionClick:(UIButton *)btn{
-    [self hiddenAlertView];
-    if (_handler) {
-        _handler(btn.tag - 100,btn.titleLabel.text);
-    }
-    if (_delegate && [_delegate respondsToSelector:@selector(didClickAlertView:value:)]) {
-        [_delegate didClickAlertView:btn.tag - 100 value:btn.titleLabel.text];
-    }
-}
 
-//MAKR: --- 配置信息
+//MARK: ---------------------- 配置信息 ------------------------------------
 - (void)setMessageFontWithName:(NSString *)name size:(CGFloat)size{
     if (name) {
         _messageLabel.font = [UIFont fontWithName:name size:size];
@@ -421,11 +432,6 @@ static const float btnHeight = 40;
     }
 }
 
-
-- (void)setAlertBackgroundView:(UIImage *)image articulation:(CGFloat)articulation{
-    NSLog(@"***********暂时不支持");
-}
-
 /**
  设置蒙版的背景图
  
@@ -436,6 +442,36 @@ static const float btnHeight = 40;
     self.gaussianBlurOnMaskView.image = image;
 }
 
+/**
+ 修改tiele
+ 
+ @param title 提示名称
+ */
+- (void)resetAlertTitle:(NSString *)title{
+    if (title) {
+        self.titleLabel.text = [NSString stringWithFormat:@"\r\n%@\r\n",title];
+    }else{
+        self.titleLabel.text = nil;
+    }
+    if (_isNeedLayout == 2) {
+        _isNeedLayout = 1;
+    }
+}
+/**
+ 修改message信息，高度也会跟着适配
+ 
+ @param message 信息
+ */
+- (void)resetAlertMessage:(NSString *)message{
+    if (message) {
+        self.messageLabel.text = [NSString stringWithFormat:@"\r\n%@\r\n",message];
+    }else{
+        self.messageLabel.text = nil;
+    }
+    if (_isNeedLayout == 2) {
+        _isNeedLayout = 1;
+    }
+}
 /**
  统一配置信息
  
@@ -480,7 +516,7 @@ static const float btnHeight = 40;
     }
     
 }
-//MARK: --- getter & setter
+//MARK: ----------------------------- getter & setter ----------------------------------
 - (UIView *)cancelContainerView{
     if (!_cancelContainerView) {
         _cancelContainerView = [UIView new];
@@ -495,7 +531,7 @@ static const float btnHeight = 40;
         _cancelBtn.backgroundColor = [UIColor whiteColor];
         [_cancelBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [_cancelBtn addTarget:self action:@selector(buttionClick:) forControlEvents:UIControlEventTouchUpInside];
-        _cancelBtn.layer.cornerRadius = 15;
+        _cancelBtn.layer.cornerRadius = 10;
         _cancelBtn.layer.masksToBounds = YES;
     }
     return _cancelBtn;
