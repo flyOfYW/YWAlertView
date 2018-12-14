@@ -1,8 +1,12 @@
 # YWAlertView
 提示弹出框、选择弹出框、日期选择器、地址选择器、高效调用、高效扩展
-   * v1.3.0 YWAlertView中的YWAlertViewStyleActionSheet模式支持懒加载，支持动态修改title和message，高度自动变化
-   * v1.2.2 YWAlertView中的YWAlertViewStyleAlert模式支持懒加载，支持动态修改title和message，高度自动变化
-
+  ```
+    v1.3.0 YWAlertView中的YWAlertViewStyleActionSheet模式支持懒加载，支持动态修改title和message，高度自动变化
+    v1.2.2 YWAlertView中的YWAlertViewStyleAlert模式支持懒加载，支持动态修改title和message，高度自动变化
+    v1.2.1 新增地址选择器
+    v1.0.0 新增日历选择器以及时间格式化以及时间戳相关工具类
+    v0.1.0 新增弹框提示和弹框选择器
+   ```
 ### 兼容性
    * iPhone和iPad
    * 横屏和竖屏
@@ -18,11 +22,14 @@
  
  ### 介绍
  
-  YWAlertView目前提供三种模式：
+  YWAlertView目前提供五种模式：
   
     > YWAlertViewStyleAlert
     > YWAlertViewStyleActionSheet
-    > YWAlertViewStyleDatePicker
+    > YWAlertViewStyleDatePicker ////datePicker默认在中间显示
+    > YWAlertViewStyleDatePicker2 //datePicker底部显示
+    > YWAlertViewStyleAddressPicker
+    
     
     
   * 注意点：YWAlertView并不是view，可以比作是一个简单的工厂，通过它管理规格去生成不同的控件，因为这样后期将陆续加入其它的控件，日历，地址等
