@@ -62,6 +62,11 @@ static const float btnHeight = 45;
 
 @property (nonatomic, copy) void(^handler)(NSInteger buttonIndex,id value);
 
+@property (nonatomic, strong) UIView *logoContentView;
+
+@property (nonatomic, strong) UIImageView *logoIV;
+
+
 @end
 
 
@@ -112,7 +117,7 @@ static const float btnHeight = 45;
     [_maskView addSubview:self.gaussianBlurOnMaskView];
     
     [self onPrepareTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles];
-
+//    [self createLogoView];
     return self;
 }
 /**
@@ -158,7 +163,6 @@ static const float btnHeight = 45;
     conVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     conVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [[YWAlertViewHelper currentViewController] presentViewController:conVC animated:YES completion:nil];
-    
 }
 - (void)hiddenAlertView{
     __weak typeof(self)weakSelf = self;
@@ -222,10 +226,6 @@ static const float btnHeight = 45;
         
         [self getDefalutTitle:titleView offset:15];
 
-//        [titleLabel addConstraint:NSLayoutAttributeLeft equalTo:_titleView offset:0];
-//        [titleLabel addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:0];
-//        [titleLabel addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
-        
         [titleView addSubview:self.closeBtn];
         [self.closeBtn addConstraint:NSLayoutAttributeRight equalTo:_titleView offset:-10];
         [self.closeBtn addConstraint:NSLayoutAttributeCenterY equalTo:_titleView offset:0];
@@ -246,7 +246,6 @@ static const float btnHeight = 45;
         [lineTitle addConstraint:NSLayoutAttributeHeight equalTo:nil offset:1];
         
         
-//        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:titleHeight];
         [titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:31];
 
     }else{
@@ -272,7 +271,6 @@ static const float btnHeight = 45;
         [titleView addConstraint:NSLayoutAttributeHeight equalTo:self.titleLabel offset:1];
 
         
-//        [titleView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
     }
     
 
@@ -334,9 +332,8 @@ static const float btnHeight = 45;
           [self getDefalutBody:bodyView text:message value:0];
           [bodyView addConstraint:NSLayoutAttributeHeight equalTo:self.messageLabel offset:0];
 
-          //原来
-//          [bodyView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:0];
       }
+      
   }
     
     
@@ -373,28 +370,6 @@ static const float btnHeight = 45;
    
   
 }
-- (void)setAlertViewFrame{
-    
-    [self.titleView layoutIfNeeded];
-    [self.messageContainerView layoutIfNeeded];
-    [self.btnContainerView layoutIfNeeded];
-
-    //更新alert内部布局约束
-    CGFloat alertHeight = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageContainerView.frame) + CGRectGetHeight(self.btnContainerView.frame);
-
-    if (_layAlertHeight) {
-        _layAlertHeight.constant = alertHeight;
-        [self.alertView setNeedsUpdateConstraints];
-    }else{
-        [self.alertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
-        [self.alertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
-        //    [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
-        [self.alertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
-        _layAlertHeight = [self.alertView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:alertHeight];
-    }
-    _setFrame = 2;
-}
-
 - (void)getDefalutTitle:(UIView *)titleView offset:(CGFloat)offset{
     
     [self.titleLabel addConstraint:NSLayoutAttributeTop equalTo:titleView toAttribute:NSLayoutAttributeTop offset:offset];
@@ -612,6 +587,46 @@ static const float btnHeight = 45;
         i ++;
     }
 }
+- (void)setAlertViewFrame{
+    
+    [self.titleView layoutIfNeeded];
+    [self.messageContainerView layoutIfNeeded];
+    [self.btnContainerView layoutIfNeeded];
+    
+    //更新alert内部布局约束
+    CGFloat alertHeight = CGRectGetHeight(self.titleView.frame) + CGRectGetHeight(self.messageContainerView.frame) + CGRectGetHeight(self.btnContainerView.frame);
+    
+    if (_layAlertHeight) {
+        _layAlertHeight.constant = alertHeight;
+        [self.alertView setNeedsUpdateConstraints];
+    }else{
+        [self.alertView addConstraint:NSLayoutAttributeCenterX equalTo:self offset:0];
+        [self.alertView addConstraint:NSLayoutAttributeCenterY equalTo:self offset:0];
+        //    [self.alertView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:alertHeight];
+        [self.alertView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_alterWidth];
+        _layAlertHeight = [self.alertView addConstraintAndReturn:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:alertHeight];
+    }
+    _setFrame = 2;
+}
+- (void)createLogoView{
+    self.logoContentView.backgroundColor = [UIColor clearColor];
+    self.logoContentView.clipsToBounds = YES;
+    self.logoContentView.layer.cornerRadius = 25;
+    self.logoIV.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.logoContentView];
+    [self.logoContentView addSubview:self.logoIV];
+    
+    [self.logoContentView addConstraint:NSLayoutAttributeCenterX equalTo:self toAttribute:NSLayoutAttributeCenterX offset:0];
+    [self.logoContentView addConstraint:NSLayoutAttributeBottom equalTo:self.alertView toAttribute:NSLayoutAttributeTop offset:20];
+    [self.logoContentView addConstraint:NSLayoutAttributeWidth equalTo:nil toAttribute:NSLayoutAttributeWidth offset:50];
+    [self.logoContentView addConstraint:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:50];
+    
+    [self.logoIV addConstraint:NSLayoutAttributeCenterX equalTo:self.logoContentView toAttribute:NSLayoutAttributeCenterX offset:0];
+    [self.logoIV addConstraint:NSLayoutAttributeCenterY equalTo:self.logoContentView toAttribute:NSLayoutAttributeCenterY offset:0];
+    [self.logoIV addConstraint:NSLayoutAttributeWidth equalTo:nil toAttribute:NSLayoutAttributeWidth offset:50];
+    [self.logoIV addConstraint:NSLayoutAttributeHeight equalTo:nil toAttribute:NSLayoutAttributeHeight offset:50];
+
+}
 //MARK: ------------------------ 配置信息 -------------------------------
 - (void)setAlertViewBackgroundColor:(UIColor *)color{
     _backgroundColor = color;
@@ -810,7 +825,8 @@ static const float btnHeight = 45;
     if (!_maskView) {
         _maskView = [[UIView alloc] initWithFrame:CGRectZero];
         _maskView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _maskView.backgroundColor = [UIColor colorWithRed:10 / 255.0 green:10 / 255.0 blue:10 / 255.0 alpha:0.0];
+//        _maskView.backgroundColor = [UIColor colorWithRed:10 / 255.0 green:10 / 255.0 blue:10 / 255.0 alpha:0.0];
+        _maskView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5];
         _maskView.alpha = 0;
     }
     return _maskView;
@@ -860,6 +876,19 @@ static const float btnHeight = 45;
     }
     return _closeBtn;
 }
+- (UIView *)logoContentView{
+    if (!_logoContentView) {
+        _logoContentView = [UIView new];
+    }
+    return _logoContentView;
+}
+- (UIImageView *)logoIV{
+    if (!_logoIV) {
+        _logoIV = [UIImageView new];
+    }
+    return _logoIV;
+}
+
 - (NSMutableArray *)buttionList{
     if (!_buttionList) {
         _buttionList = [NSMutableArray new];

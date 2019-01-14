@@ -187,7 +187,7 @@ int i = 0;
 }
 - (id<YWAlertViewProtocol>)ywAlert{
     if (!_ywAlert) {
-        _ywAlert = [YWAlertView alertViewWithTitle:nil message:@"懒加载模式，我要重置message的信息，高度也要进行相关的变化哦" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
+        _ywAlert = [YWAlertView alertViewWithTitle:nil message:@"message" delegate:self preferredStyle:YWAlertViewStyleAlert footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertPublicBodyStyleDefalut cancelButtonTitle:@"cancel" otherButtonTitles:@[@"Ok"]];
     }
     return _ywAlert;
 }
@@ -201,7 +201,7 @@ int i = 0;
         [self.ywAlert show];
     }else if (i == 1){
         [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"第一行的对象alter"];
-        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"Do any additional setup after loading the view!Do any additional setup after loading the view!懒加载模式，我要重置message的信息，高度也要进行相关的变化哦"];
+        [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertMessage:@"message"];
         [self.ywAlert showOnViewController];
     }else{
         [(id<YWAlertAlertViewProtocol>)self.ywAlert resetAlertTitle:@"第一行的对象alter"];

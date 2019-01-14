@@ -187,6 +187,12 @@ typedef enum : NSUInteger {
  */
 + (NSTimeInterval)getNowTimeInterval;
 /**
+ 获取今天的起始秒（单位：秒(s)）
+ 
+ @return 今天的起始秒
+ */
++ (NSTimeInterval)getStartTimeOfToday;
+/**
  获取今天的结束秒（单位：秒(s)）
  
  @return 今天的结束秒
