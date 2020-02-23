@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
  @param handler blcok
  @return 弹框的对象
  */
-+(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
++(nullable id<YWAlertSingleGeneralPickerViewProtocol>)alertViewWithTitle:(nullable NSString *)title
                                            dataSource:(NSArray <YWSingleGeneralModel *> *_Nonnull)dataSource
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle
                                      sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler;
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, YWAlertViewStyle){
  @param sureButtonTitles 其他按钮的标题
  @return 弹框的对象
  */
-+(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
++(nullable id<YWAlertSingleGeneralPickerViewProtocol>)alertViewWithTitle:(nullable NSString *)title
                                              delegate:(nullable id<YWAlertViewDelegate>)delegate
                                            dataSource:(NSArray <YWSingleGeneralModel *> *_Nonnull)dataSource
                                     cancelButtonTitle:(nullable NSString *)cancelButtonTitle

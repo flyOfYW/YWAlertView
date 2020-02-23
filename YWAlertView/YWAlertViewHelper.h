@@ -47,4 +47,5 @@ static const float butttionViewHeight = 40;
 + (UIViewController*)currentViewController;
 // 通过递归拿到当前控制器
 + (UIViewController*)currentViewControllerFrom:(UIViewController*)viewController;
++ (UIWindow *)getWindow;
 @end

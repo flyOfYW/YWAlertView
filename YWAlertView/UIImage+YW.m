@@ -8,7 +8,7 @@
 
 #import "UIImage+YW.h"
 #import <Accelerate/Accelerate.h>
-
+#import "YWAlertViewHelper.h"
 
 @implementation UIImage (YW)
 /// 获取屏幕截图
@@ -16,7 +16,7 @@
 /// @return 屏幕截图图像
 + (UIImage *)yw_screenShot{
     // 1. 获取到窗口
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    UIWindow *window = [YWAlertViewHelper getWindow];
     
     // 2. 开始上下文
     UIGraphicsBeginImageContextWithOptions(window.bounds.size, YES, 0);

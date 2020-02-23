@@ -127,7 +127,7 @@
 }
 - (void)show{
     
-    UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
+    UIWindow *keyWindows = [YWAlertViewHelper getWindow];
     [keyWindows addSubview:self];
     _isModal = NO;
 

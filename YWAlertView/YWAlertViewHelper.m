@@ -12,7 +12,7 @@
 
 //MARK: --- 跟控制器相关
 + (UIViewController*)currentViewController {
-    UIViewController* rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    UIViewController* rootViewController = [self getWindow].rootViewController;
     return [self currentViewControllerFrom:rootViewController];
 }
 // 通过递归拿到当前控制器
@@ -35,4 +35,31 @@
     }
     
 }
+
++ (UIWindow *)getWindow{
+    UIWindow *window = nil;
+    if (@available(iOS 13.0, *))
+    {
+        for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes.allObjects)
+        {
+            if (windowScene.activationState == UISceneActivationStateForegroundActive)
+            {
+                for (UIWindow *w in windowScene.windows) {
+                    if (w.isKeyWindow) {
+                        window = w;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        if (!window) {
+            window = [UIApplication sharedApplication].delegate.window;
+        }
+    }else{
+        window = [UIApplication sharedApplication].delegate.window;
+    }
+    return window;
+}
+
 @end

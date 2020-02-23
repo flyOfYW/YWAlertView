@@ -805,7 +805,7 @@
 - (void)show{
     
     _isModal = NO;
-    UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
+    UIWindow *keyWindows = [YWAlertViewHelper getWindow];
     [keyWindows addSubview:self];
     
     [self addConstraint:NSLayoutAttributeLeft equalTo:keyWindows offset:0];

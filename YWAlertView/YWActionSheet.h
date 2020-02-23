@@ -25,5 +25,5 @@
 @end
 
 @interface YWActionSheetButtion : UIView
-- (instancetype)initWithTitle:(NSString *)title;
+- (instancetype)initWithTitle:(NSString *_Nullable)title;
 @end

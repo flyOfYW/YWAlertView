@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YWSingleGeneralPicker : UIView <YWAlertAddressPickerViewProtocol>
+@interface YWSingleGeneralPicker : UIView <YWAlertSingleGeneralPickerViewProtocol>
 @property (nonatomic, weak) _Nullable id delegate;
 - (instancetype _Nullable)initWithTitle:(nullable NSString *)title
                                delegate:(id _Nullable)delegate

@@ -104,7 +104,7 @@ static const float btnHeight = 45;
 //MARK: ---------------------- show&hdien ----------------------------
 - (void)show{
     
-    UIWindow *keyWindows = [UIApplication sharedApplication].keyWindow;
+    UIWindow *keyWindows = [YWAlertViewHelper getWindow];
     _boundsHeight = keyWindows.bounds.size.height;
     [keyWindows addSubview:self];
     _isModal = NO;
