@@ -407,9 +407,30 @@ int i = 0;
 }
 - (void)address_mode1_defalutValue{
     id <YWAlertViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择地区" message:nil preferredStyle:YWAlertViewStyleAddressPicker footStyle:YWAlertPublicFootStyleDefalut bodyStyle:YWAlertAddressPickerShowCity cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(NSInteger buttonIndex, id  _Nullable value) {
-        
+
     }];
     [alert show];
+    
+//    YWSingleGeneralModel *model = [YWSingleGeneralModel new];
+//    model.idc = 1;
+//    model.displayName = @"1岁";
+//
+//
+//    YWSingleGeneralModel *model1 = [YWSingleGeneralModel new];
+//     model1.idc = 2;
+//     model1.displayName = @"2岁";
+//
+//    YWSingleGeneralModel *model2 = [YWSingleGeneralModel new];
+//     model2.idc = 3;
+//     model2.displayName = @"3岁";
+//
+//
+//    id <YWAlertSingleGeneralPickerViewProtocol>alert = [YWAlertView alertViewWithTitle:@"请选择" dataSource:@[model,model1,model2] cancelButtonTitle:@"取消" sureButtonTitles:@"确定" handler:^(NSInteger buttonIndex, id  _Nullable value) {
+//        YWSingleGeneralModel *s = value;
+//        NSLog(@"---%@",s.displayName);
+//    }];
+//    [alert setDefalutOnSingleGeneraPickerView:model1];
+//    [alert show];
 }
 
 

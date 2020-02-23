@@ -11,6 +11,7 @@
 #import "YWActionSheet.h"
 #import "YWDatePicker.h"
 #import "YWAddressPicker.h"
+#import "YWSingleGeneralPicker.h"
 
 @implementation YWAlertView
 
@@ -156,7 +157,28 @@
     }
     
 }
+
+
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                           dataSource:(NSArray <YWSingleGeneralModel *> *_Nonnull)dataSource
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                     sureButtonTitles:(nullable NSString *)sureButtonTitles handler:(nullable void(^)(NSInteger buttonIndex,id _Nullable value))handler{
+    
+    return [[YWSingleGeneralPicker alloc] initWithTitle:title delegate:nil dataSource:dataSource cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:handler];
+}
+
+
+
++(nullable id<YWAlertViewProtocol>)alertViewWithTitle:(nullable NSString *)title
+                                             delegate:(nullable id<YWAlertViewDelegate>)delegate
+                                           dataSource:(NSArray <YWSingleGeneralModel *> *_Nonnull)dataSource
+                                    cancelButtonTitle:(nullable NSString *)cancelButtonTitle
+                                     sureButtonTitles:(nullable NSString *)sureButtonTitles{
+    return [[YWSingleGeneralPicker alloc] initWithTitle:title delegate:delegate dataSource:dataSource cancelButtonTitle:cancelButtonTitle okButtonTitles:sureButtonTitles handler:nil];
+
+}
+
 + (NSString *)version{
-    return @"1.3.0";
+    return @"1.3.2";
 }
 @end

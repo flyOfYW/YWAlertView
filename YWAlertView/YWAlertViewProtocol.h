@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @class YWResultModel;
+@class YWSingleGeneralModel;
 
 typedef enum : NSUInteger {
     YWAlertPublicFootStyleDefalut,//横排
@@ -222,6 +223,22 @@ typedef enum : NSUInteger {
  @param defalutModel 默认的省市区（具体使用，参考demo）
  */
 - (void)setDefalutOnAddressPickerView:(YWResultModel *)defalutModel;
+/**
+ 设置picker的高度
+
+ @param height 高度
+ */
+- (void)setPickerHeightOnAddressPickerView:(CGFloat)height;
+@end
+
+//MARK: ------------------ addressPicker 私有的方法 ------------------
+@protocol YWAlertSingleGeneralPickerViewProtocol <YWAlertViewProtocol>
+/**
+ 设置
+
+ @param defalutModel 默认的省市区（具体使用，参考demo）
+ */
+- (void)setDefalutOnSingleGeneraPickerView:(YWSingleGeneralModel *)defalutModel;
 /**
  设置picker的高度
 

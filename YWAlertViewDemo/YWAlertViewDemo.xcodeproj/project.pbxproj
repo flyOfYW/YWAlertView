@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7BD04E2524026E9800AA450F /* YWSingleGeneralPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD04E2424026E9800AA450F /* YWSingleGeneralPicker.m */; };
+		7BD04E2824026F1800AA450F /* YWSingleGeneralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD04E2724026F1800AA450F /* YWSingleGeneralModel.m */; };
 		DA02F36521B76DB50025F1DE /* YWAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DA02F36421B76DB50025F1DE /* YWAlertView.bundle */; };
 		DA02F36821B76F6E0025F1DE /* YWAddressPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA02F36721B76F6E0025F1DE /* YWAddressPicker.m */; };
 		DA02F36B21B7A21E0025F1DE /* YWAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA02F36A21B7A21E0025F1DE /* YWAddressModel.m */; };
@@ -49,6 +51,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7BD04E2324026E9800AA450F /* YWSingleGeneralPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWSingleGeneralPicker.h; sourceTree = "<group>"; };
+		7BD04E2424026E9800AA450F /* YWSingleGeneralPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWSingleGeneralPicker.m; sourceTree = "<group>"; };
+		7BD04E2624026F1800AA450F /* YWSingleGeneralModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWSingleGeneralModel.h; sourceTree = "<group>"; };
+		7BD04E2724026F1800AA450F /* YWSingleGeneralModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWSingleGeneralModel.m; sourceTree = "<group>"; };
 		DA02F36421B76DB50025F1DE /* YWAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YWAlertView.bundle; sourceTree = "<group>"; };
 		DA02F36621B76F6E0025F1DE /* YWAddressPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWAddressPicker.h; sourceTree = "<group>"; };
 		DA02F36721B76F6E0025F1DE /* YWAddressPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWAddressPicker.m; sourceTree = "<group>"; };
@@ -146,6 +152,10 @@
 				DA2C7AAE21379F9B00EABC75 /* YWAlertViewHelper.m */,
 				DA02F36921B7A21E0025F1DE /* YWAddressModel.h */,
 				DA02F36A21B7A21E0025F1DE /* YWAddressModel.m */,
+				7BD04E2324026E9800AA450F /* YWSingleGeneralPicker.h */,
+				7BD04E2424026E9800AA450F /* YWSingleGeneralPicker.m */,
+				7BD04E2624026F1800AA450F /* YWSingleGeneralModel.h */,
+				7BD04E2724026F1800AA450F /* YWSingleGeneralModel.m */,
 				DA02F36421B76DB50025F1DE /* YWAlertView.bundle */,
 			);
 			name = YWAlertView;
@@ -348,6 +358,8 @@
 				DAD13ED82133DA4000106659 /* ViewController.m in Sources */,
 				DAB7F2F121369E5200F7E29A /* UIView+Autolayout.m in Sources */,
 				DA02F36B21B7A21E0025F1DE /* YWAddressModel.m in Sources */,
+				7BD04E2524026E9800AA450F /* YWSingleGeneralPicker.m in Sources */,
+				7BD04E2824026F1800AA450F /* YWSingleGeneralModel.m in Sources */,
 				DA2C7AAC21379EDB00EABC75 /* YWActionSheet.m in Sources */,
 				DACFBF602139466D0078E9F4 /* YWDatePicker.m in Sources */,
 				DAB7F2F621369E5200F7E29A /* YWContainerViewController.m in Sources */,
