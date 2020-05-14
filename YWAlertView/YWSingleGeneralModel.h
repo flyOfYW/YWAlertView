@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YWSingleGeneralModel : NSObject
 @property (nonatomic, assign) NSInteger idc;
-@property (nonatomic, assign) NSString *displayName;
-@property (nonatomic, assign) NSString *displayMenu;
+@property (nonatomic, copy) NSString *displayName;
+@property (nonatomic, copy) NSString *displayMenu;
 
 @end
 

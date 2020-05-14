@@ -401,6 +401,7 @@
     }
     return dataSource;
 }
+
 - (void)selectIndex:(NSInteger)index inComponent:(NSInteger)component animated:(BOOL)animated{
     [self.datePicker selectRow:index inComponent:component animated:animated];
 }

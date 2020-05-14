@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YWAlertView"
-  s.version      = "1.3.3"
+  s.version      = "1.3.4"
   s.summary      = "弹出框"
 
   # This description is used to generate tags and improve search results.
@@ -105,6 +105,7 @@ Pod::Spec.new do |s|
 
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
+    s.resources = 'YWAlertView/YWAlertView.bundle'
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
