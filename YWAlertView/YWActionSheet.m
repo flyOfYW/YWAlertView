@@ -307,10 +307,8 @@ static const float btnHeight = 45;
         _bottomValue = 10;
     }
     
-    if (kDevice_Is_iPhoneX || kDevice_Is_iPhoneXR
-        || kDevice_Is_iPhoneXS || kDevice_Is_iPhoneXS_MAX) {
-        _bottomValue += 10;
-    }
+    _bottomValue += TABBARBOTTOM;
+
     
 }
 
