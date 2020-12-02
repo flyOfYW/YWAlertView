@@ -307,7 +307,7 @@ static const float btnHeight = 45;
         _bottomValue = 10;
     }
     
-    _bottomValue += TABBARBOTTOM;
+    _bottomValue += kDevice_TABBARBOTTOM;
 
     
 }

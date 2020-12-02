@@ -101,12 +101,10 @@ static const float btnHeight = 45;
     if (IS_PAD) {
         _alterWidth = 300;
     }else{//其他做iPhone处理
-        if (kDevice_Is_iPhone6Plus) {
+        if ([UIScreen mainScreen].bounds.size.width >= 414) {
             _alterWidth = 290;
-        }else if (kDevice_Is_iPhoneX){
+        }else if ([UIScreen mainScreen].bounds.size.width == 375){
             _alterWidth = 280;
-        }else if (kDevice_Is_iPhone6){
-            _alterWidth = 270;
         }else{
             _alterWidth = 260;
         }

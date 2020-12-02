@@ -61,6 +61,22 @@ typedef enum : NSUInteger {
  @return NSDate
  */
 + (NSDate *)date:(NSString *)dateString format:(YWDateStyle)dateStyle;
+
+/// 两个日期比较【YYYY-MM-dd】，比较的结果等于result则不满足，否则满足
+/// @param fromDateStr 日期
+/// @param toDateStr 被比较的日期
+/// @param result 比较条件
++ (BOOL)isMeet:(NSString *)fromDateStr
+            to:(NSString *)toDateStr
+       compare:(NSComparisonResult)result;
+
+/// 两个日期比较【YYYY-MM】，比较的结果等于result则不满足，否则满足
+/// @param fromDateStr 日期
+/// @param toDateStr 被比较的日期
+/// @param result 比较条件
++ (BOOL)isMeetOnYYYYMM:(NSString *)fromDateStr
+                    to:(NSString *)toDateStr
+               compare:(NSComparisonResult)result;
 /**
  将时间戳转时间格式的日期字符串
 

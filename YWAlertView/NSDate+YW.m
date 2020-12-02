@@ -28,6 +28,38 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     }
     return sharedDateFormatter;
 }
+
+//MARK: ----------- 日期比较 ---------------------
+
+/// 两个日期比较【YYYY-MM-dd】，比较的结果等于result则不满足，否则满足
+/// @param fromDateStr 日期
+/// @param toDateStr 被比较的日期
+/// @param result 比较条件
++ (BOOL)isMeet:(NSString *)fromDateStr
+            to:(NSString *)toDateStr
+       compare:(NSComparisonResult)result{
+    NSDate *date = [self date:fromDateStr format:YWDateStyleYYYYMMDD];
+    NSDate *endDate = [self date:toDateStr format:YWDateStyleYYYYMMDD];
+    if ([date compare:endDate] == result) {
+        return NO;
+    }
+    return YES;
+}
+/// 两个日期比较【YYYY-MM】，比较的结果等于result则不满足，否则满足
+/// @param fromDateStr 日期
+/// @param toDateStr 被比较的日期
+/// @param result 比较条件
++ (BOOL)isMeetOnYYYYMM:(NSString *)fromDateStr
+                    to:(NSString *)toDateStr
+               compare:(NSComparisonResult)result{
+    NSDate *date = [self date:fromDateStr format:YWDateStyleYYYYMM];
+    NSDate *endDate = [self date:toDateStr format:YWDateStyleYYYYMM];
+    if ([date compare:endDate] == result) {
+        return NO;
+    }
+    return YES;
+}
+
 //MARK: ----------- 将日期格式字符串转NSDate日期相关 ---------------------
 + (NSDate *)date:(NSString *)dateString format:(YWDateStyle)dateStyle{
     switch (dateStyle) {
@@ -59,6 +91,8 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     [dateFormatter setDateFormat:format];
     return [dateFormatter dateFromString:dateString];
 }
+
+
 //MARK: ----------- 将时间戳转日期格式字符串相关 ---------------------
 + (NSString *)dateByTimeStamp:(long long)timeStamp format:(YWDateStyle)dateStyle{
     switch (dateStyle) {
@@ -322,7 +356,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
  */
 + (NSTimeInterval)getEndTimeOfThisDay:(NSDate *)theDate{
     
-    NSDateComponents* components = [self getComponentsOfDay:nil];
+    NSDateComponents* components = [self getComponentsOfDay:theDate];
     
     [components setHour: +24];
     

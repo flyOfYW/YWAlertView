@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YWAlertViewProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface YWActionSheet : UIView <YWAlertActionSheetViewProtocol>
 
 @property (nonatomic, weak) _Nullable id delegate;
@@ -25,5 +26,6 @@
 @end
 
 @interface YWActionSheetButtion : UIView
-- (instancetype)initWithTitle:(NSString *_Nullable)title;
+- (instancetype)initWithTitle:(NSString *)title;
 @end
+NS_ASSUME_NONNULL_END

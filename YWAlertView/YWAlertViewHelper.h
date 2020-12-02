@@ -10,25 +10,6 @@
 #define YWAlertScreenW [UIScreen mainScreen].bounds.size.width
 #define YWAlertScreenH [UIScreen mainScreen].bounds.size.height
 
-#define kDevice_Is_iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
-
-
-#define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
-
-#define kDevice_Is_iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
-
-
-// 判断是否是iPhone X
-#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-
-// 判断iPHoneXr
-#define kDevice_Is_iPhoneXR ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size)  : NO)
-// 判断iPhoneXs
-#define kDevice_Is_iPhoneXS ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-// 判断iPhoneXs Max
-#define kDevice_Is_iPhoneXS_MAX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) : NO)
-
-
 //判断是否是刘海屏
 #define IS_LIU_HAI_SCREEN ({\
 BOOL isBangsScreen = NO; \
@@ -40,7 +21,7 @@ isBangsScreen; \
 })
 
 //刘海屏底部的高度
-#define TABBARBOTTOM ({\
+#define kDevice_TABBARBOTTOM ({\
 CGFloat isBangsScreen = 0; \
 if (@available(iOS 11.0, *)) { \
 UIWindow *window = [[UIApplication sharedApplication].windows firstObject]; \
